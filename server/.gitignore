@@ -1,3 +1,4 @@
-# dependencies
 __pycache__/
 venv/
+.env
+*.csv
