@@ -40,7 +40,7 @@ def initialise_database():
     db = client["customerfeedback"]
     collection = db["responses"]
 
-    # Insert data into MongoDB
+    # Insert data into MongoDB Atlas
     records_to_insert = customer_feedback.to_dict(orient='records')
     collection.insert_many(records_to_insert)
 
@@ -49,6 +49,6 @@ def initialise_database():
     # Close the MongoDB connection
     client.close()
 
-# Execute the database initialization process
+# Execute the database initialisation process
 if __name__ == "__main__":
     initialise_database()
