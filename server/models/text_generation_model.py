@@ -1,4 +1,4 @@
-from huggingface_hub import login
+from huggingface_hub import login, logout
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 class TextGenerationModel:
@@ -48,3 +48,11 @@ class TextGenerationModel:
         # Decode the output into text
         generated_output = self.tokeniser.decode(outputs[0], skip_special_tokens=True)
         return generated_output
+    
+    def end_session(self):
+        """
+        Logout the machine from the Hub and removes API token from machine.
+        """
+        logout()
+
+        return

@@ -24,7 +24,7 @@ class Recommender:
         """
 
         self.model = TextGenerationModel(huggingface_token)
-        self.prompt = lambda concern: f"There is a concern: {concern}. Generate 5 interactive solutions the customer experience team can do for the customers."
+        self.prompt = lambda concern: f"There is a concern: {concern}. Generate five actionable proposals for the customer experience team to target the concern."
 
     def recommend(self, concern):
         """
@@ -40,3 +40,10 @@ class Recommender:
         recommendation = self.model.generate(self.prompt(concern=concern)).split("\n", 2)[-1]
         return recommendation
     
+    def end_session(self):
+        """
+        Logout the machine from the Hub and removes API token from machine.
+        """
+        self.model.end_session()
+
+        return
