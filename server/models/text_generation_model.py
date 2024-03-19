@@ -13,7 +13,7 @@ class TextGenerationModel:
         
     def __init__(self, huggingface_token):
         """
-        Initialize the TextGenerationModel object.
+        Initialise the TextGenerationModel object.
 
         Args:
             huggingface_token (str): API token for Hugging Face Hub.
@@ -38,7 +38,7 @@ class TextGenerationModel:
         Returns:
             str: The generated text.
         """
-        
+
         # Tokenise input
         input_ids = self.tokeniser(prompt, return_tensors="pt")
 
