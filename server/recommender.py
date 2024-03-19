@@ -47,3 +47,4 @@ class Recommender:
         self.model.end_session()
 
         return
+    
