@@ -1,5 +1,7 @@
 from huggingface_hub import login, logout
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, TextStreamer
+from util.stdout_supress import suppress_stdout
+
 
 class TextGenerationModel:
     """
@@ -19,6 +21,9 @@ class TextGenerationModel:
             huggingface_token (str): API token for Hugging Face Hub.
         """
 
+        # Disable useless printing of login info
+        suppress_stdout(enable=True)
+
         # Login into HuggingFace Hub to gain access to gated models
         login(token=huggingface_token)
 
@@ -26,8 +31,14 @@ class TextGenerationModel:
         self.model_name = "google/gemma-2b-it"
         self.tokeniser = AutoTokenizer.from_pretrained(self.model_name)
         self.model = AutoModelForCausalLM.from_pretrained(self.model_name)
+        logout()
+
+        # Enable printing
+        suppress_stdout(enable=False)
+
+        self.streamer = TextStreamer(self.tokeniser)
     
-    def generate(self, prompt, max_new_tokens=256):
+    def generate(self, prompt, max_new_tokens=256, stream=False):
         """
         Generate text based on the given prompt.
 
@@ -43,7 +54,7 @@ class TextGenerationModel:
         input_ids = self.tokeniser(prompt, return_tensors="pt")
 
         # Generate text from model
-        outputs = self.model.generate(**input_ids, max_new_tokens=max_new_tokens)
+        outputs = self.model.generate(**input_ids, max_new_tokens=max_new_tokens, streamer=self.streamer if stream else None)
 
         # Decode the output into text
         generated_output = self.tokeniser.decode(outputs[0], skip_special_tokens=True)
