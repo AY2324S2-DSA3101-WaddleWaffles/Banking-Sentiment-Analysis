@@ -18,6 +18,18 @@ customer_reviews = [
 ]
 
 def is_within_time_period(review, start_date, end_date):
+    """
+    Check if the review is within the specified time period.
+
+    Args:
+        review (dict): The review dictionary containing year, month, and day.
+        start_date (str): Start date in the format 'DD-MM-YYYY'.
+        end_date (str): End date in the format 'DD-MM-YYYY'.
+
+    Returns:
+        bool: True if the review falls within the time period, False otherwise.
+    """
+
     # Parse start_date and end_date strings into datetime objects
     start_datetime = datetime.strptime(start_date, "%d-%m-%Y")
     end_datetime = datetime.strptime(end_date, "%d-%m-%Y")
@@ -28,6 +40,17 @@ def is_within_time_period(review, start_date, end_date):
     return start_datetime <= review_datetime <= end_datetime    
 
 def filter_reviews_by_features(filters, customer_reviews=customer_reviews):
+    """
+    Filter reviews based on provided filters.
+
+    Args:
+        filters (dict): Dictionary containing filter keys and values.
+        customer_reviews (list): List of customer reviews.
+
+    Returns:
+        list: Filtered list of reviews.
+    """
+
     filtered_reviews = []
     for review in customer_reviews:
         remove = False  
@@ -42,7 +65,6 @@ def filter_reviews_by_features(filters, customer_reviews=customer_reviews):
 
 
 # Route to get all customer reviews
-# `/api/reviews?start_date=${startDate}&end_date=${endDate}`
 @app.route("/api/reviews", methods=["GET"])
 def get_reviews():
     start_date = request.args.get("start_date")
@@ -65,6 +87,7 @@ def get_reviews():
 
     return jsonify(filtered_reviews)
 
+# Route to get review counts
 @app.route("/api/reviews/counts", methods=["GET"])
 def get_review_count():
     start_date = request.args.get("start_date")
@@ -86,6 +109,7 @@ def get_review_count():
     filtered_reviews = filter_reviews_by_features(filters)
     return jsonify({"review_count": len(filtered_reviews)})
 
+# Route to get sentiment counts
 @app.route("/api/reviews/sentiment", methods=["GET"])
 def get_sentiment_count():
     start_date = request.args.get("start_date")
@@ -109,6 +133,7 @@ def get_sentiment_count():
         sentiment_counts[review["sentiment"]] += 1
     return jsonify({"sentiment_counts": sentiment_counts})
 
+# Route to get average rating
 @app.route("/api/reviews/rating", methods=["GET"])
 def get_average_rating():
     start_date = request.args.get("start_date")
