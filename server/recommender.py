@@ -24,7 +24,8 @@ class Recommender:
         """
 
         self.model = TextGenerationModel(huggingface_token)
-        self.prompt = lambda concern: f"There is a concern: {concern}. Generate five actionable proposals for the customer experience team to target the concern."
+        self.output_format = "1.[SOLUTION 1]\n[DETAILS]\n\n2.[SOLUTION 2]\n[DETAILS]\n\n3.[SOLUTION 3]..."
+        self.prompt = lambda concern: f"There is a concern: {concern}. Using this format: {self.output_format}, give five solutions with details for the customer experience team to target the concern."
 
     def recommend(self, concern):
         """
@@ -36,8 +37,8 @@ class Recommender:
         Returns:
             str: The generated recommendation.
         """
-
-        recommendation = self.model.generate(self.prompt(concern=concern)).split("\n", 2)[-1]
+        full_prompt = self.prompt(concern)
+        recommendation = self.model.generate(full_prompt).split(full_prompt)[-1]
         return recommendation
     
     def end_session(self):
