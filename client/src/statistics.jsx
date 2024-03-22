@@ -1,23 +1,23 @@
-import React from 'react'
-import './index.css'
+import React from 'react';
 import { Container, Grid, SimpleGrid, Skeleton, rem } from '@mantine/core';
-import './styles.css'
 
-const child = <Skeleton height={140} radius="md" animate={false} />;
-
+const PRIMARY_COL_HEIGHT = '90vh';
 function Statistics() {
   return (
-    <Container my="md">
-      <Grid>
-        <Grid.Col span={{ base: 12, xs: 4 }}>{child}</Grid.Col>
-        <Grid.Col span={{ base: 12, xs: 8 }}>{child}</Grid.Col>
-        <Grid.Col span={{ base: 12, xs: 8 }}>{child}</Grid.Col>
-        <Grid.Col span={{ base: 12, xs: 4 }}>{child}</Grid.Col>
-        <Grid.Col span={{ base: 12, xs: 3 }}>{child}</Grid.Col>
-        <Grid.Col span={{ base: 12, xs: 3 }}>{child}</Grid.Col>
-        <Grid.Col span={{ base: 12, xs: 6 }}>{child}</Grid.Col>
-      </Grid>
-    </Container>
+      <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+        <Skeleton height={PRIMARY_COL_HEIGHT} radius="md" animate={false} />
+        <Grid gutter="md">
+          <Grid.Col>
+            <Skeleton height={PRIMARY_COL_HEIGHT} radius="md" animate={false} />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <Skeleton height={PRIMARY_COL_HEIGHT} radius="md" animate={false} />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <Skeleton height={PRIMARY_COL_HEIGHT} radius="md" animate={false} />
+          </Grid.Col>
+        </Grid>
+      </SimpleGrid>
   );
 }
 
