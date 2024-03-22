@@ -1,7 +1,7 @@
 import React from 'react';
 import { UnstyledButton, Stack, rem } from '@mantine/core';
-import { IconMap2, IconLayoutDashboard,IconReport, IconLogout } from '@tabler/icons-react';
-//import classes from './Navbar.module.css';
+import {  IconLayoutDashboard,IconReport, IconLogout } from '@tabler/icons-react';
+import classes from './navbar.module.css';
 
 function NavbarLink({ icon: Icon, label, active, onClick }) {
   return (
@@ -17,18 +17,18 @@ function NavbarLink({ icon: Icon, label, active, onClick }) {
 }
 
 const labels = [
-  { label: 'Statistics' },
-  { label: 'Product Reviews' },
+  { icon: IconLayoutDashboard, label: 'Statistics' },
+  { icon: IconReport, label: 'Product Reviews' },
 ];
 
-export function NavbarMinimal({setActiveTab, activeTab, onExitClick}) {
+export function NavbarMinimal({setActiveHeaderTab, activeHeaderTab, onExitClick}) {
 
   const links = labels.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
-      active={index === activeTab}
-      onClick={() => setActiveTab(index)}
+      active={index === activeHeaderTab}
+      onClick={() => setActiveHeaderTab(link.label)}
     />
   ));
 
