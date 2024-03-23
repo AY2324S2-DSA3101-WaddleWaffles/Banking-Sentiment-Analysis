@@ -1,0 +1,55 @@
+.header {
+    height: rem(20px);
+    margin-top: rem(120px);
+    background-color: var(--mantine-color-body);
+    border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+    justify-content: space-between;
+    align-items: center; /* Align items vertically in the center */
+    display:flex;
+    
+  }
+  
+  .inner {
+    margin-top: rem(120px);
+    height: rem(200px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+
+  /* button */
+  .link {
+    border-radius: var(--mantine-radius-md);
+    height: 50px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: '#F8F8FF';
+  
+    &:hover {
+      background-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));
+      color: var(--mantine-color-blue-light-color);
+    }
+  
+    &[data-active] {
+      background-color: var(--mantine-color-blue-light);
+      color: var(--mantine-color-blue-light-color);
+      }
+    }
+  
+  /* the content in the button */
+  .linkContent {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust the gap as needed */
+    font-size: 20px
+  }
+
+  /* the container containing heading of the header */
+  .h2{
+    margin-right: 20px; /* Adjust as needed */
+    margin-left: 5px;
+  }
