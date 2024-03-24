@@ -1,4 +1,4 @@
-export const apiData = [{"bank":"GXS","day":15,"id":1,"month":5,"rating":5,"review":"I am very satisfied with the service provided by GXS. The staff is friendly and helpful.","sentiment":"pos","source":"google-play-store","title":"Excellent Service","topic":"support","year":2023},
+const apiData = [{"bank":"GXS","day":15,"id":1,"month":5,"rating":5,"review":"I am very satisfied with the service provided by GXS. The staff is friendly and helpful.","sentiment":"pos","source":"google-play-store","title":"Excellent Service","topic":"support","year":2023},
                 {"bank":"OCBC","day":20,"id":2,"month":6,"rating":4,"review":"OCBC has exceeded my expectations. Their online banking system is user-friendly and efficient.","sentiment":"pos","source":"app-store","title":"Great Experience","topic":"features","year":2023},
                 {"bank":"GXS","day":10,"id":3,"month":7,"rating":1,"review":"I had a terrible experience at GXS. The staff was unhelpful and rude.","sentiment":"neg","source":"google-play-store","title":"Disappointing Service","topic":"support","year":2023},
                 {"bank":"OCBC","day":5,"id":4,"month":8,"rating":2,"review":"The online banking system of OCBC is slow and often crashes. Not recommended.","sentiment":"neg","source":"app-store","title":"Poor Online System","topic":"features","year":2023},
@@ -10,46 +10,105 @@ export const apiData = [{"bank":"GXS","day":15,"id":1,"month":5,"rating":5,"revi
                 {"bank":"UOB","day":10,"id":10,"month":2,"rating":1,"review":"I contacted UOB's customer support multiple times, but they never responded. Very disappointed.","sentiment":"neg","source":"app-store","title":"Unresponsive Customer Support","topic":"support","year":2024}
             ];
 
-export default function calculateAvgRating(data){
-    const averages ={};
-    const counts ={};
-            
-    // calculate sums and counts for each bank and month
-    data.forEach(({ bank, month, rating}) => {
-        if (!averages[month]) averages[month] = {};
-        if (!counts[month]) counts[month] = {};
-                
-        if (!averages[month][bank]) averages[month][bank] = 0;
-        if (!counts[month][bank]) counts[month][bank] = 0;
-            
-        averages[month][bank] += rating;
-        counts[month][bank]++;
+// function calcSentimentPercentage(data){
+//     // filter data for GXS bank
+//     const gxsData = data.filter(entry => entry.bank === 'GXS');
+
+//     // group data by moth and sentiment
+//     const groupedData ={};
+//     gxsData.forEach(({month, sentiment}) => {
+//         if (!groupedData[month]) groupedData[month] = { pos: 0, neu: 0, neg: 0 };
+//         groupedData[month][sentiment] ++;
+//     });
+
+//     // calculate average percentage for each month
+//     const result =[];
+//     for (const month in groupedData){
+//         const total = Object.values(groupedData[month]).reduce((acc,val) => acc+val,0);
+//         const percentages ={}
+//         for (const sentiment in groupedData[month]) {
+//             const sentimentKey = sentiment.charAt(0).toUpperCase() + sentiment.slice(1);
+//             percentages[sentimentKey] = ((groupedData[month][sentiment]/total) * 100).toFixed(0) + '%';
+//         }
+//         result.push({month: parseInt(month), ...percentages});
+//     }
+//     return result;
+// };
+
+// const data = calcSentimentPercentage(apiData);
+// const mappedData = data.map(item => ({
+//     month: item.month,
+//     Positive: item.Pos,
+//     Neutral: item.Neu,
+//     Negative: item.Neg
+// }));
+// console.log(mappedData) // correct output
+
+function decimalPlaces(float, length) {
+    let ret = "";
+    let str = float.toString();
+    let array = str.split(".");
+    if (array.length == 2) {
+      ret += array[0] + ".";
+      for (let i = 0; i < length; i++) {
+        if (i >= array[1].length) ret += '0';
+        else ret += array[1][i];
+      }
+    } else if (array.length == 1) {
+      ret += array[0] + ".";
+      for (let i = 0; i < length; i++) {
+        ret += '0'
+      }
+    }
+  
+    return ret;
+  }
+
+function avgRatingsByBank(data){
+
+    // group data by month and bank
+    const groupedData = {};
+    data.forEach(({ month, bank, rating }) => {
+        if (!groupedData[month]) groupedData[month] = {};
+        if (!groupedData[month][bank]) groupedData[month][bank] = [];
+
+        groupedData[month][bank].push(rating);
     });
-            
-    // calculate averages
+   //console.log(groupedData); //integer
+
+    // calculate avg rating for each bank within each month
     const result = [];
-    for (const month in averages) {
-    const entry = { month: parseInt(month), ...averages[month] };
-            
-    for (const bank in averages[month]) {
-        entry[bank] /= counts[month][bank];
+    for (const month in groupedData){
+        const entry = { month: parseInt(month) };
+
+        const allBanks = ['GXS', 'OCBC', 'UOB'];
+        allBanks.forEach(bank => {
+            if (!groupedData[month][bank]) {
+                entry[bank] = 0;
+            } else {
+                const avgRating = groupedData[month][bank].reduce((acc, val) => acc + val, 0) / groupedData[month][bank].length;
+                entry[bank] = avgRating.toFixed(1); // round avg rating to 1dp
+                entry[bank] = parseFloat(entry[bank]);
+            }
+        });
+        result.push(entry);
     }
-            
-    result.push(entry);
-    }
-            
     return result;
 }
-            
-// convert data to average ratings by bank and month
-export const avgRatings = calculateAvgRating(apiData);
-console.log(avgRatings)
 
 
-export const testData =[
-                {month: '2023', positive: 30, neutral: 40, negative: 30 },
-                {month: '2023', positive: 25, neutral: 45, negative: 30 },
-                {month: '2023', positive: 80, neutral: 10, negative: 10 },
-                {month: '2023', positive: 65, neutral: 5, negative: 30 },
-                {month: '2024', positive: 20, neutral: 50, negative: 25}
-            ];
+const data = avgRatingsByBank(apiData)
+
+// toFixed: converts number to string
+// parseFloat: converts string to float
+data.forEach(obj => {
+    for (const key in obj) {
+      if (key !== 'month' && Number.isInteger(obj[key])) {
+        obj[key] = obj[key].toFixed(1);
+        obj[key] = parseFloat(obj[key]); // strips the '.0' in 9.0
+      }
+
+    }
+  });
+
+console.log(data);

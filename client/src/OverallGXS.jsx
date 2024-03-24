@@ -22,48 +22,50 @@ export default function LineData() {
         });
     }, []);
 
-    // function to process data and calculate 
     function calcSentimentPercentage(data){
-        const result =[];
-        
         // filter data for GXS bank
         const gxsData = data.filter(entry => entry.bank === 'GXS');
-
-        // group data by month
-        const groupedData = gxsData.reduce((acc, entry) => {
-            acc[entry.month] = acc[entry.month] || { positive: 0, neutral: 0, negative: 0 };
-            acc[entry.month][entry.sentiment]++;
-            return acc;
-        }, {})
-
-        // calculate percentage for each month
+    
+        // group data by moth and sentiment
+        const groupedData ={};
+        gxsData.forEach(({month, sentiment}) => {
+            if (!groupedData[month]) groupedData[month] = { pos: 0, neu: 0, neg: 0 };
+            groupedData[month][sentiment] ++;
+        });
+    
+        // calculate average percentage for each month
+        const result =[];
         for (const month in groupedData){
-            const total = Object.values(groupedData[month]).reduce((acc, val) => acc + val, 0);
-            const percentageData ={
-                month: parseInt(month),
-                positive: ((groupedData[month].positive / total) * 100).toFixed(2),
-                neutral: ((groupedData[month].neutral / total) * 100).toFixed(2),
-                negative: ((groupedData[month].negative / total) * 100).toFixed(2)
-            };
-            result.push(percentageData);
+            const total = Object.values(groupedData[month]).reduce((acc,val) => acc+val,0);
+            const percentages ={}
+            for (const sentiment in groupedData[month]) {
+                const sentimentKey = sentiment.charAt(0).toUpperCase() + sentiment.slice(1);
+                percentages[sentimentKey] = ((groupedData[month][sentiment]/total) * 100).toFixed(0);
+            }
+            result.push({month: parseInt(month), ...percentages});
         }
         return result;
-
     };
-
+    
     const data = calcSentimentPercentage(reviewsData);
-    console.log(data);
+    const mappedData = data.map(item => ({
+        month: item.month,
+        Positive: item.Pos,
+        Neutral: item.Neu,
+        Negative: item.Neg
+    }));
+    //console.log(mappedData) // correct output
 
     return (
         <LineChart
             h={200}
             w={400}
-            data={data}
+            data={mappedData}
             dataKey='month'
             series={[
-                {name: 'positive', color: 'green'},
-                {name: 'neutral', color: 'grey'},
-                {name: 'negative', color: 'red'},
+                {name: 'Positive', color: 'green'},
+                {name: 'Neutral', color: 'grey'},
+                {name: 'Negative', color: 'red'},
             ]} 
         />
     );
