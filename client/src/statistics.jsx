@@ -19,7 +19,7 @@ export default function Statistics() {
 
           <Grid.Col span={{ base: 12, xs: 12}} style={{ height: "100px" }} className={classes.columns}>
               <Container style={{ padding: "1px", width:"100%" }}>
-                <h2 className={classes.heading}>
+                <h2 className={classes.heading2}>
                   Number of Reviews
                 </h2>
                 {/*<p>yes</p>*/}
@@ -35,7 +35,12 @@ export default function Statistics() {
             </Grid.Col>
 
             <Grid.Col span={{ base: 12, md: 26, xs:12}} style={{ height: "300px" }} className={classes.fixedWidthCol}>
-                <h2>chart</h2>
+                <h2 className={classes.plotHeading}>
+                  Percentage of Reviews by Sentiment
+                </h2>
+                <h3 className={classes.heading3}>
+                  GXS Bank
+                </h3>
                 <LineData />
             </Grid.Col>
           </Container>
@@ -68,6 +73,12 @@ export default function Statistics() {
             <Container size="100%">
                 <h2>Time-series graph comparing different banks </h2>
                 <TimeSeries />
+                <div className = {classes.xAxesLabels}>
+                  Month
+                </div>
+                < div className = {classes.yAxesLabels}>
+                  Average Rating
+                </div>
             </Container>
           </Grid.Col>
 
