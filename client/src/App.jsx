@@ -6,6 +6,7 @@ import Statistics from './statistics';
 import ProductReviews from './ProductReviews';
 import { Burger, Group, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { HeaderSimple } from './HeaderSimple.jsx';
 
 function App() {
   //const [activeTab, setActiveTab] = useState(0); // Set the default tab to 'Dashboard'
@@ -38,25 +39,19 @@ function App() {
 
   return (
     <AppShell
-      header={{ height: 60}} 
-      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+      // THE ONE CONTROLLING HEADER HEIGHT
+      header={{ height: 70}} 
+      // navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
+        {/* <Group h="100%" px="md"> */}
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          GXS Banking Sentiment Analysis
-        </Group>
+            <HeaderSimple setActiveHeaderTab={setActiveHeaderTab} activeHeaderTab={activeHeaderTab} onExitClick={handleExit} />
+        {/* </Group> */}
       </AppShell.Header>
-      
-      <AppShell.Navbar style={{ backgroundColor: '#F8F8FF'}} >
-        <h1 style={{ fontSize: "16px" }}>
-          Navigation bar
-        </h1>
-        <NavbarMinimal setActiveHeaderTab={setActiveHeaderTab} activeHeaderTab={activeHeaderTab} onExitClick={handleExit} />
-      </AppShell.Navbar>
 
-      <AppShell.Main style={{ width: '100%', maxWidth: '100vw' }}>
+      <AppShell.Main style={{ width: '100%'}}>
         {activeHeaderTab === 'Statistics' && <Statistics />}
         {activeHeaderTab === 'Product Reviews' && <ProductReviews/>}
       </AppShell.Main>

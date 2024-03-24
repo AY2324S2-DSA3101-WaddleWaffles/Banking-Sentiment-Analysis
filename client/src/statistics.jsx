@@ -1,7 +1,9 @@
-import React from 'react'
+import React from 'react';
 import { Container, Grid, SimpleGrid, Skeleton, rem } from '@mantine/core';
 // const child = <Skeleton height={140} radius="md" animate={false} />;
-import "./statistics.module.css"
+import "./statistics.module.css";
+
+import BarChartComponent from './BarChart';
 import classes from "./statistics.module.css";
 import LineData from './OverallGXS.jsx';
 import TimeSeries from './TimeSeriesAcrossBanks.jsx';
@@ -38,10 +40,11 @@ export default function Statistics() {
             </Grid.Col>
           </Container>
 
-          <Grid.Col span={{ base: 12, md: 12}} style={{ height: "300px" }} className={classes.columns}>
+          <Grid.Col span={{ base: 12, md: 12}} style={{ height: "400px" }} className={classes.columns}>
             <Container>
                 <h2>Sentiment by topic </h2>
-                <p>yes</p>
+                  {/* Replace this placeholder content with the BarChart component */}
+                <BarChartComponent/>
             </Container>
           </Grid.Col>
 
