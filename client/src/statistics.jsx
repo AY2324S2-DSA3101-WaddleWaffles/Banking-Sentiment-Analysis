@@ -1,45 +1,49 @@
 import React from 'react'
 import { Container, Grid, SimpleGrid, Skeleton, rem } from '@mantine/core';
 // const child = <Skeleton height={140} radius="md" animate={false} />;
-import "./statistics.css"
+import "./statistics.module.css"
+import classes from "./statistics.module.css";
+import LineData from './OverallGXS.jsx';
+import TimeSeries from './TimeSeriesAcrossBanks.jsx';
 
-function Statistics() {
+export default function Statistics() {
   return (
     <Container size="100%" style={{ display: "flex", }}>
 
-      
       <div style={{ flex: "50%", marginRight: "20px" }}>
       {/* First Grid - Left Side */}
-      <Container style={{padding: "5px", size: "100%"}}>
+      <Container style={{padding: "5px", width: "100%"}}>
         <Grid> 
 
-          <Grid.Col span={{ base: 12, xs: 12}} style={{ height: "200px" }} className='columns'>
-              <Container size="100%">
-                <h2>Number of Reviews</h2>
-                <p>yes</p>
+          <Grid.Col span={{ base: 12, xs: 12}} style={{ height: "100px" }} className={classes.columns}>
+              <Container style={{ padding: "1px", width:"100%" }}>
+                <h2 className={classes.heading}>
+                  Number of Reviews
+                </h2>
+                {/*<p>yes</p>*/}
               </Container>
           </Grid.Col>
       
 
-          {/* Contain the 2 grid columsn into 1 to centralise */}
+          {/* Contain the 2 grid columns into 1 container to centralise */}
           <Container style={{ display: "flex", justifyContent: "center"}}>
-            <Grid.Col span={{ base: 12, md: 24}} style={{ height: "200px" }} className='columns'>
-                <h2>Side 1 </h2>
+            <Grid.Col span={{ base: 12, md: 12, xs: 12}} style={{ height: "300px" }} className={classes.columns}>
+                <h2 style={{justifyContent: "flex-start"}}>Filter </h2>
                 <p>yes</p>
             </Grid.Col>
 
-            <Grid.Col span={{ base: 12, md: 24}} style={{ height: "200px" }} className='columns'>
-                <h2>Side 2 </h2>
-                <p>yes</p>
+            <Grid.Col span={{ base: 12, md: 26, xs:12}} style={{ height: "300px" }} className={classes.fixedWidthCol}>
+                <h2>chart</h2>
+                <LineData />
             </Grid.Col>
+          </Container>
+
+          <Grid.Col span={{ base: 12, md: 12}} style={{ height: "300px" }} className={classes.columns}>
+            <Container>
+                <h2>Sentiment by topic </h2>
+                <p>yes</p>
             </Container>
-
-            <Grid.Col span={{ base: 12, md: 12}} style={{ height: "300px" }} className='columns'>
-              <Container>
-                  <h2>Bottom </h2>
-                  <p>yes</p>
-              </Container>
-            </Grid.Col>
+          </Grid.Col>
 
         </Grid>
       </Container> 
@@ -50,17 +54,17 @@ function Statistics() {
       <Container style={{padding: "5px", size: "100%" }}>
         <Grid styles={{ margin: "2" }}>
 
-          <Grid.Col span={{ base: 12, xs: 12}} style={{ height: "400px" }} className='columns'>
+          <Grid.Col span={{ base: 12, xs: 12}} style={{ height: "400px" }} className={classes.columns}>
             <Container size="100%">
                 <h2>Big graph i think </h2>
                 <p>yes</p>
             </Container>
           </Grid.Col>
 
-          <Grid.Col span={{ base: 12, xs: 12}} style={{ height: "310px" }} className='columns'>
+          <Grid.Col span={{ base: 12, xs: 12}} style={{ height: "310px" }} className={classes.columns}>
             <Container size="100%">
-                <h2>Big graph i think 2 </h2>
-                <p>yes</p>
+                <h2>Time-series graph comparing different banks </h2>
+                <TimeSeries />
             </Container>
           </Grid.Col>
 
@@ -73,4 +77,3 @@ function Statistics() {
   );
 }
 
-export default Statistics;
