@@ -1,9 +1,13 @@
-import React from 'react'
+import React from 'react';
 import { Container, Grid, SimpleGrid, Skeleton, rem } from '@mantine/core';
 // const child = <Skeleton height={140} radius="md" animate={false} />;
-import "./statistics.css"
+import "./statistics.css";
+
+import BarChartComponent from './BarChart';
 
 function Statistics() {
+
+
   return (
     <Container size="100%" style={{ display: "flex", }}>
 
@@ -34,10 +38,11 @@ function Statistics() {
             </Grid.Col>
             </Container>
 
-            <Grid.Col span={{ base: 12, md: 12}} style={{ height: "300px" }} className='columns'>
+            <Grid.Col span={{ base: 12, md: 12}} style={{ height: "400px" }} className='columns'>
               <Container>
                   <h2>Bottom </h2>
-                  <p>yes</p>
+                  {/* Replace this placeholder content with the BarChart component */}
+                  <BarChartComponent/>
               </Container>
             </Grid.Col>
 
