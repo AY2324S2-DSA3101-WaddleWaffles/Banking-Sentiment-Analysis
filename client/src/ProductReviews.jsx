@@ -3,6 +3,7 @@ import { Container, Grid, Select } from "@mantine/core";
 import ReactWordcloud from "react-wordcloud"; // npm install react-wordcloud
 import { BarChart } from '@mantine/charts'; 
 import "./ProductReviews.css";
+import ComparisonBanks from "./ComparisonBanks";
 
 function ProductReviews() {
   const [filter, setFilter] = useState("");
@@ -155,7 +156,7 @@ function ProductReviews() {
             <Grid.Col span={{ base: 12, md: 12}} className="columns" style={{ height: "400px" }}>
               <Container size="100%">
                 <h2>Comparison with Other Banks</h2>
-                <p>Analysis and comparison based on customer feedback and metrics.</p>
+                <ComparisonBanks/>
               </Container>
             </Grid.Col>
 
