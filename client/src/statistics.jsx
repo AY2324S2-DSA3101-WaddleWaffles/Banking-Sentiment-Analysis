@@ -89,4 +89,9 @@ export default function Statistics() {
 
     </Container>
   );
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> eb2b03e3b7e047f63f287a4826ede33bb26592cf

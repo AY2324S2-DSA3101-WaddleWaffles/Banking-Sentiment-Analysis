@@ -13,11 +13,20 @@
     "@mantine/charts": "^7.6.2",
     "@mantine/core": "^7.6.2",
     "@mantine/hooks": "^7.6.2",
+    "@syncfusion/ej2-react-charts": "^25.1.35",
     "@tabler/icons-react": "^3.1.0",
     "axios": "^1.6.8",
+<<<<<<< HEAD
     "grid-css": "^1.3.4",
+=======
+    "d3": "^7.9.0",
+    "d3-cloud": "^1.2.7",
+>>>>>>> eb2b03e3b7e047f63f287a4826ede33bb26592cf
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-styled-grid-layout": "^1.0.2",
+    "react-wordcloud": "^1.2.7",
+    "recharts": "^2.12.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
@@ -27,7 +36,6 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "postcss-preset-mantine": "^1.13.0",
-    "vite": "^5.2.3"
+    "vite": "^5.2.2"
   }
 }
