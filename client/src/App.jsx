@@ -8,6 +8,7 @@ import { Burger, Group, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { HeaderSimple } from './HeaderSimple.jsx';
 
+
 function App() {
   //const [activeTab, setActiveTab] = useState(0); // Set the default tab to 'Dashboard'
   const [activeHeaderTab, setActiveHeaderTab] = useState('Statistics'); 
@@ -40,18 +41,18 @@ function App() {
   return (
     <AppShell
       // THE ONE CONTROLLING HEADER HEIGHT
-      header={{ height: 70}} 
+      header={{ height: 50}} 
       // navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding="md"
     >
       <AppShell.Header>
         {/* <Group h="100%" px="md"> */}
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+          {/* <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" /> */}
             <HeaderSimple setActiveHeaderTab={setActiveHeaderTab} activeHeaderTab={activeHeaderTab} onExitClick={handleExit} />
         {/* </Group> */}
       </AppShell.Header>
 
-      <AppShell.Main style={{ width: '100%'}}>
+      <AppShell.Main style={{ width: '100%', height: "100%"}}>
         {activeHeaderTab === 'Statistics' && <Statistics />}
         {activeHeaderTab === 'Product Reviews' && <ProductReviews/>}
       </AppShell.Main>
