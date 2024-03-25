@@ -58,8 +58,8 @@ export default function LineData() {
 
     return (
         <LineChart
-            h={200}
-            w={400}
+            h={100}
+            w={300}
             data={mappedData}
             dataKey='month'
             series={[

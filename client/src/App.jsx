@@ -2,7 +2,7 @@ import React, { useState, useEffect  } from 'react'
 import './App.css'
 import { AppShell } from '@mantine/core';
 import { NavbarMinimal } from './navbar.jsx';
-import Statistics2 from './statistics2';
+import Statistics from './statistics';
 import ProductReviews from './ProductReviews';
 import { Burger, Group, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -11,7 +11,7 @@ import { HeaderSimple } from './HeaderSimple.jsx';
 
 function App() {
   //const [activeTab, setActiveTab] = useState(0); // Set the default tab to 'Dashboard'
-  const [activeHeaderTab, setActiveHeaderTab] = useState('Statistics2'); 
+  const [activeHeaderTab, setActiveHeaderTab] = useState('Statistics'); 
   const [opened, { toggle }] = useDisclosure();
   const handleExit = () => {
     if (window.confirm('Are you sure you want to exit?')) {
@@ -53,7 +53,7 @@ function App() {
       </AppShell.Header>
 
       <AppShell.Main style={{ width: '100%', height: "100%"}}>
-        {activeHeaderTab === 'Statistics2' && <Statistics2 />}
+        {activeHeaderTab === 'Statistics' && <Statistics />}
         {activeHeaderTab === 'Product Reviews' && <ProductReviews/>}
       </AppShell.Main>
     </AppShell>
