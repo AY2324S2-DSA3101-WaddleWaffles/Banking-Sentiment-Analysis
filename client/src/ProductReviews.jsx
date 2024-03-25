@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Grid, Select } from "@mantine/core";
 import ReactWordcloud from "react-wordcloud"; // npm install react-wordcloud
+import { BarChart } from '@mantine/charts'; 
 import "./ProductReviews.css";
 
 function ProductReviews() {
