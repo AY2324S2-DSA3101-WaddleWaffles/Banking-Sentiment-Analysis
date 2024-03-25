@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Container, Group, Burger, UnstyledButton, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderSimple.module.css';
-import {  IconLayoutDashboard,IconReport, IconLogout } from '@tabler/icons-react';
+import {  IconLayoutDashboard, IconReport, IconLogout } from '@tabler/icons-react';
 import gxslogo from './assets/gxs-bank-logo.png';
 
 const labels = [
-  { icon: IconLayoutDashboard, label: 'Statistics' },
+  { icon: IconLayoutDashboard, label: 'Statistics2' },
   { icon: IconReport, label: 'Product Reviews' },
 ];
 
@@ -24,7 +24,7 @@ function TabLink({ icon: Icon, label, active, onClick }) {
 }
 
 export function HeaderSimple({ setActiveHeaderTab, activeHeaderTab, onExitClick }) {
-  const [opened, { toggle }] = useDisclosure(false);
+  const [opened, { toggle }] = useDisclosure(); // Corrected the usage of useDisclosure
 
   const links = labels.map((link, index) => (
     <TabLink
@@ -43,7 +43,7 @@ export function HeaderSimple({ setActiveHeaderTab, activeHeaderTab, onExitClick 
         {/* for the logo and heading */}
         <Container style={{ display: "flex", justifyContent: "center", alignItems: "center", marginRight: "50px"}}>
           <div>
-              <img src={gxslogo} alt="GXS Bank logo" style={{width: "100px", height: "auto"}}/>
+              <img src={gxslogo} alt="GXS Bank logo" style={{width: "50px", height: "auto"}}/>
           </div>
 
           <div>
@@ -56,6 +56,7 @@ export function HeaderSimple({ setActiveHeaderTab, activeHeaderTab, onExitClick 
           <Group gap={100} visibleFrom="xs">
             {links}
           </Group>
+          {/* Ensure that toggle function is properly assigned to onClick */}
           <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
         </div>
 

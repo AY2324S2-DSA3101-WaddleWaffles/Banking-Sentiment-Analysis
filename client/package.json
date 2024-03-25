@@ -15,6 +15,7 @@
     "@mantine/hooks": "^7.6.2",
     "@tabler/icons-react": "^3.1.0",
     "axios": "^1.6.8",
+    "grid-css": "^1.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

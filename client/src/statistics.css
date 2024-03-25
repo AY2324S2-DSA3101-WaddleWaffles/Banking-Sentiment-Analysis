@@ -4,3 +4,64 @@
     padding-bottom: 20px;
     margin: 6px
   }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-gap: 10px;
+  grid-template-areas: 
+    "number number number bar1 bar1 bar1"
+    "filter timeseries timeseries bar1 bar1 bar1"
+    "filter timeseries timeseries stars stars stars"
+    "bar2 bar2 bar2 stars stars stars"
+    "bar2 bar2 bar2 stars stars stars";
+  size: 100%;
+}
+
+.grid-item {
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 10px; /* Adjust the border radius as needed */
+  padding-bottom: 20px;
+  margin: 1px
+}
+
+.number {
+  grid-area: number;
+}
+
+.filter {
+  grid-area: filter;
+}
+
+.timeseries{
+  grid-area: timeseries;
+}
+
+.bar1 {
+  grid-area: bar1;
+}
+
+.bar2 {
+  grid-area: bar2;
+}
+
+.stars {
+  grid-area: stars;
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "number"
+      "filter"
+      "timeseries"
+      "bar1"
+      "bar2"
+      "stars";
+  }
+}
+
