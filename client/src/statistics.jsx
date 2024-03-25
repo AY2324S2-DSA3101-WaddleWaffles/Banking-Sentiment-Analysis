@@ -1,12 +1,12 @@
 import React from 'react';
 import { Container, Grid, SimpleGrid, Skeleton, rem } from '@mantine/core';
-// const child = <Skeleton height={140} radius="md" animate={false} />;
 import "./statistics.module.css";
-
 import BarChartComponent from './BarChart';
 import classes from "./statistics.module.css";
+import GetNumReviews from './NumberOfReviews.jsx';
 import LineData from './OverallGXS.jsx';
 import TimeSeries from './TimeSeriesAcrossBanks.jsx';
+
 
 export default function Statistics() {
   return (
@@ -20,7 +20,7 @@ export default function Statistics() {
           <Grid.Col span={{ base: 12, xs: 12}} style={{ height: "100px" }} className={classes.columns}>
               <Container style={{ padding: "1px", width:"100%" }}>
                 <h2 className={classes.heading2}>
-                  Number of Reviews
+                  <GetNumReviews /> reviews
                 </h2>
                 {/*<p>yes</p>*/}
               </Container>
