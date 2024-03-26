@@ -4,6 +4,7 @@
 import { LineChart } from '@mantine/charts';
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
+import { Paper, Text } from '@mantine/core';
 
 export default function TimeSeries() {
     const [reviewsData, setReviews] = useState([]);
@@ -65,7 +66,24 @@ export default function TimeSeries() {
     
         }
       });
-
+    
+    // function for tooltip
+    function ChartTooltip({ label, payload }) {
+        if (!payload) return null;
+      
+        return (
+          <Paper px="md" py="sm" withBorder shadow="md" radius="md">
+            <Text fw={500} mb={5}>
+              {label}
+            </Text>
+            {payload.map(item => (
+              <Text key={item.name} c={item.color} fz="sm">
+                {item.name}: {item.value}
+              </Text>
+            ))}
+          </Paper>
+        );
+      }
 
     return (
         // will only plot for existent data: if no data for 3rd month, axis will have no 3
@@ -76,12 +94,15 @@ export default function TimeSeries() {
             // legend placement has some issues
             //withLegend
             //legendProps={{ position: 'bottom', style: { display: 'flex', flexDirection: 'row' } }}
-            tooltipAnimationDuration={200}
+            //tooltipAnimationDuration={200}
             series={[
                 {name: 'GXS', color: 'purple'},
                 {name: 'OCBC', color: 'red'},
                 {name: 'UOB', color: 'blue'}
             ]}
+            tooltipProps={{
+                content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
+              }}
         />
     );
 }

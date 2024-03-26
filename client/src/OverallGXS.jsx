@@ -2,6 +2,7 @@ import { LineChart } from '@mantine/charts';
 // import {testData} from './data';
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
+import { Paper, Text } from '@mantine/core';
 
 
 // need data with percentages for each sentiment, according to date/month
@@ -56,6 +57,24 @@ export default function LineData() {
     }));
     //console.log(mappedData) // correct output
 
+    // function for tooltip
+    function ChartTooltip({ label, payload }) {
+        if (!payload) return null;
+      
+        return (
+          <Paper px="md" py="sm" withBorder shadow="md" radius="md">
+            <Text fw={500} mb={5}>
+              {label}
+            </Text>
+            {payload.map(item => (
+              <Text key={item.name} c={item.color} fz="sm">
+                {item.name}: {item.value}
+              </Text>
+            ))}
+          </Paper>
+        );
+      }
+
     return (
         <div style={{ marginLeft: '-30px' }}>
         <LineChart
@@ -68,6 +87,9 @@ export default function LineData() {
                 {name: 'Neutral', color: 'grey'},
                 {name: 'Negative', color: 'red'},
             ]} 
+            tooltipProps={{
+                content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
+              }}
         />
         </div>
     );
