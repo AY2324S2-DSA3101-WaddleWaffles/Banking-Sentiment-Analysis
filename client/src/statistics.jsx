@@ -2,17 +2,19 @@ import React from 'react';
 import { Container} from '@mantine/core';
 import "./statistics.css";
 import BarChartComponent from './BarChart';
-// import classes from "./statistics.module.css";
 import LineData from './OverallGXS.jsx';
 import TimeSeries from './TimeSeriesAcrossBanks.jsx';
 import ComparisonChart from './ComparisonChart.jsx';
+import GetNumReviews from './NumberOfReviews.jsx';
 
 function Statistics() {
-
-
   return (
     <Container size="100%"  className="grid-container">
-        <div className="grid-item number"> Number of reviews </div>
+        <div className="grid-item number"> 
+          <h2 className = "heading2"> 
+            <GetNumReviews /> reviews 
+          </h2>
+        </div>
         
         <div className="grid-item filter">Filter</div>
 

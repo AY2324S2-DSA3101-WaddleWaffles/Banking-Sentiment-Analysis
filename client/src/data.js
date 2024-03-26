@@ -44,26 +44,6 @@ const apiData = [{"bank":"GXS","day":15,"id":1,"month":5,"rating":5,"review":"I 
 // }));
 // console.log(mappedData) // correct output
 
-function decimalPlaces(float, length) {
-    let ret = "";
-    let str = float.toString();
-    let array = str.split(".");
-    if (array.length == 2) {
-      ret += array[0] + ".";
-      for (let i = 0; i < length; i++) {
-        if (i >= array[1].length) ret += '0';
-        else ret += array[1][i];
-      }
-    } else if (array.length == 1) {
-      ret += array[0] + ".";
-      for (let i = 0; i < length; i++) {
-        ret += '0'
-      }
-    }
-  
-    return ret;
-  }
-
 function avgRatingsByBank(data){
 
     // group data by month and bank
@@ -111,4 +91,21 @@ data.forEach(obj => {
     }
   });
 
-console.log(data);
+// console.log(data);
+
+function parseToInteger(input) {
+    const floatVal = parseFloat(input);
+    const integerVal = parseInt(floatVal);
+  
+    if (floatVal === integerVal) {
+      return integerVal;
+    } else {
+      return floatVal;
+    }
+  }
+  
+  // Test cases
+  console.log(parseToInteger('2.2')); // Output: 2.2
+  console.log(parseToInteger('2.0')); // Output: 2.0
+  console.log(parseToInteger('2.5')); // Output: 2.5
+  console.log(parseToInteger('3'));   // Output: 3
