@@ -47,7 +47,8 @@ function BarChartComponent() {
 
     return (
         <BarChart
-            h={300}
+            h={150}
+            w={550}
             data={data}
             dataKey="topic"
             type="stacked"

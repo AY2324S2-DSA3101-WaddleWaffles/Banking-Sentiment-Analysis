@@ -1,27 +1,29 @@
-.columns {
+/* .columns {
     border: 2px solid black;
-    border-radius: 10px; /* Adjust the border radius as needed */
-    padding-bottom: 20px;
+    border-radius: 10px;
+    padding-bottom: 10px;
     margin: 6px
-  }
+  } */
 
-.heading {
-  font-size: 40px;
+h2 {
+  font-size: 10px;
 }
 
-.heading2 {
-  font-size: 60px;
-  text-align: center;
+.heading-reviews {
+  font-size: 20px;
+  /* text-align: center; */
 }
 
-.heading3 {
-  font-size: 16px;
+.heading-percentage {
+  font-size: 7px;
   text-align: center;
+  margin:0;
 }
 
-.plotHeading{ 
-  font-size: 24px;
+.plotHeading-percentage{ 
+  font-size: 10px;
   text-align: center;
+
 }
 
 .fixedWidthCol{
@@ -32,43 +34,48 @@
   text-align: center;
   margin-top: -5px;
   color: black;
-  font-size: 16px;
+  font-size: 10px;
 }
 
 .yAxesLabels{
   /*position: absolute;*/
-  top: 50%; /* Position at the vertical center */
+  top: 10%; /* Position at the vertical center */
   left: 0; /* Position at the left edge */
   transform-origin: top left; /* Rotate around top-left corner */
-  transform: rotate(-90deg) translateX(-50%); /* Rotate 90 degrees to the left and shift to the left */
+  transform: rotate(-90deg) translateX(-30%); /* Rotate 90 degrees to the left and shift to the left */
   white-space: nowrap; /* Prevent text from wrapping */
   left: 2%;
 }
   
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  grid-gap: 10px;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  grid-template-rows: repeat(8, auto);
+  grid-gap: 7px;
   grid-template-areas: 
-    "number number number bar1 bar1 bar1"
-    "filter timeseries timeseries bar1 bar1 bar1"
-    "filter timeseries timeseries stars stars stars"
-    "bar2 bar2 bar2 stars stars stars"
-    "bar2 bar2 bar2 stars stars stars";
+    "filter	number	number	number	number	bar1	bar1	bar1	bar1	bar1"
+    "filter	timeseries	timeseries	timeseries	timeseries	bar1	bar1	bar1	bar1	bar1"
+    "filter	timeseries	timeseries	timeseries	timeseries	bar1	bar1	bar1	bar1	bar1"
+    "filter	timeseries	timeseries	timeseries	timeseries	bar1	bar1	bar1	bar1	bar1"
+    "bar2	bar2	bar2	bar2	bar2	stars	stars	stars	stars	stars"
+    "bar2	bar2	bar2	bar2	bar2	stars	stars	stars	stars	stars"
+    "bar2	bar2	bar2	bar2	bar2	stars	stars	stars	stars	stars"
+    "bar2	bar2	bar2	bar2	bar2	stars	stars	stars	stars	stars";
+
   size: 100%;
 }
 
 .grid-item {
-  padding: 20px;
+  padding: 0;
   border: 2px solid black;
   border-radius: 10px; /* Adjust the border radius as needed */
-  padding-bottom: 20px;
-  margin: 1px
+  margin: 0;
+  margin-bottom: 0; /* Adjust the bottom margin as needed */
 }
 
 .number {
   grid-area: number;
+  font-size: 10px;
 }
 
 .filter {
