@@ -26,7 +26,13 @@ function Statistics() {
           </Container>
         </div>
 
-        <div className="grid-item bar1">Bar Chart 1</div>
+        <div className="grid-item bar1">
+          <Container size="100%">
+              <h2>Comparative Analysis of Bank Sentiment </h2>
+              <ComparisonChart/>
+          </Container>
+        </div>
+        
 
         <div className="grid-item bar2">
           <h2>Sentiment by topic </h2>
@@ -39,13 +45,6 @@ function Statistics() {
             <TimeSeries />
             <div className = "xAxesLabels"> Month </div>
             <div className = "yAxesLabels"> Average Rating </div>
-          </Container>
-        </div>
-
-        <div className= "grid-item compareBanks">
-          <Container size="100%">
-              <h2>Comparative Analysis of Bank Sentiment </h2>
-              <ComparisonChart/>
           </Container>
         </div>
 
