@@ -16,9 +16,12 @@
     "@syncfusion/ej2-react-charts": "^25.1.35",
     "@tabler/icons-react": "^3.1.0",
     "axios": "^1.6.8",
+    "d3": "^7.9.0",
+    "d3-cloud": "^1.2.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-styled-grid-layout": "^1.0.2",
+    "react-wordcloud": "^1.2.7",
     "recharts": "^2.12.3"
   },
   "devDependencies": {
@@ -29,11 +32,6 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-<<<<<<< HEAD
     "vite": "^5.2.2"
-=======
-    "postcss-preset-mantine": "^1.13.0",
-    "vite": "^5.2.3"
->>>>>>> 4e692fa901fb9e78178fde297974fb9a36e12ba7
   }
 }

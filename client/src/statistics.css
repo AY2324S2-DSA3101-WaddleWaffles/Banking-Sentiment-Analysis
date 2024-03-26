@@ -1,29 +1,17 @@
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  grid-gap: 10px;
-  grid-template-areas:
-    "number number number bar1 bar1 bar1"
-    "filter timeseries timeseries bar1 bar1 bar1"
-    "filter timeseries timeseries stars stars stars"
-    "bar2 bar2 bar2 stars stars stars"
-    "bar2 bar2 bar2 stars stars stars";
-  size: 100%;
-}
-
 .columns {
     border: 2px solid black;
     border-radius: 10px; /* Adjust the border radius as needed */
     padding-bottom: 20px;
-    margin: 6px;
-    position: relative;
+    margin: 6px
   }
+
+.heading {
+  font-size: 40px;
+}
 
 .heading2 {
   font-size: 60px;
   text-align: center;
-  margin-top: -10px;
 }
 
 .heading3 {
@@ -48,12 +36,74 @@
 }
 
 .yAxesLabels{
-  position: absolute;
+  /*position: absolute;*/
   top: 50%; /* Position at the vertical center */
   left: 0; /* Position at the left edge */
   transform-origin: top left; /* Rotate around top-left corner */
   transform: rotate(-90deg) translateX(-50%); /* Rotate 90 degrees to the left and shift to the left */
   white-space: nowrap; /* Prevent text from wrapping */
   left: 2%;
+}
+  
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-gap: 10px;
+  grid-template-areas: 
+    "number number number bar1 bar1 bar1"
+    "filter timeseries timeseries bar1 bar1 bar1"
+    "filter timeseries timeseries stars stars stars"
+    "bar2 bar2 bar2 stars stars stars"
+    "bar2 bar2 bar2 stars stars stars";
+  size: 100%;
+}
+
+.grid-item {
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 10px; /* Adjust the border radius as needed */
+  padding-bottom: 20px;
+  margin: 1px
+}
+
+.number {
+  grid-area: number;
+}
+
+.filter {
+  grid-area: filter;
+}
+
+.timeseries{
+  grid-area: timeseries;
+  width: 100%;
+  height: 100%;
+}
+
+.bar1 {
+  grid-area: bar1;
+}
+
+.bar2 {
+  grid-area: bar2;
+}
+
+.stars {
+  grid-area: stars;
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "number"
+      "filter"
+      "timeseries"
+      "bar1"
+      "bar2"
+      "stars";
+  }
 }
 

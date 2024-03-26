@@ -43,7 +43,7 @@ export function HeaderSimple({ setActiveHeaderTab, activeHeaderTab, onExitClick 
         {/* for the logo and heading */}
         <Container style={{ display: "flex", justifyContent: "center", alignItems: "center", marginRight: "50px"}}>
           <div>
-              <img src={gxslogo} alt="GXS Bank logo" style={{width: "100px", height: "auto"}}/>
+              <img src={gxslogo} alt="GXS Bank logo" style={{width: "50px", height: "auto"}}/>
           </div>
 
           <div>

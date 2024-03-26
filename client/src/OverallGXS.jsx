@@ -57,6 +57,7 @@ export default function LineData() {
     //console.log(mappedData) // correct output
 
     return (
+        <div style={{ marginLeft: '-30px' }}>
         <LineChart
             h={200}
             w={400}
@@ -68,5 +69,6 @@ export default function LineData() {
                 {name: 'Negative', color: 'red'},
             ]} 
         />
+        </div>
     );
 }
