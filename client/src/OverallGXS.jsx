@@ -57,9 +57,10 @@ export default function LineData() {
     //console.log(mappedData) // correct output
 
     return (
+        <div style={{ marginLeft: '-30px' }}>
         <LineChart
-            h={100}
-            w={300}
+            h={200}
+            w={400}
             data={mappedData}
             dataKey='month'
             series={[
@@ -68,5 +69,6 @@ export default function LineData() {
                 {name: 'Negative', color: 'red'},
             ]} 
         />
+        </div>
     );
 }
