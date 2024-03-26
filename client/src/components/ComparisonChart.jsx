@@ -49,7 +49,7 @@ function ComparisonChart() {
 
     return (
         <BarChart
-            h={300}
+            h={180}
             data={data}
             dataKey="bank"
             barProps={{ radius: 10 }}

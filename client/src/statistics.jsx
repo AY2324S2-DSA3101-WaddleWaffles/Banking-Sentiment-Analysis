@@ -1,17 +1,17 @@
 import React from 'react';
 import { Container} from '@mantine/core';
 import "./statistics.css";
-import BarChartComponent from './BarChart';
-import LineData from './OverallGXS.jsx';
-import TimeSeries from './TimeSeriesAcrossBanks.jsx';
-import ComparisonChart from './ComparisonChart.jsx';
-import GetNumReviews from './NumberOfReviews.jsx';
+import BarChartComponent from './components/BarChart';
+import LineData from './components/OverallGXS.jsx';
+import TimeSeries from './components/TimeSeriesAcrossBanks.jsx';
+import ComparisonChart from './components/ComparisonChart.jsx';
+import GetNumReviews from './components/NumberOfReviews.jsx';
 
 function Statistics() {
   return (
     <Container size="100%"  className="grid-container">
         <div className="grid-item number"> 
-          <h2 className = "heading2"> 
+          <h2 className = "heading-reviews"> 
             <GetNumReviews /> reviews 
           </h2>
         </div>
@@ -20,8 +20,8 @@ function Statistics() {
 
         <div className="grid-item timeseries">
           <Container size="100%">
-            <h2 className="plotHeading"> Percentage of Reviews by Sentiment </h2>
-            <h3 className="heading3"> GXS Bank </h3>
+            <h2 className="plotHeading-percentage"> Percentage of Reviews by Sentiment </h2>
+            <h3 className="heading-percentage"> GXS Bank </h3>
             <LineData />
           </Container>
         </div>

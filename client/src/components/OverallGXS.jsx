@@ -78,7 +78,7 @@ export default function LineData() {
     return (
         <div style={{ marginLeft: '-30px' }}>
         <LineChart
-            h={200}
+            h={110}
             w={400}
             data={mappedData}
             dataKey='month'

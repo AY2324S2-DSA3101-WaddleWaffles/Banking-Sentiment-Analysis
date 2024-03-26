@@ -3,7 +3,7 @@ import { Container, Grid, Select } from "@mantine/core";
 import ReactWordcloud from "react-wordcloud"; // npm install react-wordcloud
 import { BarChart } from '@mantine/charts'; 
 import "./ProductReviews.css";
-import ComparisonBanks from "./ComparisonBanks";
+import ComparisonBanks from "./components/ComparisonBanks";
 
 function ProductReviews() {
   const [filter, setFilter] = useState("");

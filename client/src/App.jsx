@@ -1,7 +1,7 @@
 import React, { useState, useEffect  } from 'react'
 import './App.css'
 import { AppShell } from '@mantine/core';
-import { NavbarMinimal } from './navbar.jsx';
+// import { NavbarMinimal } from './navbar.jsx';
 import Statistics from './statistics';
 import ProductReviews from './ProductReviews';
 import { Burger, Group, Skeleton } from '@mantine/core';

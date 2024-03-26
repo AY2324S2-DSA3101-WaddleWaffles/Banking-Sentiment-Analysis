@@ -88,7 +88,7 @@ export default function TimeSeries() {
     return (
         // will only plot for existent data: if no data for 3rd month, axis will have no 3
         <LineChart
-            h={300}
+            h={160}
             data={finalData}
             dataKey="month"
             // legend placement has some issues
