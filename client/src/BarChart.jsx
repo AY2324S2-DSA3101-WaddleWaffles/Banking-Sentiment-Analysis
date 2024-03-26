@@ -57,7 +57,7 @@ function BarChartComponent() {
                 labelProps: { weight: 100, size: 'lg' }}}
             series={[
                 { name: 'Positive', color: 'green' },
-                { name: 'Neutral', color: 'gray' },
+                { name: 'Neutral', color: 'blue.6' },
                 { name: 'Negative', color: 'red' },
             ]}
             tooltipProps={{

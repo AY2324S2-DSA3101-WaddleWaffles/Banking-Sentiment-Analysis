@@ -4,6 +4,7 @@ import "./statistics.css";
 import BarChartComponent from './BarChart';
 import LineData from './OverallGXS.jsx';
 import TimeSeries from './TimeSeriesAcrossBanks.jsx';
+import ComparisonChart from './ComparisonChart.jsx';
 import GetNumReviews from './NumberOfReviews.jsx';
 
 function Statistics() {
@@ -38,6 +39,13 @@ function Statistics() {
             <TimeSeries />
             <div className = "xAxesLabels"> Month </div>
             <div className = "yAxesLabels"> Average Rating </div>
+          </Container>
+        </div>
+
+        <div className= "grid-item compareBanks">
+          <Container size="100%">
+              <h2>Comparative Analysis of Bank Sentiment </h2>
+              <ComparisonChart/>
           </Container>
         </div>
 
