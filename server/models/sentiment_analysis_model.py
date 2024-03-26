@@ -48,6 +48,3 @@ class SentimentAnalysisModel:
             results.append(result)
 
         return results
-    
-test = SentimentAnalysisModel()
-print(test.get_sentiment("I love you"))
