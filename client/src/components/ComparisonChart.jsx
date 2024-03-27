@@ -22,9 +22,18 @@ function ComparisonChart() {
     // function to process data and calculate sentiment counts for each bank
     const processData = () => {
         const banksSentiments = {};
+        
+        // Calculate total count of reviews for each bank
+        const banksTotalCounts = {};
 
         for (const review of reviewsData) {
             const { bank, sentiment } = review;
+
+            if (!banksTotalCounts[bank]) {
+              banksTotalCounts[bank] = 0;
+            }
+  
+            banksTotalCounts[bank]++;
 
             if (!banksSentiments[bank]) {
                 banksSentiments[bank] = { pos: 0, neu: 0, neg: 0 };
@@ -33,27 +42,35 @@ function ComparisonChart() {
             banksSentiments[bank][sentiment]++;
         }
 
-        // Convert sentiment counts to an array of objects
-        const data = Object.keys(banksSentiments).map(bank => ({
-            bank,
-            Positive: banksSentiments[bank].pos,
-            Neutral: banksSentiments[bank].neu,
-            Negative: banksSentiments[bank].neg
-        }));
+        // Convert sentiment counts to percentages
+      const data = Object.keys(banksSentiments).map(bank => {
+        const totalCount = banksTotalCounts[bank];
+        const { pos, neu, neg } = banksSentiments[bank];
 
-        return data;
+        return {
+            bank,
+            Positive: (pos / totalCount) * 100,
+            Neutral: (neu / totalCount) * 100,
+            Negative: (neg / totalCount) * 100
+        };
+      });
+
+      return data;
     };
 
     const data = processData();
     console.log('Processed data:', data); // Log the processed data
 
     return (
+      <div style={{ height: '300px' }}> {/* Fixed height */}
         <BarChart
-            h={180}
+            h='100%'
             data={data}
             dataKey="bank"
             barProps={{ radius: 10 }}
-            xAxisProps={{ padding: { left: 30, right: 30 } }}
+            xAxisProps={{ padding: { left: 20, right: 20 } }}
+            orientation="horizontal" 
+            unit="%"
             series={[
                 { name: 'Positive', color: 'teal.6' },
                 { name: 'Neutral', color: 'blue.6' },
@@ -63,6 +80,7 @@ function ComparisonChart() {
                 content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
               }}
         />
+    </div>
     );
 }
 

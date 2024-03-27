@@ -46,9 +46,9 @@ function BarChartComponent() {
     console.log('Processed data:', data); // Log the processed data
 
     return (
-      <div style={{ marginRight: '10px' }}>
+      <div style={{ marginRight: '10px', height: "250px",padding: '20px'  }}>
         <BarChart
-            h={150}
+            h='100%'
             // w={550}
             data={data}
             dataKey="topic"
@@ -65,6 +65,7 @@ function BarChartComponent() {
             tooltipProps={{
                 content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
               }}
+            
             
         />
       </div>       
