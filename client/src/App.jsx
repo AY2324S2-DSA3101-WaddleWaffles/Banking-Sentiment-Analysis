@@ -1,7 +1,7 @@
+
 import React, { useState, useEffect  } from 'react'
 import './App.css'
 import { AppShell } from '@mantine/core';
-// import { NavbarMinimal } from './navbar.jsx';
 import Statistics from './statistics';
 import ProductReviews from './ProductReviews';
 import { Burger, Group, Skeleton } from '@mantine/core';
@@ -44,6 +44,7 @@ function App() {
       header={{ height: 50}} 
       // navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding="md"
+      style={{ height: '100vh' }}
     >
       <AppShell.Header>
         {/* <Group h="100%" px="md"> */}
@@ -52,7 +53,7 @@ function App() {
         {/* </Group> */}
       </AppShell.Header>
 
-      <AppShell.Main style={{ width: '100%', height: "100%"}}>
+      <AppShell.Main style={{ width: '100%', height: 'calc(100vh - 50px)' }}>
         {activeHeaderTab === 'Statistics' && <Statistics />}
         {activeHeaderTab === 'Product Reviews' && <ProductReviews/>}
       </AppShell.Main>
