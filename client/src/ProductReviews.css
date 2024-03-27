@@ -1,6 +1,58 @@
-.columns {
+  .grid-container-pd {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    grid-template-rows: repeat(8, auto);
+    grid-gap: 7px;
+    grid-template-areas: 
+    "original	original	original	original	original	comparison	comparison	comparison	comparison	comparison"
+    "original	original	original	original	original	comparison	comparison	comparison	comparison	comparison"
+    "original	original	original	original	original	comparison	comparison	comparison	comparison	comparison"
+    "original	original	original	original	original	comparison	comparison	comparison	comparison	comparison"
+    "original	original	original	original	original	wordcloud	wordcloud	wordcloud	wordcloud	wordcloud"
+    "suggestion	suggestion	suggestion	suggestion	suggestion	wordcloud	wordcloud	wordcloud	wordcloud	wordcloud"
+    "suggestion	suggestion	suggestion	suggestion	suggestion	wordcloud	wordcloud	wordcloud	wordcloud	wordcloud"
+    "suggestion	suggestion	suggestion	suggestion	suggestion	wordcloud	wordcloud	wordcloud	wordcloud	wordcloud";
+  
+    size: 100%;
+  }
+  
+  .grid-item {
+    padding: 0;
     border: 2px solid black;
     border-radius: 10px; /* Adjust the border radius as needed */
-    padding-bottom: 20px;
-    margin: 6px
+    margin: 0;
+    margin-bottom: 0; /* Adjust the bottom margin as needed */
   }
+  
+  .original {
+    grid-area: original;
+    font-size: 10px;
+  }
+  
+  .suggestion {
+    grid-area: suggestion;
+  }
+  
+  .comparison{
+    grid-area: comparison;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .wordcloud {
+    grid-area: wordcloud;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      grid-template-areas:
+        "original"
+        "comparison"
+        "wordcloud"
+        "suggestion";
+    }
+  }
+  

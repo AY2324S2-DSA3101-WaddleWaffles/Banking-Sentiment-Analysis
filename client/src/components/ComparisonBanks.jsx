@@ -12,7 +12,7 @@ export default function ComparisonBanks() {
 
     return (
         <BarChart 
-            h = {300}
+            h = {200}
             data={testData}
             dataKey="bank"
             type="percent"

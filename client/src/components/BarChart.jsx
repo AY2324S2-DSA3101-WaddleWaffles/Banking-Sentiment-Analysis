@@ -46,9 +46,10 @@ function BarChartComponent() {
     console.log('Processed data:', data); // Log the processed data
 
     return (
+      <div style={{ marginRight: '10px' }}>
         <BarChart
             h={150}
-            w={550}
+            // w={550}
             data={data}
             dataKey="topic"
             type="stacked"
@@ -66,7 +67,7 @@ function BarChartComponent() {
               }}
             
         />
-            
+      </div>       
     )
 }
 
