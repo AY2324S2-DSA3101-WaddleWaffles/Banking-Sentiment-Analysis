@@ -11,11 +11,7 @@ export default function ProductReviews() {
     <Container size="100%" className="grid-container-pd">
       
       <div className ="grid-item original"> <OriginalComments/> </div>
-      
-      <div className="grid-item comparison"> 
-        <h2>Comparison with Other Banks</h2>
-        <ComparisonBanks/>
-      </div>
+  
       
       <div className="grid-item suggestion">
         <h2> Suggested Solution </h2>
@@ -23,7 +19,7 @@ export default function ProductReviews() {
       </div>
       
       <div className="grid-item wordcloud"> 
-        <WordCloud />
+        <WordCloud size="10px"/>
       </div> 
     </Container>
   );

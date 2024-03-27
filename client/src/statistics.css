@@ -4,7 +4,9 @@ h2 {
 }
 
 .heading-reviews {
-  font-size: 20px;
+  font-size: 45px;
+  margin: 0; /* Remove any default margins */
+  padding: 0; /* Remove any default padding */
   /* text-align: center; */
 }
 
@@ -58,6 +60,7 @@ h2 {
     "bar2	bar2	bar2	bar2	bar2	stars	stars	stars	stars	stars";
 
   size: 100%;
+  height: 100%;
 }
 
 .grid-item {

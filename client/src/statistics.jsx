@@ -20,7 +20,7 @@ function Statistics() {
 
         <div className="grid-item timeseries">
           <Container size="100%">
-            <h2 className="plotHeading-percentage"> Percentage of Reviews by Sentiment </h2>
+            <h2 className="plotHeading-percentage" style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px' }}> Percentage of Reviews by Sentiment </h2>
             <h3 className="heading-percentage"> GXS Bank </h3>
             <LineData />
           </Container>
@@ -28,20 +28,20 @@ function Statistics() {
 
         <div className="grid-item bar1">
           <Container size="100%">
-              <h2>Comparative Analysis of Bank Sentiment </h2>
+              <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px' }}>Comparative Analysis of Bank Sentiment Distribution </h2>
               <ComparisonChart/>
           </Container>
         </div>
         
 
         <div className="grid-item bar2">
-          <h2>Sentiment by topic </h2>
+          <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px' }}>Sentiment by Topic</h2>
           <BarChartComponent/>
         </div>
 
         <div className="grid-item stars">
           <Container size="100%">
-            <h2>Time-series graph comparing different banks </h2>
+            <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px' }}>Time-series graph comparing different banks </h2>
             <TimeSeries />
             <div className = "xAxesLabels"> Month </div>
             <div className = "yAxesLabels"> Average Rating </div>

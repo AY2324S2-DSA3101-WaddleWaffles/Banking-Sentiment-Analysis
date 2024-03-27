@@ -1,7 +1,10 @@
 import ReactWordcloud from "react-wordcloud"; // npm install react-wordcloud
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
-import stopwords from './stopwords.txt';
+
+const stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your',
+'but', 'the', 'and', 'with', 'is', 'it\'s', 'to', 'was', 'of', 'a', 'their', 'has', 'not', 'had',]
+
 
 export default function WordCloud(){
     const [reviewsData, setReviews] = useState([]);
@@ -20,7 +23,6 @@ export default function WordCloud(){
           // Handle error, e.g., display error message to user
         });
     }, []);
-    
 
     // Prepare data for word cloud with stop words removed
     const wordCloudData = reviewsData.reduce((accumulator, review) => {
@@ -56,7 +58,7 @@ export default function WordCloud(){
     // CSS style for the container holding the word cloud
     const containerStyle = {
       width: "100%", // Set the width of the container
-      height: "100px", // Set the height of the container
+      height: "100%", // Set the height of the container
     };
 
   // Render the WordCloud component with wordCloudData, wordCloudOptions, and custom container style

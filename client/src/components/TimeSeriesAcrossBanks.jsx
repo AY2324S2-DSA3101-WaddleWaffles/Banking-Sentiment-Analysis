@@ -87,8 +87,9 @@ export default function TimeSeries() {
 
     return (
         // will only plot for existent data: if no data for 3rd month, axis will have no 3
+        <div style={{ marginRight: '10px', height: "220px" }}>  
         <LineChart
-            h={160}
+            h='100%'
             data={finalData}
             dataKey="month"
             // legend placement has some issues
@@ -104,5 +105,6 @@ export default function TimeSeries() {
                 content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
               }}
         />
+      </div>
     );
 }
