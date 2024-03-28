@@ -2,7 +2,7 @@
 Pipeline checks which data to scrape, scrapes data and saves relevant data.
 """
 from play_store_scraper_facillitator import PlayStoreScraperFacillitator
-from server.database.play_store_textpreprocess import preprocess_playstore_data
+from play_store_textpreprocess import preprocess_playstore_data
 from app_store_scraper_facillitator import AppScraperFacillitator
 from app_store_textpreprocess import preprocess_appstore_data
 

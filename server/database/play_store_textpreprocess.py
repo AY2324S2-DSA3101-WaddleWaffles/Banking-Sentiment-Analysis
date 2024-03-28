@@ -17,7 +17,7 @@ def preprocess_playstore_data(df):
     Return:
         pd.Dataframe of the preprocessed text containing date,review,rating,title,bank as columns.
     """
-    df = df.drop(["userImage", "Unnamed: 0", "userName", "repliedAt", "replyContent", "thumbsUpCount", "reviewId", "appVersion", "reviewCreatedVersion"], axis = 1)
+    df = df.drop(["userImage", "userName", "repliedAt", "replyContent", "thumbsUpCount", "reviewId", "appVersion", "reviewCreatedVersion"], axis = 1)
     df.rename(columns= {"content" : "review", "score":"rating", "at": "date"}, inplace=True)
     df["title"] = ""
     df.dropna(subset=['review'], inplace=True) # Drops empty reviews

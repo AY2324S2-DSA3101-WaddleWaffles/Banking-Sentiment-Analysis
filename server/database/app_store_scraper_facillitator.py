@@ -29,7 +29,6 @@ class AppScraperFacillitator:
             apps (dictionary): Dictionary of bank names to apps
             app_ids (dictoinary): Dictionary of bank names to app_id
         """
-        self.scraped_data = []
         self.bank_names = ['gxs', 'dbs', 'ocbc', 'uob','trust','maribank']
         self.apps = {'gxs': 'gxs-bank','dbs': 'dbs-digibank', 'ocbc': 'ocbc-digital-mobile-banking','uob': 'uob-tmrw','trust': 'trust-bank-sg','maribank': 'maribank'}
         self.app_ids = {'gxs': '1632183616', 'dbs': '1068403826', 'ocbc': '292506828', 'uob' : '1049286296', 'trust':'1598460384', 'maribank':'1658919834'}
@@ -46,15 +45,16 @@ class AppScraperFacillitator:
             datetime: Current datetime
         """
 
-        reviews = []
+        scraped_reviews = []
         banks_in_review = []
         for bank in self.bank_names:
             result = AppStore(country = 'sg', app_name = self.apps[bank], app_id = self.app_ids[bank], after = datetime_scrape)
-            reviews.append(result)
+            
             for i in result:
                 banks_in_review.append(bank)
+                scraped_reviews.append(i)
 
-        pd_reviews = pd.DataFrame(np.array(result), columns = ['review'])
+        pd_reviews = pd.DataFrame(np.array(scraped_reviews), columns = ['review'])
 
         pd_reviews = pd_reviews.join(pd.DataFrame(pd_reviews.pop('review').tolist()))
 

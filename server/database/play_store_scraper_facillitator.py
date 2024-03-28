@@ -27,7 +27,6 @@ class PlayStoreScraperFacillitator:
             apps (dictionary): Dictionary of bank names to apps
         """
 
-        self.scraped_data = []
         self.bank_names = ['gxs', 'dbs', 'ocbc', 'uob','trust','maribank']
         self.apps = {'gxs': 'sg.com.gxs.app','dbs': 'com.dbs.sg.dbsmbanking', 'ocbc': 'com.ocbc.mobile','uob': 'com.uob.mighty.app','trust': 'sg.trust','maribank': 'sg.com.maribankmobile.digitalbank'}
 
@@ -36,13 +35,13 @@ class PlayStoreScraperFacillitator:
         Scrapes reviews for multiple banks' apps and adds the bank name to each review.
 
         Args:
-            continuation_token (token, optional): Token allowing the scraper to skip past scraped data.
+            continuation_token (dictionary): Dictionary of banks to tokens allowing the scraper to skip past scraped data.
 
         Returns:
             pd.DataFrame: A DataFrame containing the scraped dataset with columns for reviews and bank names.
             dict: A dictionary mapping bank names to continuation tokens.
         """
-        reviews = []
+        scraped_reviews = []
         banks_in_review = []
         for bank in self.bank_names:
             result, continuation_token = reviews(
@@ -51,14 +50,15 @@ class PlayStoreScraperFacillitator:
                 country = 'us',
                 sort = Sort.NEWEST,
                 count = 5000,
-                continuation_token = tokens
+                continuation_token = tokens[bank]
             )
             tokens[bank] = continuation_token
-            reviews.append(result)
+
             for i in result:
                 banks_in_review.append(bank)
+                scraped_reviews.append(i)
 
-        pd_reviews = pd.DataFrame(np.array(result), columns = ['review'])
+        pd_reviews = pd.DataFrame(np.array(scraped_reviews), columns = ['review'])
 
         pd_reviews = pd_reviews.join(pd.DataFrame(pd_reviews.pop('review').tolist()))
 
@@ -181,4 +181,4 @@ class PlayStoreScraperFacillitator:
 #     pd_maribank_reviews["bank"] = "maribank"
 
 #     return pd_maribank_reviews
-#     # Was empty, still included since we did it for apple
+
