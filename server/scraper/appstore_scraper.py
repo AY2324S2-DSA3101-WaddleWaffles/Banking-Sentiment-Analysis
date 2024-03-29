@@ -16,20 +16,17 @@ class AppScraper:
     A class for scraping the Apple store for reviews
 
     Attr:
-        bank_names (list): List of all bank names
         apps (dictionary): Dictionary of bank names to apps
         app_ids (dictoinary): Dictionary of bank names to app_id
     """
 
-    def __init__(self, bank_names, apps, app_ids):
+    def __init__(self, apps, app_ids):
         """
-        Initialise the Facillitator object
+        Initialise the Scraper object
         Args:
-            bank_names (list): List of all bank names
             apps (dictionary): Dictionary of bank names to apps
             app_ids (dictoinary): Dictionary of bank names to app_id
         """
-        self.bank_names = bank_names
         self.apps = apps
         self.app_ids = app_ids
         
@@ -47,7 +44,7 @@ class AppScraper:
 
         scraped_reviews = []
         banks_in_review = []
-        for bank in self.bank_names:
+        for bank in self.apps.keys():
             result = AppStore(country = 'sg', app_name = self.apps[bank], app_id = self.app_ids[bank], after = datetime_scrape)
             
             for i in result:

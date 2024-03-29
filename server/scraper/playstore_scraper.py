@@ -14,20 +14,18 @@ class PlayStoreScraper:
     A class for scraping the google play store for reviews
 
     Attr:
-        bank_names (list): List of all bank names
         apps (dictionary): Dictionary of bank names to apps
     """
 
-    def __init__(self, bank_names, apps):
+    def __init__(self, apps):
         """
         Initialise playstore Scraper object
+
         Args:
-            bank_names (list): List of all bank names
             apps (dictionary): Dictionary of bank names to apps
         """
 
-        self.bank_names = ['gxs', 'dbs', 'ocbc', 'uob','trust','maribank']
-        self.apps = {'gxs': 'sg.com.gxs.app','dbs': 'com.dbs.sg.dbsmbanking', 'ocbc': 'com.ocbc.mobile','uob': 'com.uob.mighty.app','trust': 'sg.trust','maribank': 'sg.com.maribankmobile.digitalbank'}
+        self.apps = {}
 
     def scrape_banks(self, tokens):
         """
@@ -43,7 +41,7 @@ class PlayStoreScraper:
         scraped_reviews = []
         banks_in_review = []
         new_tokens = {}
-        for bank in self.bank_names:
+        for bank in self.apps.keys:
             result, continuation_token = reviews(
                 self.apps[bank],
                 lang = 'en',
