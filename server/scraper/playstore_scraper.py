@@ -1,13 +1,14 @@
 """
 Scrapes data from the google plays store
 If given a parameter, continuation token, should only scrape data from that review onwards
+Quota is 200,000 queries per day
 """
+
 import pandas as pd
 import numpy as np
 import json
 from google_play_scraper import reviews, Sort, app
 
-# Quota is 200,000 queries per day
 
 class PlayStoreScraper:
     """
