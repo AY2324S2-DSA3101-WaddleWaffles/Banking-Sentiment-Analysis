@@ -41,7 +41,7 @@ class PlayStoreScraper:
         scraped_reviews = []
         banks_in_review = []
         new_tokens = {}
-        for bank in self.apps.keys:
+        for bank in self.apps.keys():
             result, continuation_token = reviews(
                 self.apps[bank],
                 lang = 'en',

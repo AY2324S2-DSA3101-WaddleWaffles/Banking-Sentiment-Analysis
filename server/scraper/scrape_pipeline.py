@@ -30,7 +30,7 @@ class ScrapePipeline:
             username (str): MongoDB username.
             password (str): MongoDB password.
         """
-
+        
         database = DataManager(username, password)
         self.playstore_apps = database.retrieve_miscellaneous("playstore", "apps")
         self.playstore_tokens = database.retrieve_miscellaneous("playstore", "tokens")
