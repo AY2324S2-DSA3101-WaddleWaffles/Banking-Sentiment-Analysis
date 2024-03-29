@@ -11,7 +11,7 @@ from app_store_scraper import AppStore
 
 ## Request limit should be around 3500 requests per hour. If no datetime will not have enough requests to scrape.
 
-class AppScraperFacillitator:
+class AppScraper:
     """
     A class for scraping the Apple store for reviews
 

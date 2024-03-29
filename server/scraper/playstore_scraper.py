@@ -2,7 +2,6 @@
 Scrapes data from the google plays store
 If given a parameter, continuation token, should only scrape data from that review onwards
 """
-
 import pandas as pd
 import numpy as np
 import json
@@ -10,7 +9,7 @@ from google_play_scraper import reviews, Sort, app
 
 # Quota is 200,000 queries per day
 
-class PlayStoreScraperFacillitator:
+class PlayStoreScraper:
     """
     A class for scraping the google play store for reviews
 
@@ -21,7 +20,7 @@ class PlayStoreScraperFacillitator:
 
     def __init__(self, bank_names, apps):
         """
-        Initialise playstore Facillitator object
+        Initialise playstore Scraper object
         Args:
             bank_names (list): List of all bank names
             apps (dictionary): Dictionary of bank names to apps
