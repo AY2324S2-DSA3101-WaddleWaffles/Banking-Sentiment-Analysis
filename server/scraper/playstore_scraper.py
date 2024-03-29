@@ -43,6 +43,7 @@ class PlayStoreScraperFacillitator:
         """
         scraped_reviews = []
         banks_in_review = []
+        new_tokens = {}
         for bank in self.bank_names:
             result, continuation_token = reviews(
                 self.apps[bank],
@@ -52,7 +53,7 @@ class PlayStoreScraperFacillitator:
                 count = 5000,
                 continuation_token = tokens[bank]
             )
-            tokens[bank] = continuation_token
+            new_tokens[bank] = continuation_token
 
             for i in result:
                 banks_in_review.append(bank)
@@ -64,4 +65,4 @@ class PlayStoreScraperFacillitator:
 
         pd_reviews["bank"] = banks_in_review
 
-        return pd_reviews, tokens
+        return pd_reviews, new_tokens
