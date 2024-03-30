@@ -91,21 +91,4 @@ data.forEach(obj => {
     }
   });
 
-// console.log(data);
-
-function parseToInteger(input) {
-    const floatVal = parseFloat(input);
-    const integerVal = parseInt(floatVal);
-  
-    if (floatVal === integerVal) {
-      return integerVal;
-    } else {
-      return floatVal;
-    }
-  }
-  
-  // Test cases
-  console.log(parseToInteger('2.2')); // Output: 2.2
-  console.log(parseToInteger('2.0')); // Output: 2.0
-  console.log(parseToInteger('2.5')); // Output: 2.5
-  console.log(parseToInteger('3'));   // Output: 3
+console.log(data);
