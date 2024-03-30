@@ -5,12 +5,17 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: hsl(0, 56%, 73%);
+  background-color: #638affaa;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.fullscreen {
+  background-color: #638affaa;
+  overflow: auto;
 }
 
 a {

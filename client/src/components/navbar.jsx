@@ -17,8 +17,9 @@ function NavbarLink({ icon: Icon, label, active, onClick }) {
 }
 
 const labels = [
-  { icon: IconLayoutDashboard, label: 'Statistics' },
-  { icon: IconReport, label: 'Product Reviews' },
+  { icon: IconLayoutDashboard, label: 'Overview' },
+  { icon: IconReport, label: 'Comparison' },
+  { icon: IconReport, label: 'NewProductReviews' },
 ];
 
 export function NavbarMinimal({setActiveHeaderTab, activeHeaderTab, onExitClick}) {
