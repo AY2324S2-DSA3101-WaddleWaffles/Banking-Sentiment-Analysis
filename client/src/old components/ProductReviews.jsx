@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Container, Grid, Select } from "@mantine/core";
 import "./ProductReviews.css";
-import ComparisonBanks from "./components/ComparisonBanks";
+import ComparisonBanks from "../components/ComparisonBanks.jsx";
 import WordCloud from "./components/WordCloud.jsx"
-import OriginalComments from "./components/OriginalComments.jsx";
+import OriginalComments from "../components/OriginalComments.jsx";
 
 export default function ProductReviews() {
 
