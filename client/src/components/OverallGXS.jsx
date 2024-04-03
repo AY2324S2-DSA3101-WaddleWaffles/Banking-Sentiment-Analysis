@@ -7,7 +7,7 @@ import { Paper, Text } from '@mantine/core';
 
 // need data with percentages for each sentiment, according to date/month
 
-export default function LineData() {
+export default function OverallGXSBySentiment() {
     const [reviewsData, setReviews] = useState([]);
 
     useEffect(() => {

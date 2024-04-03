@@ -39,7 +39,7 @@ export default function RefreshDatabase() {
     return (
         <div>
             <Button variant="filled" onClick={handleClick}>
-                Update
+                Refresh
             </Button>
             {lastUpdated && (
                 <p>
