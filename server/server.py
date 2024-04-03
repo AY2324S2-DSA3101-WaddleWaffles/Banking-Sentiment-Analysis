@@ -223,6 +223,9 @@ def get_month_specific_sentiment():
         total_count = sum(sentiments[month].values())
         sentiments[month] = {month: round(amount / total_count, 3) for month, amount in sentiments[month].items()}
 
+    for month_val in range(1, 13):
+        month = calendar.month_name[month_val]
+        sentiments[month] = sentiments.get(month, {"Positive": 0, "Neutral": 0, "Negative": 0})
     sentiments["bank"] = bank
     return jsonify(sentiments)
 
