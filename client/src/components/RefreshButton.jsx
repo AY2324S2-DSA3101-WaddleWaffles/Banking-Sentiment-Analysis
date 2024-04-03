@@ -7,7 +7,7 @@ export default function RefreshDatabase() {
     const handleClick = async () => {
         try {
             // make API call to refresh database
-            const response = await fetch('http://127.0.0.1:5001/api/reviews', {
+            const response = await fetch('http://127.0.0.1:5001/reviews', {
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',
