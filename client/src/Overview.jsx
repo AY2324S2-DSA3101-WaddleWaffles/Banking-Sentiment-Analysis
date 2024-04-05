@@ -11,7 +11,7 @@ import DonutChartComponent from "./components/DonutChart";
 
 //import PickDateRange from "./components/DateFilter";
 
-export default function Overview() {
+export default function Overview({ selectedDateRange }) {
 
   return (
     <Container size="100%">
@@ -19,7 +19,7 @@ export default function Overview() {
             <GetNumReviews /> reviews
         </div>
         <div> 
-            <OverallGXSBySentiment />
+            <OverallGXSBySentiment selectedDateRange={selectedDateRange}/>
         </div>
 
         <div> 
