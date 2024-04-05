@@ -92,29 +92,44 @@ const apiData = [{"bank":"GXS","day":15,"id":1,"month":5,"rating":5,"review":"I 
 //   });
 
 // console.log(data);
-
-const donutData = [
-    {
-      "color": "teal.6",
-      "name": "Positive",
-      "value": 0.5
+const data = {
+    "DBS": {
+      "01-2024": 5,
+      "02-2024": 2,
+      "03-2024": 2,
+      "total": 3
     },
-    {
-      "color": "yellow.6",
-      "name": "Neutral",
-      "value": 0.5
+    "GXS": {
+      "02-2024": 3,
+      "03-2024": 5,
+      "total": 4
     },
-    {
-      "color": "red.6",
-      "name": "Negative",
-      "value": 0
+    "MariBank": {
+      "01-2024": 3,
+      "02-2024": 5,
+      "03-2024": 3,
+      "total": 3.667
+    },
+    "OCBC": {
+      "01-2024": 5,
+      "02-2024": 2,
+      "03-2024": 5,
+      "total": 4
+    },
+    "Trust": {
+      "01-2024": 2,
+      "02-2024": 5,
+      "03-2024": 2,
+      "total": 3
+    },
+    "UOB": {
+      "01-2024": 2,
+      "02-2024": 5,
+      "03-2024": 5,
+      "total": 4
     }
-  ]
+}
 
-const transformedData = donutData.map(item => ({
-    name: item.name,
-    value: item.value,
-    color: item.color
-}));
-
-console.log(transformedData)
+// process data to get overall average rating for GXS only
+const averageGXS = data.GXS.total.toFixed(1);
+console.log(averageGXS);

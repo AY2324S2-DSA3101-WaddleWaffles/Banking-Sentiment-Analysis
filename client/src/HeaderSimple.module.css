@@ -40,17 +40,10 @@
       }
     }
   
-  /* the content in the button */
-  .linkContent {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Adjust the gap as needed */
-    font-size: 10px
-  }
 
   /* the container containing heading of the header */
   .h2{
     margin-right: 20px; /* Adjust as needed */
     margin-left: 5px;
-    font-size: 10px;
+    font-size: 15px;
   }

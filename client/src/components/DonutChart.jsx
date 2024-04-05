@@ -11,7 +11,11 @@ export default function DonutChartComponent(){
         // fetch data from API endpoint for the values
         axios.get('http://127.0.0.1:5001/reviews/donut-chart-data')
             .then(response => {
+<<<<<<< HEAD
                 //console.log('Donut Retrieved data:', response.data);
+=======
+                console.log('Donut Retrieved data:', response.data);
+>>>>>>> 2be0b9cdedc02e9d16044f6ab6e89b083844979c
                 setReviews(response.data); // Update reviewsData state
             })
             .catch(error => {
@@ -22,7 +26,11 @@ export default function DonutChartComponent(){
         // fetch data for overall average rating for last n months
         axios.get('http://127.0.0.1:5001/reviews/average-rating')
             .then(response => {
+<<<<<<< HEAD
                 //console.log('Retrieved label data:', response.data);
+=======
+                console.log('Retrieved label data:', response.data);
+>>>>>>> 2be0b9cdedc02e9d16044f6ab6e89b083844979c
                 // Set averageGXS state here
                 setAverageGXS(response.data.GXS.total.toFixed(1));
             })
@@ -38,6 +46,7 @@ export default function DonutChartComponent(){
         value: parseFloat((item.value * 100).toFixed(2)),
         color: item.color
     }));
+<<<<<<< HEAD
     //console.log('Donut transformed data:', transformedData);
 
     return (
@@ -46,6 +55,16 @@ export default function DonutChartComponent(){
             <GetDonutLabel averageGXS={averageGXS} />
             <DonutChart 
                 h="90%"
+=======
+    console.log('Donut transformed data:', transformedData);
+
+    return (
+        <div style={{ marginLeft: '-600px', height: "250px" ,marginTop: "-200px"}}>
+            {/* Pass averageGXS as a prop to GetDonutLabel */}
+            <GetDonutLabel averageGXS={averageGXS} />
+            <DonutChart 
+                h="100%"
+>>>>>>> 2be0b9cdedc02e9d16044f6ab6e89b083844979c
                 data={transformedData}
                 mx="auto"
                 withTooltip={false}
@@ -53,4 +72,8 @@ export default function DonutChartComponent(){
             />
         </div>
     );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 2be0b9cdedc02e9d16044f6ab6e89b083844979c
