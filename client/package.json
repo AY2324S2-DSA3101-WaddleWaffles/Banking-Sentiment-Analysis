@@ -20,8 +20,6 @@
     "d3-cloud": "^1.2.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-styled-grid-layout": "^1.0.2",
-    "react-wordcloud": "^1.2.7",
     "recharts": "^2.12.3"
   },
   "devDependencies": {
