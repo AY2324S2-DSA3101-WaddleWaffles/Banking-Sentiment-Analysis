@@ -137,29 +137,32 @@ export default function OverallGXSBySentiment({ selectedDateRange }) {
     const maxValue = Math.max(...sortedData.map(item => Math.max(item.Positive, item.Neutral, item.Negative)));
 
     // Define domain for y-axis
-    const yAxisDomain = [0, maxValue];
+    const yAxisDomain = [0, maxValue] ;
 
     return (
-        <div style={{ marginLeft: '-30px', height: "250px" }}>
-            <LineChart
-                h="90%"
-                data={sortedData}
-                dataKey='month'
-                series={[
-                    { name: 'Positive', color: 'teal' },
-                    { name: 'Neutral', color: 'yellow.6' },
-                    { name: 'Negative', color: 'red.6' },
-                ]}
-                tooltipProps={{
-                    content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
-                }}
-                xAxisProps={{
-                    tickRotation: -90 // Rotate x-axis labels
-                }}
-                yAxisProps={{
-                    domain: yAxisDomain
-                }}
-            />
+        <div style={{ marginLeft: '650px', height: "250px", marginTop: "120px"  }}>
+          <LineChart
+              h="90%"
+              w={600}
+              data={sortedData}
+              dataKey='month'
+              series={[
+                  {name: 'Positive', color: 'teal'},
+                  {name: 'Neutral', color: 'yellow.6'},
+                  {name: 'Negative', color: 'red.6'},
+              ]} 
+              tooltipProps={{
+                  content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
+              }}
+              xAxisProps={{
+                tickRotation: -90 // NOT WORKING
+              }}
+              yAxisProps={{
+                domain: yAxisDomain
+              }}
+              
+          />
+
         </div>
     );
 }

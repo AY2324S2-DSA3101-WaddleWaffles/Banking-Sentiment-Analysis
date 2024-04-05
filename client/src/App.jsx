@@ -2,8 +2,8 @@
 import React, { useState, useEffect  } from 'react'
 import './App.css'
 import { AppShell } from '@mantine/core';
-import Overview from './Overview'; 
-import NewProductReviews from './NewProductReviews'; 
+import Overview from './Overview';
+import NewProductReviews from './NewProductReviews';
 import Comparison from './Comparison.jsx';
 import { Burger, Group, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -11,12 +11,9 @@ import { HeaderSimple } from './HeaderSimple.jsx';
 import NavbarTooltip from './components/NavbarTooltip.jsx'
 import { addDays } from 'date-fns'
 
-
-
-
 function App() {
   //const [activeTab, setActiveTab] = useState(0); // Set the default tab to 'Overview'
-  const [activeHeaderTab, setActiveHeaderTab] = useState('Overview'); //change this to 'Overview' when Overview is done!
+  const [activeHeaderTab, setActiveHeaderTab] = useState('Overview'); //change this to 'Overview' when Overview is done! 
   const [opened, { toggle }] = useDisclosure();
   const handleExit = () => {
     if (window.confirm('Are you sure you want to exit?')) {
