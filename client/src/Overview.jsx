@@ -15,22 +15,25 @@ export default function Overview({ selectedDateRange }) {
 
   return (
     <Container size="100%">
-        <div>
+        <div style = {{ marginLeft: '1000px', height: "250px" ,marginTop: "10px"}}>
             <RefreshDatabase />
-        </div>
-        <div> 
-            <GetNumReviews /> reviews
-        </div>
-
-        <div> 
-            <OverallGXSBySentiment selectedDateRange={selectedDateRange}/>
         </div>
 
         <div> 
             <DonutChartComponent />
         </div>
 
-        <div>
+        <div style = {{ marginLeft: '500px', height: "250px" ,marginTop: "-250px"}}> 
+            <GetNumReviews /> reviews 
+        </div> 
+
+        <div> 
+            <OverallGXSBySentiment selectedDateRange={selectedDateRange}/>
+        </div>
+
+
+
+        <div >
             <SentimentByTopic />
         </div>
 
