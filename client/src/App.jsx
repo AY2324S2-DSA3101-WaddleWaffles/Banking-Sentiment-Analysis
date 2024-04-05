@@ -8,7 +8,9 @@ import Comparison from './Comparison.jsx';
 import { Burger, Group, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { HeaderSimple } from './HeaderSimple.jsx';
-import { NavbarMinimal } from './components/navbar.jsx';
+import NavbarTooltip from './components/NavbarTooltip.jsx'
+import { addDays } from 'date-fns'
+
 function App() {
   //const [activeTab, setActiveTab] = useState(0); // Set the default tab to 'Overview'
   const [activeHeaderTab, setActiveHeaderTab] = useState('Overview'); //change this to 'Overview' when Overview is done! 
@@ -36,31 +38,40 @@ function App() {
     localStorage.setItem('activeHeaderTab', activeHeaderTab);
   }, [activeHeaderTab]);
 
+  //Set state for Date Filter across all pages
+  const [selectedDateRange, setSelectedDateRange] = useState({
+    startDate: addDays(new Date(), -90),
+    endDate: new Date(),
+    key: 'selection'
+  });
 
+  const handleDateRangeChange = (dateRange) => {
+    setSelectedDateRange(dateRange);
+  };
 
   return (
     <AppShell
+      // controls the actual height of them
       header={{ height: 60}} 
-      navbar={{ width: 180, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+      navbar={{ width: 70, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding="md"
     >
       <AppShell.Header>
         <Group h="100%" px="md">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            <HeaderSimple setActiveHeaderTab={setActiveHeaderTab} activeHeaderTab={activeHeaderTab} onExitClick={handleExit} />
+            {/* HeaderSimple will have a component inside which will change date range. handleDateRangeChange will update to the new DateRange */}
+            <HeaderSimple onDateRangeChange={handleDateRangeChange}  />
         </Group>
       </AppShell.Header>
 
       <AppShell.Navbar style={{ backgroundColor: '#F8F8FF'}} >
-        <h1 style={{ fontSize: "16px" }}>
-          Navigation bar
-        </h1>
-        <NavbarMinimal setActiveHeaderTab={setActiveHeaderTab} activeHeaderTab={activeHeaderTab} onExitClick={handleExit} />
+        <NavbarTooltip setActiveHeaderTab={setActiveHeaderTab} activeHeaderTab={activeHeaderTab} onExitClick={handleExit} />
       </AppShell.Navbar>
 
-      <AppShell.Main style={{ width: '100%', maxWidth: '100vw' }}>
-        {activeHeaderTab === 'Overview' && <Overview/>}
-        {activeHeaderTab === 'NewProductReviews' && <NewProductReviews/>}
+      <AppShell.Main style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+
+        {activeHeaderTab === 'Overview' && <Overview selectedDateRange={selectedDateRange}/>}
+        {activeHeaderTab === 'Product Reviews' && <NewProductReviews/>}
         {activeHeaderTab === 'Comparison' && <Comparison/>}
       </AppShell.Main>
     </AppShell>
