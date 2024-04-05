@@ -1,14 +1,8 @@
-import { useState } from 'react';
 import { Container, Group, Burger, UnstyledButton, rem } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderSimple.module.css';
-import {  IconLayoutDashboard,IconReport, IconLogout } from '@tabler/icons-react';
 import gxslogo from './assets/gxs-bank-logo.png';
+import DateFilter from './components/DateFilter.jsx';
 
-const labels = [
-  { icon: IconLayoutDashboard, label: 'Statistics' },
-  { icon: IconReport, label: 'Product Reviews' },
-];
 
 function TabLink({ icon: Icon, label, active, onClick }) {
   return (
@@ -23,17 +17,8 @@ function TabLink({ icon: Icon, label, active, onClick }) {
   );
 }
 
-export function HeaderSimple({ setActiveHeaderTab, activeHeaderTab, onExitClick }) {
-  const [opened, { toggle }] = useDisclosure(false);
+export function HeaderSimple({ onDateRangeChange  }) {
 
-  const links = labels.map((link, index) => (
-    <TabLink
-      {...link}
-      key={link.label}
-      active={index === activeHeaderTab}
-      onClick={() => setActiveHeaderTab(link.label)}
-    />
-  ));
 
   return (
     <div className={classes.header}>
@@ -52,11 +37,8 @@ export function HeaderSimple({ setActiveHeaderTab, activeHeaderTab, onExitClick 
         </Container>
 
         {/* for the tabs */}
-        <div className={classes.linkContent}>
-          <Group gap={100} visibleFrom="xs">
-            {links}
-          </Group>
-          <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
+        <div>
+            Filter by Date:  <DateFilter onDateRangeChange={onDateRangeChange} />
         </div>
 
       </Container>
