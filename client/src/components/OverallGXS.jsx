@@ -109,7 +109,7 @@ export default function OverallGXSBySentiment() {
               data={sortedData}
               dataKey='month'
               series={[
-                  {name: 'Positive', color: 'teal'},
+                  {name: 'Positive', color: 'teal.6'},
                   {name: 'Neutral', color: 'yellow.6'},
                   {name: 'Negative', color: 'red.6'},
               ]} 
