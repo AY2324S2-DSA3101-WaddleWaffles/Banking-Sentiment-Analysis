@@ -71,47 +71,36 @@ class DataManager:
         """
 
         collection = self.client["reviews"]["responses"]
-        reviews = [doc for doc in collection.find(kwargs, {"_id": 0})]
-        return reviews
-    
-    def retrieve_periodical_reviews(self, start_date=None, end_date=None):
-        """
-        Retrieves reviews from a specified period.
+        if "start_date" not in kwargs and "end_date" not in kwargs:
+            reviews = [doc for doc in collection.find(kwargs, {"_id": 0})]
+            
+        else:
+            today = datetime.now()
+            start_day, start_month, start_year = (map(int, kwargs["start_date"].split("-")) if "start_date" in kwargs and kwargs["start_date"] else (1, 1, 1900))
+            end_day, end_month, end_year = (map(int, kwargs["end_date"].split("-")) if "end_date" in kwargs and kwargs["end_date"] else (today.day, today.month, today.year))
 
-        Args:
-            start_date (str, optional): The start date in "DD-MM-YYYY" format. Defaults to None.
-            end_date (str, optional): The end date in "DD-MM-YYYY" format. Defaults to None.
-
-        Returns:
-            list: A list of retrieved review documents.
-        """
-
-        collection = self.client["reviews"]["responses"]
-        today = datetime.now()
-        start_day, start_month, start_year = (map(int, start_date.split("-")) if start_date else (1, 1, 1900))
-        end_day, end_month, end_year = (map(int, end_date.split("-")) if end_date else (today.day, today.month, today.year))
-
-        query = {
-            "$and": [{
+            query = {
+                "$and": [{
                     "$or": [
                         {"year": {"$gt": start_year}},
                         {"year": start_year, "month": {"$gt": start_month}},
                         {"year": start_year, "month": start_month, "day": {"$gt": start_day}},
                         {"year": start_year, "month": start_month, "day": start_day}
                     ]
-                },
-                {
+                }, {
                     "$or": [
                         {"year": {"$lt": end_year}},
                         {"year": end_year, "month": {"$lt": end_month}},
                         {"year": end_year, "month": end_month, "day": {"$lt": end_day}},
                         {"year": end_year, "month": end_month, "day": end_day}
                     ]
-                }
-            ]
-        }
-
-        reviews = [doc for doc in collection.find(query, {"_id": 0})]
+                }]
+            }
+            for feature, value in kwargs.items():
+                if feature not in ["start_date", "end_date"]:
+                    query["$and"].append({feature: value})
+                
+            reviews = [doc for doc in collection.find(query, {"_id": 0})]
         return reviews
  
     def retrieve_miscellaneous(self, source, type):
@@ -128,6 +117,72 @@ class DataManager:
 
         collection = self.client[f"{source}misc"][type]
         return collection.find_one({}, {"_id": 0})
+
+    def upload_sample_reviews(self, reviews):
+        """
+        Uploads sample reviews to the MongoDB database.
+
+        Args:
+            reviews (list): A list of sample review documents to be uploaded.
+        """
+
+        responses = self.client["sample"]["responses"]
+        responses.insert_many(reviews)
+        return
+
+    def retrieve_sample_banks(self):
+        """
+        Retrieves all banks that exist in the MongoDB database.
+
+        Returns:
+            list: A list of bank names that exist in MongoDB database.
+        """
+        collection = self.client["sample"]["banks"]
+        return collection.find_one()["banks"]
+
+    def retrieve_sample_reviews(self, **kwargs):
+        """
+        Retrieves sample reviews from the MongoDB database based on provided query parameters.
+
+        Keyword Args:
+            **kwargs: Arbitrary keyword arguments representing query parameters.
+
+        Returns:
+            list: A list of retrieved sample review documents.
+        """
+
+        collection = self.client["sample"]["responses"]
+        if "start_date" not in kwargs and "end_date" not in kwargs:
+            reviews = [doc for doc in collection.find(kwargs, {"_id": 0})]
+            
+        else:
+            today = datetime.now()
+            start_day, start_month, start_year = (map(int, kwargs["start_date"].split("-")) if "start_date" in kwargs and kwargs["start_date"] else (1, 1, 1900))
+            end_day, end_month, end_year = (map(int, kwargs["end_date"].split("-")) if "end_date" in kwargs and kwargs["end_date"] else (today.day, today.month, today.year))
+
+            query = {
+                "$and": [{
+                    "$or": [
+                        {"year": {"$gt": start_year}},
+                        {"year": start_year, "month": {"$gt": start_month}},
+                        {"year": start_year, "month": start_month, "day": {"$gt": start_day}},
+                        {"year": start_year, "month": start_month, "day": start_day}
+                    ]
+                }, {
+                    "$or": [
+                        {"year": {"$lt": end_year}},
+                        {"year": end_year, "month": {"$lt": end_month}},
+                        {"year": end_year, "month": end_month, "day": {"$lt": end_day}},
+                        {"year": end_year, "month": end_month, "day": end_day}
+                    ]
+                }]
+            }
+            for feature, value in kwargs.items():
+                if feature not in ["start_date", "end_date"]:
+                    query["$and"].append({feature: value})
+                
+            reviews = [doc for doc in collection.find(query, {"_id": 0})]
+        return reviews
 
     def close_connection(self):
         """Closes the MongoDB client connection."""
