@@ -33,3 +33,9 @@
 .read-the-docs {
   color: #888;
 }
+
+.fullscreen-main {
+  background-color: #638affaa;
+  overflow: auto;
+  overflow-y: auto;
+}

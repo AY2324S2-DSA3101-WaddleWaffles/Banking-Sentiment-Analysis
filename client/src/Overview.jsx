@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Container, Grid, Select } from "@mantine/core";
+import { Container } from "@mantine/core";
+import "./Overview.css";
 
 // IMPORT CHART COMPONENTS
 import TimeSeriesGXS from "./components/AvgRatingsGXS";
@@ -14,30 +15,25 @@ import SentimentByTopic from "./components/BarChart";
 export default function Overview({ selectedDateRange }) {
 
   return (
-    <Container size="100%">
-        <div style = {{ marginLeft: '1000px', height: "250px" ,marginTop: "10px"}}>
-            <RefreshDatabase />
+    <Container size="100%" className="grid-container">
+
+        <div className="grid-item donut"> 
+                <DonutChartComponent />
         </div>
 
-        <div> 
-            <DonutChartComponent />
-        </div>
-
-        <div style = {{ marginLeft: '500px', height: "250px" ,marginTop: "-250px"}}> 
+        <div className="grid-item number" style={{ display: 'flex', justifyContent: 'center' }}> 
             <GetNumReviews /> reviews 
         </div> 
 
-        <div> 
+        <div className="grid-item sentiment"> 
             <OverallGXSBySentiment selectedDateRange={selectedDateRange}/>
         </div>
 
-
-
-        <div >
+        <div className="grid-item topic" >
             <SentimentByTopic />
         </div>
 
-        <div>
+        <div className="grid-item ratings" style={{ display: 'flex', justifyContent: 'center' }}>
             <TimeSeriesGXS />
         </div>
     </Container>

@@ -140,10 +140,10 @@ export default function OverallGXSBySentiment({ selectedDateRange }) {
     const yAxisDomain = [0, maxValue] ;
 
     return (
-        <div style={{ marginLeft: '650px', height: "250px", marginTop: "120px"  }}>
+        // <div style={{ marginLeft: '10px', height: "250px", marginTop: "10px", marginRight:'10px' }}>
           <LineChart
-              h="90%"
-              w={600}
+              h="100%"
+              w="100%"
               data={sortedData}
               dataKey='month'
               series={[
@@ -163,6 +163,6 @@ export default function OverallGXSBySentiment({ selectedDateRange }) {
               
           />
 
-        </div>
+        // {/* </div> */}
     );
 }

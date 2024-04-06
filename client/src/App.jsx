@@ -68,8 +68,8 @@ function App() {
         <NavbarTooltip setActiveHeaderTab={setActiveHeaderTab} activeHeaderTab={activeHeaderTab} onExitClick={handleExit} />
       </AppShell.Navbar>
 
-      <AppShell.Main style={{ width: '100%', height: '100%', overflow: 'auto' }}>
-
+      <AppShell.Main className="fullscreen-main">
+        {/* style={{ width: '100%', height: '100%', overflow: 'auto' }} */}
         {activeHeaderTab === 'Overview' && <Overview selectedDateRange={selectedDateRange}/>}
         {activeHeaderTab === 'Product Reviews' && <NewProductReviews/>}
         {activeHeaderTab === 'Comparison' && <Comparison/>}
