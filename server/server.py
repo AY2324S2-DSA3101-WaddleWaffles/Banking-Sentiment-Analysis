@@ -115,7 +115,7 @@ def get_average_rating(num_months=None):
 
         for rating_period in avg_ratings:
             summed_rating, count = avg_ratings[rating_period]
-            avg_ratings[rating_period] = round(summed_rating / count, 3)
+            avg_ratings[rating_period] = round(summed_rating / count, 3) if count != 0 else None
         
         result["bank"] = bank
         result["average_ratings"] = avg_ratings
