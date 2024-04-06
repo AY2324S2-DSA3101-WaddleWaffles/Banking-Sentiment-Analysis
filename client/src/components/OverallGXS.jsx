@@ -1,96 +1,168 @@
 import { LineChart } from '@mantine/charts';
-// import {testData} from './data';
 import axios from 'axios';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Paper, Text } from '@mantine/core';
 
-
-// need data with percentages for each sentiment, according to date/month
-
-export default function LineData() {
-    const [reviewsData, setReviews] = useState([]);
+export default function OverallGXSBySentiment({ selectedDateRange }) {
+    const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
-      // fetch data from API endpoint
-      axios.get('http://127.0.0.1:5001/api/reviews')
-        .then(response => {
-          console.log('Retrieved data:', response.data);
-          setReviews(response.data); // Update reviewsData state
-        })
-        .catch(error => {
-          console.error('Error fetching reviews:', error);
-          // Handle error, e.g., display error message to user
-        });
-    }, []);
+        // Fetch data from API endpoint
+        axios.get('http://127.0.0.1:5001/reviews/months-sentiment')
+            .then(response => {
+                console.log('Retrieved data:', response.data);
+                // Filter the fetched data based on the selected date range
+                const filtered = filterDataByDateRange(response.data, selectedDateRange);
+                setFilteredData(filtered);
+            })
+            .catch(error => {
+                console.error('Error fetching reviews:', error);
+                // Handle error, e.g., display error message to user
+            });
+    }, [selectedDateRange]); // Run effect whenever selectedDateRange changes
 
-    function calcSentimentPercentage(data){
-        // filter data for GXS bank
-        const gxsData = data.filter(entry => entry.bank === 'GXS');
-    
-        // group data by moth and sentiment
-        const groupedData ={};
-        gxsData.forEach(({month, sentiment}) => {
-            if (!groupedData[month]) groupedData[month] = { pos: 0, neu: 0, neg: 0 };
-            groupedData[month][sentiment] ++;
+    // Function to filter data by date range
+    const filterDataByDateRange = (data, dateRange) => {
+        if (!dateRange) return data; // Return data unchanged if date range is not provided
+
+        // Since currently data given to us is by motnhs only
+        const startMonth = dateRange.startDate.getMonth();;
+        const endMonth = dateRange.endDate.getMonth();
+        const filteredData = {};
+        const monthNames = Object.keys(data);
+
+        // Map month names to their corresponding numeric representation
+        const monthMap = {
+          "January": 0,
+          "February": 1,
+          "March": 2,
+          "April": 3,
+          "May": 4,
+          "June": 5,
+          "July": 6,
+          "August": 7,
+          "September": 8,
+          "October": 9,
+          "November": 10,
+          "December": 11
+        };
+
+        Object.entries(data).forEach(([month, sentiments]) => {
+          const monthIndex = monthMap[month]; // Get month index from monthMap
+          
+          // Check if month index falls within the range of startMonth and endMonth
+          if (monthIndex >= startMonth && monthIndex <= endMonth) {
+              // Add the entry to the filteredData object
+              filteredData[month] = sentiments;
+          }
         });
-    
-        // calculate average percentage for each month
-        const result =[];
-        for (const month in groupedData){
-            const total = Object.values(groupedData[month]).reduce((acc,val) => acc+val,0);
-            const percentages ={}
-            for (const sentiment in groupedData[month]) {
-                const sentimentKey = sentiment.charAt(0).toUpperCase() + sentiment.slice(1);
-                percentages[sentimentKey] = ((groupedData[month][sentiment]/total) * 100).toFixed(0);
-            }
-            result.push({month: parseInt(month), ...percentages});
-        }
-        return result;
+
+        console.log("dateRange:", dateRange);
+        console.log("startMonth:", startMonth)
+        console.log("endMonth:", endMonth);
+        console.log("filteredData:", filteredData);
+
+        return filteredData;
     };
-    
-    const data = calcSentimentPercentage(reviewsData);
-    const mappedData = data.map(item => ({
-        month: item.month,
-        Positive: item.Pos,
-        Neutral: item.Neu,
-        Negative: item.Neg
-    }));
-    //console.log(mappedData) // correct output
 
-    // function for tooltip
+    // Function for tooltip
     function ChartTooltip({ label, payload }) {
         if (!payload) return null;
       
         return (
-          <Paper px="md" py="sm" withBorder shadow="md" radius="md">
-            <Text fw={500} mb={5}>
-              {label}
-            </Text>
-            {payload.map(item => (
-              <Text key={item.name} c={item.color} fz="sm">
-                {item.name}: {item.value}
-              </Text>
-            ))}
-          </Paper>
+            <Paper px="md" py="sm" withBorder shadow="md" radius="md">
+                <Text fw={500} mb={5}>
+                    {label}
+                </Text>
+                {payload.map(item => (
+                    <Text key={item.name} c={item.color} fz="sm">
+                        {item.name}: {item.value}
+                    </Text>
+                ))}
+            </Paper>
         );
-      }
+    }
+
+    // Process data
+
+    // Map full month names to abbreviations
+    const monthAbbreviations = {
+        "January": "Jan",
+        "February": "Feb",
+        "March": "Mar", 
+        "April": "Apr",
+        "May": "May",
+        "June": "Jun",
+        "July": "Jul",
+        "August": "Aug",
+        "September": "Sep",
+        "October": "Oct",
+        "November": "Nov",
+        "December": "Dec"
+    };
+
+    // Map month abbreviations to order
+    const monthOrder = {
+        "Jan": 1,
+        "Feb": 2,
+        "Mar": 3,
+        "Apr": 4,
+        "May": 5,
+        "Jun": 6,
+        "Jul": 7,
+        "Aug": 8,
+        "Sep": 9,
+        "Oct": 10,
+        "Nov": 11,
+        "Dec": 12
+    };
+
+    // Convert data format for chart
+    const transformedData = Object.keys(filteredData).map(month => {
+        const abbreviation = monthAbbreviations[month];
+        return {
+            month: abbreviation,
+            Positive: (filteredData[month].Positive * 100).toFixed(2),
+            Neutral: (filteredData[month].Neutral * 100).toFixed(2),
+            Negative: (filteredData[month].Negative * 100).toFixed(2)
+        };
+    });
+
+    // Sort data by month order
+    const sortedData = transformedData.sort((a, b) => {
+        return monthOrder[a.month] - monthOrder[b.month];
+    });
+
+    // Calculate max value for y-axis
+    const maxValue = Math.max(...sortedData.map(item => Math.max(item.Positive, item.Neutral, item.Negative)));
+
+    // Define domain for y-axis
+    const yAxisDomain = [0, maxValue] ;
 
     return (
-        <div style={{ marginLeft: '-30px', height: "250px"  }}>
-        <LineChart
-            h="80%"
-            // w={400}
-            data={mappedData}
-            dataKey='month'
-            series={[
-                {name: 'Positive', color: 'green'},
-                {name: 'Neutral', color: 'grey'},
-                {name: 'Negative', color: 'red'},
-            ]} 
-            tooltipProps={{
-                content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
+        <div style={{ marginLeft: '650px', height: "250px", marginTop: "120px"  }}>
+          <LineChart
+              h="90%"
+              w={600}
+              data={sortedData}
+              dataKey='month'
+              series={[
+                  {name: 'Positive', color: 'teal'},
+                  {name: 'Neutral', color: 'yellow.6'},
+                  {name: 'Negative', color: 'red.6'},
+              ]} 
+              tooltipProps={{
+                  content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
               }}
-        />
+              xAxisProps={{
+                tickRotation: -90 // NOT WORKING
+              }}
+              yAxisProps={{
+                domain: yAxisDomain
+              }}
+              
+          />
+
         </div>
     );
 }

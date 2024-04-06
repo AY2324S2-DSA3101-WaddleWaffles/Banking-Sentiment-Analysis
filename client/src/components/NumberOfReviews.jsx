@@ -7,7 +7,7 @@ export default function GetNumReviews(){
 
     useEffect(() => {
       // fetch data from API endpoint
-      axios.get('http://127.0.0.1:5001/api/reviews')
+      axios.get('http://127.0.0.1:5001/reviews/counts')
         .then(response => {
           console.log('Retrieved data:', response.data);
           setReviews(response.data); // Update reviewsData state
@@ -18,8 +18,8 @@ export default function GetNumReviews(){
         });
     }, []);
 
-    // get number of reviews
-    const numReviews = reviewsData.length;
+    // get number of reviews for GXS only
+    const numReviews = reviewsData['GXS'];
 
     return numReviews;
 }

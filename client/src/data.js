@@ -44,51 +44,92 @@ const apiData = [{"bank":"GXS","day":15,"id":1,"month":5,"rating":5,"review":"I 
 // }));
 // console.log(mappedData) // correct output
 
-function avgRatingsByBank(data){
+// function avgRatingsByBank(data){
 
-    // group data by month and bank
-    const groupedData = {};
-    data.forEach(({ month, bank, rating }) => {
-        if (!groupedData[month]) groupedData[month] = {};
-        if (!groupedData[month][bank]) groupedData[month][bank] = [];
+//     // group data by month and bank
+//     const groupedData = {};
+//     data.forEach(({ month, bank, rating }) => {
+//         if (!groupedData[month]) groupedData[month] = {};
+//         if (!groupedData[month][bank]) groupedData[month][bank] = [];
 
-        groupedData[month][bank].push(rating);
-    });
-   //console.log(groupedData); //integer
+//         groupedData[month][bank].push(rating);
+//     });
+//    //console.log(groupedData); //integer
 
-    // calculate avg rating for each bank within each month
-    const result = [];
-    for (const month in groupedData){
-        const entry = { month: parseInt(month) };
+//     // calculate avg rating for each bank within each month
+//     const result = [];
+//     for (const month in groupedData){
+//         const entry = { month: parseInt(month) };
 
-        const allBanks = ['GXS', 'OCBC', 'UOB'];
-        allBanks.forEach(bank => {
-            if (!groupedData[month][bank]) {
-                entry[bank] = 0;
-            } else {
-                const avgRating = groupedData[month][bank].reduce((acc, val) => acc + val, 0) / groupedData[month][bank].length;
-                entry[bank] = avgRating.toFixed(1); // round avg rating to 1dp
-                entry[bank] = parseFloat(entry[bank]);
-            }
-        });
-        result.push(entry);
+//         const allBanks = ['GXS', 'OCBC', 'UOB'];
+//         allBanks.forEach(bank => {
+//             if (!groupedData[month][bank]) {
+//                 entry[bank] = 0;
+//             } else {
+//                 const avgRating = groupedData[month][bank].reduce((acc, val) => acc + val, 0) / groupedData[month][bank].length;
+//                 entry[bank] = avgRating.toFixed(1); // round avg rating to 1dp
+//                 entry[bank] = parseFloat(entry[bank]);
+//             }
+//         });
+//         result.push(entry);
+//     }
+//     return result;
+// }
+
+
+// const data = avgRatingsByBank(apiData)
+
+// // toFixed: converts number to string
+// // parseFloat: converts string to float
+// data.forEach(obj => {
+//     for (const key in obj) {
+//       if (key !== 'month' && Number.isInteger(obj[key])) {
+//         obj[key] = obj[key].toFixed(1);
+//         obj[key] = parseFloat(obj[key]); // strips the '.0' in 9.0
+//       }
+
+//     }
+//   });
+
+// console.log(data);
+const data = {
+    "DBS": {
+      "01-2024": 5,
+      "02-2024": 2,
+      "03-2024": 2,
+      "total": 3
+    },
+    "GXS": {
+      "02-2024": 3,
+      "03-2024": 5,
+      "total": 4
+    },
+    "MariBank": {
+      "01-2024": 3,
+      "02-2024": 5,
+      "03-2024": 3,
+      "total": 3.667
+    },
+    "OCBC": {
+      "01-2024": 5,
+      "02-2024": 2,
+      "03-2024": 5,
+      "total": 4
+    },
+    "Trust": {
+      "01-2024": 2,
+      "02-2024": 5,
+      "03-2024": 2,
+      "total": 3
+    },
+    "UOB": {
+      "01-2024": 2,
+      "02-2024": 5,
+      "03-2024": 5,
+      "total": 4
     }
-    return result;
 }
 
-
-const data = avgRatingsByBank(apiData)
-
-// toFixed: converts number to string
-// parseFloat: converts string to float
-data.forEach(obj => {
-    for (const key in obj) {
-      if (key !== 'month' && Number.isInteger(obj[key])) {
-        obj[key] = obj[key].toFixed(1);
-        obj[key] = parseFloat(obj[key]); // strips the '.0' in 9.0
-      }
-
-    }
-  });
-
-console.log(data);
+// process data to get overall average rating for GXS only
+const averageGXS = data.GXS.total.toFixed(1);
+console.log(averageGXS);

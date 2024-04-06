@@ -1,25 +1,30 @@
 .navbar {
-  width: rem(200px);
+  width: rem(10px);
   padding: var(--mantine-spacing-lg);
   display: flex;
   flex-direction: column;
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
   border-right: rem(1px) solid light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
 }
+
 
 .navbarMain {
   flex: 1;
   margin-top: rem(10px);
+  
 }
 
 .link {
   border-radius: var(--mantine-radius-md);
   height: 50px;
+  width: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  /* gap: 10px; */
   background-color: '#F8F8FF';
-
+  
   &:hover {
     background-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));
     color: var(--mantine-color-blue-light-color);
@@ -32,8 +37,8 @@
   }
 
 
-.linkContent {
+/* .linkContent {
   display: flex;
   align-items: center;
-  gap: 10px; /* Adjust the gap as needed */
-}
+  gap: 10px;
+} */
