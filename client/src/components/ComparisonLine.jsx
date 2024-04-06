@@ -14,6 +14,10 @@ export default function ComparisonLine() {
       try {
         const response = await axios.get('http://127.0.0.1:5001/reviews/average-rating');
         setBanksData(response.data);
+
+        // Select all banks by default
+        setSelectedBanks(Object.keys(response.data));
+        
       } catch (error) {
         console.error('Error fetching count data:', error);
       } finally {
@@ -73,48 +77,56 @@ export default function ComparisonLine() {
         </div>
       ) : (
         <Grid gutter="md" style={{ width: '100%', height: '100vh' }}>
-          <Grid.Col span={8}>
-            <Legend series={[
-              { name: 'GXS', color: 'violet' },
-              { name: 'DBS', color: '#b01717' },
-              { name: 'MariBank', color: '#ffaf00' },
-              { name: 'OCBC', color: '#ff69b4' },
-              { name: 'UOB', color: '#00b7c2' },
-              { name: 'Trust', color: '#006fff' },
-            ]} />
-            <LineChart
-              h={300}
-              data={processedData}
-              dataKey="date"
-              series={[
-                { name: 'GXS', color: 'violet', dataKey: 'GXS', strokeWidth: 4 },
-                { name: 'DBS', color: '#b01717', dataKey: 'DBS' },
-                { name: 'MariBank', color: '#ffaf00', dataKey: 'MariBank' },
-                { name: 'OCBC', color: '#ff69b4', dataKey: 'OCBC' },
-                { name: 'UOB', color: '#00b7c2', dataKey: 'UOB' },
-                { name: 'Trust', color: '#006fff', dataKey: 'Trust' },
-              ]}
-              connectNulls
-              tooltipProps={{
-                content: ({ label, payload }) => (<ChartTooltip label={label} payload={payload} />),
-              }}
-            />
+          <Grid.Col span={7}>
+            <div style={{ padding: '0 20px', }}> {/* Add padding to the sides */}
+              <LineChart
+                h={300}
+                data={processedData}
+                dataKey="date"
+                xAxisProps={{padding:{ left: 30, right: 30 }}}
+                series={[
+                  { name: 'GXS', color: 'violet', dataKey: 'GXS', strokeWidth: 4 },
+                  { name: 'DBS', color: '#b01717', dataKey: 'DBS' },
+                  { name: 'MariBank', color: '#ffaf00', dataKey: 'MariBank' },
+                  { name: 'OCBC', color: '#ff69b4', dataKey: 'OCBC' },
+                  { name: 'UOB', color: '#00b7c2', dataKey: 'UOB' },
+                  { name: 'Trust', color: '#006fff', dataKey: 'Trust' },
+                ]}
+                connectNulls
+                tooltipProps={{
+                  content: ({ label, payload }) => (<ChartTooltip label={label} payload={payload} />),
+                }}
+              />
+              <div style={{ marginTop: '20px', padding: '10px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
+                <Legend
+                  series={[
+                    { name: 'GXS', color: 'violet' },
+                    { name: 'DBS', color: '#b01717' },
+                    { name: 'MariBank', color: '#ffaf00' },
+                    { name: 'OCBC', color: '#ff69b4' },
+                    { name: 'UOB', color: '#00b7c2' },
+                    { name: 'Trust', color: '#006fff' },
+                  ]}
+                />
+              </div>
+
+            </div>
           </Grid.Col>
           <Grid.Col span={4}>
-            <div>
+            <Grid gutter="md">
               {Object.keys(banksData).map((bank) => (
-                <Button
-                  key={bank}
-                  onClick={() => toggleBankSelection(bank)}
-                  color={selectedBanks.includes(bank) ? 'violet' : 'gray'}
-                  variant="outline"
-                  style={{ marginBottom: '10px' }}
-                  fullWidth
-                >
-                  {bank}
-                </Button>
+                <Grid.Col key={bank}>
+                  <Button
+                    onClick={() => toggleBankSelection(bank)}
+                    color={selectedBanks.includes(bank) ? 'violet' : 'gray'}
+                    variant="outline"
+                    style={{ width: '100px', marginRight: '10px',borderWidth: '2px' }}
+                  >
+                    {bank}
+                  </Button>
+                </Grid.Col>
               ))}
-            </div>
+            </Grid>
           </Grid.Col>
         </Grid>
       )}

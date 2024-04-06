@@ -30,9 +30,14 @@ export default function Comparison() {
           </div>
         </Grid.Col>
       </Grid>
-      <div> 
-        <ComparisonLine />
-      </div>
+
+      <Grid>
+        <div className="line-chart-container"> 
+        <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px' }}>Bank Ratings </h2>
+          <ComparisonLine />
+        </div>
+      </Grid>
+        
     </Container>
   );
 }

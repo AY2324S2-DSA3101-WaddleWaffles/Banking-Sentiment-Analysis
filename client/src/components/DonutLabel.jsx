@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 // import React, { useState, useEffect } from 'react';
 
 // export default function GetDonutLabel(){
@@ -38,7 +36,6 @@
 //     console.log(processedData);
 // };
 
->>>>>>> 2be0b9cdedc02e9d16044f6ab6e89b083844979c
 import React from 'react';
 
 export default function GetDonutLabel({ averageGXS }){
@@ -46,12 +43,6 @@ export default function GetDonutLabel({ averageGXS }){
 
     // Render averageGXS as a label
     return (
-<<<<<<< HEAD
-        <>{averageGXS !== null && <span>Average GXS Rating: {averageGXS}</span>}</>
-    );
-}
-=======
         <>{averageGXS !== null && <span></span>}</>
     );
 }
->>>>>>> 2be0b9cdedc02e9d16044f6ab6e89b083844979c
