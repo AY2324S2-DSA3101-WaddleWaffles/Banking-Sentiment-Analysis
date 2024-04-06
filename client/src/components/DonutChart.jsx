@@ -46,7 +46,7 @@ export default function DonutChartComponent(){
             {/* Pass averageGXS as a prop to GetDonutLabel */}
             <GetDonutLabel averageGXS={averageGXS} />
             <DonutChart 
-                h={200}
+                h={160}
                 w={180}
                 data={transformedData}
                 mx="auto"

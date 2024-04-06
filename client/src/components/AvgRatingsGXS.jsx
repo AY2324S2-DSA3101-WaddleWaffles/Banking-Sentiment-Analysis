@@ -71,8 +71,8 @@ function TimeSeriesGXS(){
     return (
         // <div style = {{ marginTop: '10px' , marginLeft: '-30px' }}> 
             <LineChart 
-                h = {200} // adjust margins after layout done!!!!!!
-                w = {500}
+                h = "100%" // adjust margins after layout done!!!!!!
+                w = "100%"
                 data = {processedData}
                 dataKey = "month" // change to week if filter <= 2 months? HOW??
                 series={[{name: 'value', color: 'indigo.6'}]}

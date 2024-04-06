@@ -45,17 +45,19 @@ h2 {
     
   .grid-container {
     display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
     grid-gap: 7px;
     overflow: auto;
-    /* height: calc(100vh - 60px); */
-    grid-template-areas: "donut	donut	donut	number	number	number"
-        "donut	donut	donut	topic	topic	topic"
-        "donut	donut	donut	topic	topic	topic"
-        "ratings	ratings	ratings	sentiment	sentiment	sentiment"
-        "ratings	ratings	ratings	sentiment	sentiment	sentiment"
-        "ratings	ratings	ratings	sentiment	sentiment	sentiment";
+    height: calc(100vh - 100px);
+    grid-template-areas: "number	number	number	topic	topic	topic"
+    "donut	donut	donut	topic	topic	topic"
+    "donut	donut	donut	topic	topic	topic"
+    "donut	donut	donut	topic	topic	topic"
+    "ratings	ratings	ratings	insights	insights	insights"
+    "ratings	ratings	ratings	insights	insights	insights"
+    "ratings	ratings	ratings	insights	insights	insights"
+    "ratings	ratings	ratings	insights	insights	insights";
 
 
   }
@@ -81,8 +83,8 @@ h2 {
     grid-area: donut;
   }
   
-  .sentiment{
-    grid-area: sentiment;
+  .insights{
+    grid-area: insights;
     /* height: auto; 
     width: auto; */
 
@@ -95,7 +97,7 @@ h2 {
 
   .ratings {
     grid-area: ratings;
-    margin: 5px;
+    padding: 10px;
   }
   
   @media (max-width: 768px) {
@@ -105,9 +107,9 @@ h2 {
       grid-template-areas:
         "number"
         "donut"
-        "sentiment"
         "topic"
-        "ratings";
+        "ratings"
+        "insights";
     }
   
   }
