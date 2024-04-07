@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container } from "@mantine/core";
 import axios from 'axios';
 import { DonutChart } from '@mantine/charts';
 import GetDonutLabel from './DonutLabel';
@@ -41,16 +42,17 @@ export default function DonutChartComponent(){
     console.log('Donut transformed data:', transformedData);
 
     return (
-        <div style={{ marginLeft: '-600px', height: "250px" ,marginTop: "-200px"}}>
+        <Container>
             {/* Pass averageGXS as a prop to GetDonutLabel */}
             <GetDonutLabel averageGXS={averageGXS} />
             <DonutChart 
-                h="100%"
+                h={160}
+                w={180}
                 data={transformedData}
                 mx="auto"
                 withTooltip={false}
                 chartLabel={averageGXS} // Use averageGXS as chart label
             />
-        </div>
+        </Container>
     );
 }

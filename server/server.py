@@ -28,6 +28,16 @@ def get_all_topics():
     topics = {"topics": list(set(map(lambda x: x["topic"], data_manager.retrieve_sample_reviews())))}
     return jsonify(topics)
 
+@app.route("/reviews", methods=["GET"])
+def get_reviews():
+    start_date, end_date = request.args.get("start-date"), request.args.get("end-date")
+    banks = request.args.getlist("bank") or data_manager.retrieve_sample_banks()
+    reviews = []
+    for bank in banks:
+        reviews.extend(data_manager.retrieve_sample_reviews(start_date=start_date, end_date=end_date, bank=bank))
+
+    return jsonify(reviews)
+
 @app.route("/reviews/topics-sentiment", methods=["GET"])
 def get_sentiment_by_topic():
     start_date, end_date = request.args.get("start-date"), request.args.get("end-date")
@@ -56,7 +66,7 @@ def get_sentiment_by_topic():
 
 @app.route("/reviews/average-rating", methods=["GET"])
 def get_average_rating(num_months=None):
-    start_date = datetime.strptime(request.args.get("start-date") or "08-01-2022", "%d-%m-%Y").date()
+    start_date = datetime.strptime(request.args.get("start-date") or "01-08-2022", "%d-%m-%Y").date()
     end_date = datetime.strptime(request.args.get("end-date") or datetime.now().strftime("%d-%m-%Y"), "%d-%m-%Y").date()
     banks = request.args.getlist("bank") or data_manager.retrieve_sample_banks()
 
@@ -89,48 +99,65 @@ def get_average_rating(num_months=None):
                 summed_rating, count = avg_ratings[rating_period]
                 avg_ratings[rating_period] = round(summed_rating / count, 3)
 
+            sorted_ratings = []
+            for year in range(earliest_date.year, latest_day.year + 1):
+                for month in range(1, 13):
+                    if year == earliest_date.year and month < earliest_date.month:
+                        continue
+                    if year == latest_day.year and month > latest_day.month:
+                        continue
+                    month_year = f"{calendar.month_name[month]} {year}"
+                    avg_rating = avg_ratings.get(month_year, None)
+                    sorted_ratings.append({"period": month_year, "rating": avg_rating})
+
             result["bank"] = bank
-            result["average_ratings"] = avg_ratings
+            result["monthly_ratings"] = sorted_ratings
+            result["total_rating"] = avg_ratings["total"]
             results.append(result)
         
         return jsonify(results)
     
     for bank in banks:
-        # Get the closest Sunday
-        tracked_date = latest_day - relativedelta(days=(latest_day.weekday() + 1) if latest_day.weekday() != 6 else 0)
+        # Get the coming Sunday
+        tracked_date = latest_day + relativedelta(days=(6 - latest_day.weekday()) if latest_day.weekday() != 6 else 0)
         result = {}
-        avg_ratings = {"total": [0, 0]}
+        sorted_ratings = []
+        total_rating = [0, 0]
         while earliest_date <= tracked_date:
+            ratings = [0, 0]
             monday_date = tracked_date - relativedelta(days=6)
             date_string = f"{monday_date.strftime("%d %B %Y")} - {tracked_date.strftime("%d %B %Y")}"
             reviews = data_manager.retrieve_sample_reviews(start_date=monday_date.strftime("%d-%m-%Y"), end_date=tracked_date.strftime("%d-%m-%Y"), bank=bank)
             for review in reviews:
-                avg_ratings[date_string] = avg_ratings.get(date_string, [0, 0])
-                avg_ratings[date_string][0] += review["rating"]
-                avg_ratings[date_string][1] += 1
-                avg_ratings["total"][0] += review["rating"]
-                avg_ratings["total"][1] += 1
+                ratings[0] += review["rating"]
+                ratings[1] += 1
+                total_rating[0] += review["rating"]
+                total_rating[1] += 1
             
+            weekly_rating = round(ratings[0] / ratings[1], 3) if ratings[1] != 0 else None
+            sorted_ratings.append({"period": date_string, "rating": weekly_rating})
+
             tracked_date = monday_date - relativedelta(days=1)
 
-        for rating_period in avg_ratings:
-            summed_rating, count = avg_ratings[rating_period]
-            avg_ratings[rating_period] = round(summed_rating / count, 3) if count != 0 else None
+        total_rating = total_rating[0] / total_rating[1] if total_rating[1] != 0 else None
         
         result["bank"] = bank
-        result["average_ratings"] = avg_ratings
+        result["weekly_ratings"] = sorted_ratings[::-1]
+        result["total_rating"] = total_rating
         results.append(result)
 
     return jsonify(results)
 
 @app.route("/reviews/latest-average-rating", methods=["GET"])
 def get_latest_average_rating():
-    num_months = int(request.args.get("months-count") or 99)
+    earliest_date = datetime(2022, 8, 1)
+    num_months = int(request.args.get("months-count") or (datetime.today().year - earliest_date.year) * 12 + (datetime.today().month - earliest_date.month))
+    print(num_months)
     return get_average_rating(num_months)
 
 @app.route("/reviews/average-sentiment", methods=["GET"])
 def get_average_sentiment():
-    start_date = datetime.strptime(request.args.get("start-date") or "08-01-2022", "%d-%m-%Y").date()
+    start_date = datetime.strptime(request.args.get("start-date") or "01-08-2022", "%d-%m-%Y").date()
     end_date = datetime.strptime(request.args.get("end-date") or datetime.now().strftime("%d-%m-%Y"), "%d-%m-%Y").date()
     delta = relativedelta(end_date, start_date)
     num_months = delta.years * 12 + delta.months
@@ -156,34 +183,51 @@ def get_average_sentiment():
                 count = sum(sentiments[sentiment_period].values())
                 sentiments[sentiment_period] = {period: round(amount / count, 3) for period, amount in sentiments[sentiment_period].items()}
 
+            sorted_sentiments = []
+            for year in range(earliest_date.year, latest_day.year + 1):
+                for month in range(1, 13):
+                    if year == earliest_date.year and month < earliest_date.month:
+                        continue
+                    if year == latest_day.year and month > latest_day.month:
+                        continue
+                    month_year = f"{calendar.month_name[month]} {year}"
+                    sentiment = sentiments.get(month_year, {"Positive": 0, "Neutral": 0, "Negative": 0})
+                    sorted_sentiments.append({"period": month_year, "sentiment": sentiment})
+
             result["bank"] = bank
-            result["sentiments"] = sentiments
+            result["monthly_sentiments"] = sorted_sentiments
+            result["total_sentiments"] = sentiments["total"]
             results.append(result)
         
         return jsonify(results)
     
     for bank in banks:
-        # Get the closest Sunday
-        tracked_date = latest_day - relativedelta(days=(latest_day.weekday() + 1) if latest_day.weekday() != 6 else 0)
+        # Get the coming Sunday
+        tracked_date = latest_day + relativedelta(days=(6 - latest_day.weekday()) if latest_day.weekday() != 6 else 0)
         result = {}
-        sentiments = {"total": {"Positive": 0, "Neutral": 0, "Negative": 0}}
+        total_sentiment = {"Positive": 0, "Neutral": 0, "Negative": 0}
+        sorted_sentiments = []
         while earliest_date <= tracked_date:
+            current_sentiment = {"Positive": 0, "Neutral": 0, "Negative": 0}
             monday_date = tracked_date - relativedelta(days=6)
             date_string = f"{monday_date.strftime("%d %B %Y")} - {tracked_date.strftime("%d %B %Y")}"
             reviews = data_manager.retrieve_sample_reviews(start_date=monday_date.strftime("%d-%m-%Y"), end_date=tracked_date.strftime("%d-%m-%Y"), bank=bank)
             for review in reviews:
-                sentiments[date_string] = sentiments.get(date_string, {"Positive": 0, "Neutral": 0, "Negative": 0})
-                sentiments[date_string][review["sentiment"]] += 1
-                sentiments["total"][review["sentiment"]] += 1
-            
+                current_sentiment[review["sentiment"]] += 1
+                total_sentiment[review["sentiment"]] += 1
+
+            count = sum(current_sentiment.values())
+            current_sentiment = {period: round(amount / count, 3) for period, amount in current_sentiment.items()} if count != 0 else current_sentiment
+            sorted_sentiments.append({"period": date_string, "sentiment": current_sentiment})
+
             tracked_date = monday_date - relativedelta(days=1)
 
-        for sentiment_period in sentiments:
-            count = sum(sentiments[sentiment_period].values())
-            sentiments[sentiment_period] = {period: round(amount / count, 3) for period, amount in sentiments[sentiment_period].items()}
+        total_count = sum(total_sentiment.values())
+        total_sentiment = {period: round(amount / total_count, 3) for period, amount in total_sentiment.items()} if total_count != 0 else total_sentiment
         
         result["bank"] = bank
-        result["sentiments"] = sentiments
+        result["weekly_sentiments"] = sorted_sentiments[::-1]
+        result["total_sentiments"] = total_sentiment
         results.append(result)
 
     return jsonify(results)
