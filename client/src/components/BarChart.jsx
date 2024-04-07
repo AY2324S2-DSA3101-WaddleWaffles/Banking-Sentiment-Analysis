@@ -31,11 +31,11 @@ function SentimentByTopic() {
 
 
     return (
-      <div style={{ marginLeft: '600px', height: "250px",padding: '20px', marginTop: '-600px'  }}>
+      //<div style={{ marginLeft: '600px', height: "250px",padding: '20px', marginTop: '-600px'  }}>
         <BarChart
-            h='150%'
-            w={600}
-            data={transformedData}
+            h="100%"
+            w="100%"
+            data={transformedData}s
             dataKey="feature"
             type="stacked"
             orientation="vertical"
@@ -54,7 +54,7 @@ function SentimentByTopic() {
             
             
         />
-      </div>       
+      //</div>       
     )
 }
 
