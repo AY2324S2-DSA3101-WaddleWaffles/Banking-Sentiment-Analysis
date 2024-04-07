@@ -1,10 +1,4 @@
-from dotenv import load_dotenv
 from models.text_generation_model import TextGenerationModel
-
-import os
-
-# Load variables from .env file
-load_dotenv()
 
 class Recommender:
     """
@@ -15,7 +9,7 @@ class Recommender:
         prompt (function): A lambda function to generate a prompt based on a given concern.
     """
 
-    def __init__(self, huggingface_token=os.getenv("HUGGINGFACE_TOKEN")):
+    def __init__(self, huggingface_token):
         """
         Initialise the Recommender object.
 
@@ -24,10 +18,10 @@ class Recommender:
         """
 
         self.model = TextGenerationModel(huggingface_token)
-        self.output_format = "1.[SOLUTION 1]\n[DETAILS]\n\n2.[SOLUTION 2]\n[DETAILS]\n\n3.[SOLUTION 3]..."
-        self.prompt = lambda concern: f"There is a concern: {concern}. Using this format: {self.output_format}, give five solutions with details for the customer experience team to target the concern."
+        self.output_format = "1.[SOLUTION 1 HERE]\n[DETAILS OF SOLUTION]\n\n2.[SOLUTION 2 HERE]\n[DETAILS OF SOLUTION]\n\n3.[SOLUTION 3 HERE]..."
+        self.prompt = lambda concern: f"There is a concern: {concern}. Give exactly three solutions for the customer experience team to target the concern. Format your output only with three short solutions and short description of them."
 
-    def recommend(self, concern):
+    def recommend(self, concern, stream=False):
         """
         Generate a recommendation based on the given concern.
 
@@ -38,7 +32,7 @@ class Recommender:
             str: The generated recommendation.
         """
         full_prompt = self.prompt(concern)
-        recommendation = self.model.generate(full_prompt).split(full_prompt)[-1]
+        recommendation = self.model.generate(full_prompt, stream=stream).split(full_prompt)[-1]
         return recommendation
     
     def end_session(self):

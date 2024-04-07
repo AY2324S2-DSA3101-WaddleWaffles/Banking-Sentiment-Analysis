@@ -28,7 +28,7 @@ class TextGenerationModel:
         login(token=huggingface_token)
 
         # Initialise model and tokeniser
-        self.model_name = "google/gemma-2b-it"
+        self.model_name = "h2oai/h2o-danube2-1.8b-chat" #"google/gemma-2b-it"
         self.tokeniser = AutoTokenizer.from_pretrained(self.model_name)
         self.model = AutoModelForCausalLM.from_pretrained(self.model_name)
         logout()
