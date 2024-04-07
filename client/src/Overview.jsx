@@ -15,31 +15,31 @@ export default function Overview({ selectedDateRange }) {
 
   return (
     <Container size="100%">
-        <div style = {{ marginLeft: '1000px', height: "250px" ,marginTop: "10px"}}>
+        {/* <div style = {{ marginLeft: '1000px', height: "250px" ,marginTop: "10px"}}>
             <RefreshDatabase />
-        </div>
+        </div> */}
 
-        <div> 
+        {/* <div> 
             <DonutChartComponent />
-        </div>
+        </div> */}
 
-        <div style = {{ marginLeft: '500px', height: "250px" ,marginTop: "-250px"}}> 
+        {/* <div style = {{ marginLeft: '500px', height: "250px" ,marginTop: "-250px"}}> 
             <GetNumReviews /> reviews 
-        </div> 
+        </div>  */}
 
         <div> 
             <OverallGXSBySentiment selectedDateRange={selectedDateRange}/>
-        </div>
+        </div> 
 
 
 
-        <div >
+        {/* <div >
             <SentimentByTopic />
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div style = {{ marginTop: '90px' , marginLeft: '-600px' }}>
             <TimeSeriesGXS />
-        </div>
+        </div> */}
     </Container>
   );
 }
