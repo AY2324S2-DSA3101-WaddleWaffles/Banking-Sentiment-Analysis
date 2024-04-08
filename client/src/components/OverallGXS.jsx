@@ -8,7 +8,7 @@ export default function OverallGXSBySentiment({ selectedDateRange }) {
 
     useEffect(() => {
         // Fetch data from API endpoint
-        axios.get('http://127.0.0.1:5001/reviews/months-sentiment')
+        axios.get('http://127.0.0.1:5001/reviews')
             .then(response => {
                 console.log('Retrieved data:', response.data);
                 // Filter the fetched data based on the selected date range

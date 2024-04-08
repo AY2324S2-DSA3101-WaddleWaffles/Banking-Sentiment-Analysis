@@ -5,22 +5,16 @@ import TableBanksCount from "./components/TableCount";
 import ComparisonLine from "./components/ComparisonLine";
 import './Comparison.css';
 
-export default function Comparison() {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-
-  const handleFilterChange = (dateRange) => {
-    setStartDate(dateRange[0]);
-    setEndDate(dateRange[1]);
-  }
+export default function Comparison({ selectedDateRange }) {
+  console.log("comparison page date:", selectedDateRange);
 
   return (
-    <Container size="100%">
+    <Container size="100%" style={{ overflowY: 'auto' }}>
       <Grid>
         <Grid.Col span={8}>
           <div className="bar-chart-container">
             <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px' }}>Comparative Analysis of Bank Sentiment Distribution </h2>
-            <ComparisonBar startDate={startDate} endDate={endDate} />
+            <ComparisonBar selectedDateRange={selectedDateRange}/>
           </div>
         </Grid.Col>
         <Grid.Col span={4}>
@@ -34,7 +28,7 @@ export default function Comparison() {
       <Grid>
         <div className="line-chart-container"> 
         <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px' }}>Bank Ratings </h2>
-          <ComparisonLine />
+          <ComparisonLine selectedDateRange={selectedDateRange}/>
         </div>
       </Grid>
         

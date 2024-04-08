@@ -72,7 +72,7 @@ function App() {
         {/* style={{ width: '100%', height: '100%', overflow: 'auto' }} */}
         {activeHeaderTab === 'Overview' && <Overview selectedDateRange={selectedDateRange}/>}
         {activeHeaderTab === 'Product Reviews' && <NewProductReviews/>}
-        {activeHeaderTab === 'Comparison' && <Comparison/>}
+        {activeHeaderTab === 'Comparison' && <Comparison selectedDateRange={selectedDateRange}/>}
       </AppShell.Main>
     </AppShell>
   );

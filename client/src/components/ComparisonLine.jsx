@@ -1,34 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart } from '@mantine/charts';
-import axios from 'axios';
+import axios, { formToJSON } from 'axios';
 import Legend from './Legend';
 import { Paper, Text, Button, Grid } from '@mantine/core';
 
-export default function ComparisonLine() {
+export default function ComparisonLine({ selectedDateRange }) {
+  
   const [banksData, setBanksData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedBanks, setSelectedBanks] = useState([]);
+  const [lineColors, setLineColors] = useState({});
+  
+  // save updated start and end dates into variable
+  const newStartDate = selectedDateRange.startDate;
+  const newEndDate = selectedDateRange.endDate;
+
+  // change format of start and end date to dd-mm-yyyy
+  const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
+  const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
+
+  const api = `http://127.0.0.1:5001/reviews/average-rating?start-date=${formattedStartDate}&end-date=${formattedEndDate}`
+  //console.log(api);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5001/reviews/average-rating');
-        setBanksData(response.data);
-
-        // Select all banks by default
-        setSelectedBanks(Object.keys(response.data));
+        const response = await fetch(api.toString());
+        const jsonData = await response.json();
+        setBanksData(jsonData);
+        console.log("retrieved line:", jsonData)
         
+  
+        // Select all banks by default
+        setSelectedBanks(jsonData.map(entry => entry.bank));
+  
+        // Generate fixed colors for each bank
+        const colors = {};
+        jsonData.forEach((entry, index) => {
+          colors[entry.bank] = entry.bank === "GXS" ? "#FF0000" : getRandomColor(index); // Set GXS color to red
+        });
+        setLineColors(colors);
+  
       } catch (error) {
-        console.error('Error fetching count data:', error);
+        console.error('Error fetching data:', error);
       } finally {
         setIsLoading(false);
       }
-    };
+    }; // Fetch data with default date range when the component mounts
 
     fetchData();
-    
-  }, []); 
+  }, [selectedDateRange]); // Fetch data when start date or end date changes
 
+  //console.log("selected banks:", selectedBanks)
   const toggleBankSelection = (bank) => {
     if (selectedBanks.includes(bank)) {
       setSelectedBanks(selectedBanks.filter((selectedBank) => selectedBank !== bank));
@@ -37,37 +60,9 @@ export default function ComparisonLine() {
     }
   };
 
-  const processDataForLineChart = (data) => {
-    if (!data) {
-      return []; // Return an empty array if data is undefined or null
-    }
-  
-    const dates = Object.keys(data['DBS']).filter(date => date !== 'total'); // Assuming all banks have the same dates
-    
-    const processedData = [];
-
-    // Loop through each date 
-    dates.forEach((date) => {
-      // Initialize object for each date
-      const obj = { date };
-
-      // Loop through each bank 
-      selectedBanks.forEach((bank) => {
-        // Assign bank's rating for current date to object
-        obj[bank] = data[bank][date] || null;
-      });
-
-      // Push object to the processed data array
-      processedData.push(obj);
-    });
-
-    return processedData;
-  };
-   
   const processedData = processDataForLineChart(banksData);
+  console.log("processed line data:", processedData);
 
-  console.log('Processed data: ', processedData);
-  
   return (
     <div>
       {isLoading ? (
@@ -77,21 +72,19 @@ export default function ComparisonLine() {
         </div>
       ) : (
         <Grid gutter="md" style={{ width: '100%', height: '100vh' }}>
-          <Grid.Col span={7}>
+          <Grid.Col span={6.5}>
             <div style={{ padding: '0 20px', }}> {/* Add padding to the sides */}
               <LineChart
                 h={300}
                 data={processedData}
                 dataKey="date"
                 xAxisProps={{padding:{ left: 30, right: 30 }}}
-                series={[
-                  { name: 'GXS', color: 'violet', dataKey: 'GXS', strokeWidth: 4 },
-                  { name: 'DBS', color: '#b01717', dataKey: 'DBS' },
-                  { name: 'MariBank', color: '#ffaf00', dataKey: 'MariBank' },
-                  { name: 'OCBC', color: '#ff69b4', dataKey: 'OCBC' },
-                  { name: 'UOB', color: '#00b7c2', dataKey: 'UOB' },
-                  { name: 'Trust', color: '#006fff', dataKey: 'Trust' },
-                ]}
+                series={selectedBanks.map((bank) => ({
+                  name: bank,
+                  color: lineColors[bank], // Use fixed color for each bank
+                  dataKey: bank,
+                  strokeWidth: 4,
+                }))}
                 connectNulls
                 tooltipProps={{
                   content: ({ label, payload }) => (<ChartTooltip label={label} payload={payload} />),
@@ -99,34 +92,38 @@ export default function ComparisonLine() {
               />
               <div style={{ marginTop: '20px', padding: '10px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
                 <Legend
-                  series={[
-                    { name: 'GXS', color: 'violet' },
-                    { name: 'DBS', color: '#b01717' },
-                    { name: 'MariBank', color: '#ffaf00' },
-                    { name: 'OCBC', color: '#ff69b4' },
-                    { name: 'UOB', color: '#00b7c2' },
-                    { name: 'Trust', color: '#006fff' },
-                  ]}
+                  series={selectedBanks.map((bank) => ({
+                    name: bank,
+                    color: lineColors[bank],
+                  }))}
                 />
               </div>
-
             </div>
           </Grid.Col>
-          <Grid.Col span={4}>
-            <Grid gutter="md">
-              {Object.keys(banksData).map((bank) => (
-                <Grid.Col key={bank}>
-                  <Button
-                    onClick={() => toggleBankSelection(bank)}
-                    color={selectedBanks.includes(bank) ? 'violet' : 'gray'}
-                    variant="outline"
-                    style={{ width: '100px', marginRight: '10px',borderWidth: '2px' }}
-                  >
-                    {bank}
-                  </Button>
-                </Grid.Col>
+          <Grid.Col span={0.5}>
+          <Grid gutter="md">
+            {banksData.map((bankEntry) => (
+              <Grid.Col key={bankEntry.bank}>
+                <Button
+                  onClick={() => toggleBankSelection(bankEntry.bank)}
+                  color={selectedBanks.includes(bankEntry.bank) ? 'violet' : 'gray'}
+                  variant="outline"
+                  style={{ width: '110px', marginRight: '15px', borderWidth: '2px' }}
+                >
+                  {bankEntry.bank}
+                </Button>
+              </Grid.Col>
+            ))}
+          </Grid>
+          <div style={{ marginTop: '20px', padding: '10px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
+              {/* Legend for banks */}
+              {selectedBanks.map((bank) => (
+                <div key={bank} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+                  <div style={{ width: '20px', height: '20px', backgroundColor: lineColors[bank], marginRight: '10px' }} />
+                  <span>{bank}</span>
+                </div>
               ))}
-            </Grid>
+            </div>
           </Grid.Col>
         </Grid>
       )}
@@ -138,15 +135,79 @@ function ChartTooltip({ label, payload }) {
   if (!payload) return null;
 
   return (
-    <Paper px="md" py="sm" withBorder shadow="md" radius="md">
-      <Text fw={500} mb={5}>
+    <Paper px="md" py="sm" withBorder shadow="md" radius="md" style={{ background: 'black' }}>
+      <Text fw={500} mb={5}  style={{ color: 'white' }}>
         {label}
       </Text>
       {payload.map(item => (
-        <Text key={item.name} c={item.color} fz="sm">
+        <Text key={item.name} c={item.color} fz="sm" >
           {item.name}: {item.value}
         </Text>
       ))}
     </Paper>
   );
 }
+
+const processDataForLineChart = (banksData) => {
+  if (!banksData) return []; // Return empty array if no data
+  const processedData = [];
+
+  // Iterate over each bank entry
+  banksData.forEach((entry) => {
+    const bankName = entry.bank; // Extract the bank name
+
+    // Choose ratings array based on data availability
+    const ratingsArray = entry.monthly_ratings || entry.weekly_ratings;
+
+    // Iterate over each rating period
+    ratingsArray.forEach((ratingData) => {
+      const { period, rating } = ratingData;
+      //console.log("month period: ", period);
+      let dateString;
+
+      // If the period is a range, parse the start date from it
+      if (period.includes('-')) {
+        const [startDateString, _] = period.split(' - ');
+        const [startDay, startMonth, startYear] = startDateString.split(' ');
+        const monthAbbreviated =  startMonth.substring(0, 3);
+        dateString = `${startDay} ${monthAbbreviated} ${startYear}`;
+      } else { 
+        //console.log("month period: ", period);
+        dateString = period;
+
+      }
+
+      // Find if an entry for the date exists in the processed data array
+      const existingEntry = processedData.find((item) => item.date === dateString);
+
+      // If an entry for the date doesn't exist, create a new one
+      if (!existingEntry) {
+        const newEntry = { date: dateString }; // Initialize with the date
+        newEntry[bankName] = rating; // Add the rating for the current bank
+        processedData.push(newEntry); // Push the new entry to the processed data array
+      } else {
+        // If an entry for the date already exists, update the rating for the current bank
+        existingEntry[bankName] = rating;
+      }
+    });
+  });
+
+  return processedData;
+};
+
+
+
+const getRandomColor = (index) => {
+  const colors = [
+    '#6b6b6b', // Grey
+    '#a8a8a8', // Light Grey
+    '#999999', // Medium Grey
+    '#bdbdbd', // Silver
+    '#e0e0e0', // Light Silver
+    //'#757575', // Slate Grey
+    '#c0c0c0', // Grey Silver
+    '#f0f0f0', // White Smoke
+  ];
+  return colors[index % colors.length];
+
+};

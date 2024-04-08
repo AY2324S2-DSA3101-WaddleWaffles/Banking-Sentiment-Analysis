@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table } from '@mantine/core';
 
@@ -21,11 +21,11 @@ function TableBanksCount() {
     return <div>Loading...</div>; // Render a loading indicator while data is being fetched
   }
 
-  // Convert the dictionary into an array of objects
-  const rows = Object.entries(countData).map(([bank, count]) => (
-    <Table.Tr key={bank}>
-      <Table.Td>{bank}</Table.Td>
-      <Table.Td>{count}</Table.Td>
+  // Map over the fetched data to generate table rows
+  const rows = countData.map(item => (
+    <Table.Tr key={item.bank}>
+      <Table.Td>{item.bank}</Table.Td>
+      <Table.Td>{item.count}</Table.Td>
     </Table.Tr>
   ));
 

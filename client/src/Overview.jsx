@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Container } from "@mantine/core";
 import "./Overview.css";
 
@@ -10,20 +9,18 @@ import DonutChartComponent from "./components/DonutChart";
 import RefreshDatabase from "./components/RefreshButton";
 import SentimentByTopic from "./components/BarChart";
 
-//import PickDateRange from "./components/DateFilter";
-
 export default function Overview({ selectedDateRange }) {
-
+    console.log("overview page date:", selectedDateRange);
   return (
     <Container size="100%" height="100%" className="grid-container">
 
         <div className="grid-item donut" style={{ display: 'flex', justifyContent: 'center' }}> 
             <Container size="100%">
-                <DonutChartComponent />
+                <DonutChartComponent selectedDateRange={selectedDateRange} />
             </Container>
         </div>
 
-        <div className="grid-item number" style={{ display: 'flex', justifyContent: 'center' }}> 
+        {/* <div className="grid-item number" style={{ display: 'flex', justifyContent: 'center' }}> 
             <GetNumReviews /> reviews 
         </div> 
 
@@ -33,11 +30,12 @@ export default function Overview({ selectedDateRange }) {
 
         <div className="grid-item topic" style={{ display: 'flex', justifyContent: 'center' }} >
             <SentimentByTopic />
-        </div>
+        </div>*/}
 
         <div className="grid-item ratings" style={{ display: 'flex', justifyContent: 'center' }}>
-            <TimeSeriesGXS />
-        </div>
+            {/*<TimeSeriesGXS />*/}
+            <OverallGXSBySentiment selectedDateRange={selectedDateRange} />
+        </div> 
     </Container>
   );
 }
