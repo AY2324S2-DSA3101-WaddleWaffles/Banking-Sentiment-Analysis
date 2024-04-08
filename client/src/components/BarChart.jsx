@@ -4,12 +4,12 @@ import { Paper, Text } from '@mantine/core';
 import axios from 'axios';
 
 
-function BarChartComponent() {
+function SentimentByTopic() {
     const [reviewsData, setReviews] = useState([]);
 
     useEffect(() => {
       // fetch data from API endpoint
-      axios.get('http://127.0.0.1:5001/api/reviews')
+      axios.get('http://127.0.0.1:5001/reviews/topics-sentiment')
         .then(response => {
           console.log('Retrieved data:', response.data);
           setReviews(response.data); // Update reviewsData state
@@ -20,47 +20,33 @@ function BarChartComponent() {
         });
     }, []);
   
-    // function to process data and calculate sentiment counts for each topic
-    const processData = () => {
-      const topics = {};
-      for (const review of reviewsData) {
-        const { topic, sentiment } = review;
-        console.log('Processing review:', { topic, sentiment });
-        // Capitalize the first letter of the topic
-        const capitalizedTopic = topic.charAt(0).toUpperCase() + topic.slice(1);
-        if (!topics[capitalizedTopic]) {
-          topics[capitalizedTopic] = { pos: 0, neu: 0, neg: 0 };
-        }
-        topics[capitalizedTopic][sentiment]++;
-        console.log('Updated topics:', topics);
-      }
-      return Object.keys(topics).map(topic => ({
-        topic,
-        Positive: topics[topic].pos,
-        Neutral: topics[topic].neu,
-        Negative: topics[topic].neg
-      }));
-    };
-  
-    const data = processData();
-    console.log('Processed data:', data); // Log the processed data
+    
+    // process data
+    const transformedData = Object.keys(reviewsData).map(feature => ({
+      feature: feature.charAt(0).toUpperCase() + feature.slice(1), // capitalise first letter
+      Negative: (reviewsData[feature]["Negative"] * 100).toFixed(2),
+      Neutral: (reviewsData[feature]["Neutral"] * 100).toFixed(2), 
+      Positive: (reviewsData[feature]["Positive"] * 100).toFixed(2)
+    }));
+
 
     return (
-      <div style={{ marginRight: '10px', height: "250px",padding: '20px'  }}>
+      //<div style={{ marginLeft: '600px', height: "250px",padding: '20px', marginTop: '-600px'  }}>
         <BarChart
-            h='100%'
-            // w={550}
-            data={data}
-            dataKey="topic"
+            h="100%"
+            w="100%"
+            data={transformedData}s
+            dataKey="feature"
             type="stacked"
             orientation="vertical"
-            yAxisProps={{ width: 70 }}
+            yAxisProps={{ width: 100 }}
             xAxisProps={{ height: 30,
-                labelProps: { weight: 100, size: 'lg' }}}
+                labelProps: { weight: 100, size: 'lg' },
+                unit: "%"}}
             series={[
-                { name: 'Positive', color: 'green' },
-                { name: 'Neutral', color: 'blue.6' },
-                { name: 'Negative', color: 'red' },
+                { name: 'Positive', color: 'teal.6' },
+                { name: 'Neutral', color: 'yellow.6' },
+                { name: 'Negative', color: 'red.6' },
             ]}
             tooltipProps={{
                 content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
@@ -68,7 +54,7 @@ function BarChartComponent() {
             
             
         />
-      </div>       
+      //</div>       
     )
 }
 
@@ -90,4 +76,4 @@ function ChartTooltip({ label, payload }) {
     );
   }
 
-export default BarChartComponent;
+export default SentimentByTopic;
