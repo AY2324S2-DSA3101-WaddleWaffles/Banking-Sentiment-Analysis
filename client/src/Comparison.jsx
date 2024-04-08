@@ -19,15 +19,16 @@ export default function Comparison({ selectedDateRange }) {
         </Grid.Col>
         <Grid.Col span={4}>
           <div className="table-container">
-            <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px' }}>Count of Bank Sentiment </h2>
-            <TableBanksCount />
+            <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px' }}>Number of Bank Reviews </h2>
+            <TableBanksCount selectedDateRange={selectedDateRange}/>
           </div>
         </Grid.Col>
       </Grid>
 
       <Grid>
-        <div className="line-chart-container"> 
-        <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px' }}>Bank Ratings </h2>
+        <div className="line-chart-container">
+          {/* line chart title refuses to shift to directly above chart*/} 
+        <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px', marginLeft: '0px'  }}>Bank Ratings Over Time (Out of 10) </h2> 
           <ComparisonLine selectedDateRange={selectedDateRange}/>
         </div>
       </Grid>

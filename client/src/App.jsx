@@ -73,6 +73,7 @@ function App() {
         {activeHeaderTab === 'Overview' && <Overview selectedDateRange={selectedDateRange}/>}
         {activeHeaderTab === 'Product Reviews' && <NewProductReviews/>}
         {activeHeaderTab === 'Comparison' && <Comparison selectedDateRange={selectedDateRange}/>}
+        
       </AppShell.Main>
     </AppShell>
   );
