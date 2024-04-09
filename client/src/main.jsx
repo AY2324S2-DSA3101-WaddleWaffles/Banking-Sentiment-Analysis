@@ -11,9 +11,9 @@ const theme = createTheme({
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <MantineProvider theme={theme}>
-    <div className="fullscreen">
+    {/* <div className="fullscreen"> */}
       <App />
-    </div>
+    {/* </div> */}
     </MantineProvider>
 )
 

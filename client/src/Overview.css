@@ -1,0 +1,124 @@
+
+h2 {
+    font-size: 10px;
+  }
+  
+  .heading-reviews {
+    font-size: 45px;
+    margin: 0; /* Remove any default margins */
+    padding: 0; /* Remove any default padding */
+    /* text-align: center; */
+  }
+  
+  .heading-percentage {
+    font-size: 7px;
+    text-align: center;
+    margin:0;
+  }
+  
+  .plotHeading-percentage{ 
+    font-size: 10px;
+    text-align: center;
+  
+  }
+  
+  .fixedWidthCol{
+    width: 100px;
+  }
+  
+  .xAxesLabels{
+    text-align: center;
+    margin-top: -5px;
+    color: black;
+    font-size: 10px;
+  }
+  
+  .yAxesLabels{
+    /*position: absolute;*/
+    top: 10%; /* Position at the vertical center */
+    left: 0; /* Position at the left edge */
+    transform-origin: top left; /* Rotate around top-left corner */
+    transform: rotate(-90deg) translateX(-30%); /* Rotate 90 degrees to the left and shift to the left */
+    white-space: nowrap; /* Prevent text from wrapping */
+    left: 2%;
+  }
+    
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-gap: 7px;
+    overflow: auto;
+    height: calc(100vh - 100px);
+    grid-template-areas: "number	number	number	topic	topic	topic"
+    "donut	donut	donut	topic	topic	topic"
+    "donut	donut	donut	topic	topic	topic"
+    "donut	donut	donut	topic	topic	topic"
+    "ratings	ratings	ratings	insights	insights	insights"
+    "ratings	ratings	ratings	insights	insights	insights"
+    "ratings	ratings	ratings	insights	insights	insights"
+    "ratings	ratings	ratings	insights	insights	insights";
+
+
+  }
+  
+  .grid-item {
+    display: flex;
+    /* size: 100%; */
+    padding: 7px;
+    border: 2px solid black;
+    border-radius: 10px; 
+    /* margin: 5px; */
+    /* margin-bottom: 0; */
+
+  }
+  
+  .number {
+    grid-area: number;
+    align-items: center;
+    font-size: 40px; 
+
+  }
+  
+  .donut {
+    grid-area: donut;
+    align-items: center;
+  }
+
+
+  
+  .insights{
+    grid-area: insights;
+    /* height: auto; 
+    width: auto; */
+
+  }
+  
+  .topic {
+    grid-area: topic;
+    height: "100%";
+    width: "100%"
+    /* align-items: center; */
+
+  }
+
+  .ratings {
+    grid-area: ratings;
+    padding: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: 2fr;
+      grid-template-rows: auto;
+      grid-template-areas:
+        "number"
+        "donut"
+        "topic"
+        "ratings"
+        "insights";
+    }
+  
+  }
+  
+  

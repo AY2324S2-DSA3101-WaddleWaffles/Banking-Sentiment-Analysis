@@ -56,16 +56,6 @@ const DateFilter = ({onDateRangeChange}) => {
 
     };
 
-    // // save updated date range into variable
-    // const updatedDateRange = range[0]; // in day mon dd yyyy hh:mm:ss format
-    // console.log(updatedDateRange);
-    // const newStartDate = updatedDateRange.startDate;
-    // const newEndDate = updatedDateRange.endDate;
-
-    // // change format of start and end date
-    // const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'});
-    // const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'});
-
     return (
       <div className="calendarWrap">
         

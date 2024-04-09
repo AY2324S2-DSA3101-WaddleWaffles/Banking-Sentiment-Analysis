@@ -1,56 +1,108 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { Container } from "@mantine/core";
 import { DonutChart } from '@mantine/charts';
-import GetDonutLabel from './DonutLabel';
+import { Paper, Text } from '@mantine/core';
+import classes from "./DonutChart.module.css"
 
-export default function DonutChartComponent(){
-    const [reviewsData, setReviews] = useState([]);
-    const [averageGXS, setAverageGXS] = useState(null); // State to hold averageGXS
+export default function DonutChartComponent({ selectedDateRange }) {
+
+    console.log(selectedDateRange);
+
+    // save updated start and end dates into variable
+    const newStartDate = selectedDateRange.startDate;
+    const newEndDate = selectedDateRange.endDate;
+
+    // change format of start and end date to dd-mm-yyyy
+    const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
+    const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
+    
+    // State variables
+    const [transformedData, setTransformedData] = useState([]);
+    const [averageLabel, setAverageLabel] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Fetch data
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const api = `http://127.0.0.1:5001/reviews/donut-chart-data?start-date=${formattedStartDate}&end-date=${formattedEndDate}`;
+                const response = await fetch(api.toString());
+                const jsonData = await response.json();
+                const transformedData = jsonData.map(item => ({
+                    ...item,
+                    value: item.value * 100
+                }));
+                setTransformedData(transformedData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [selectedDateRange]);
+    console.log(transformedData);
 
     useEffect(() => {
-        // fetch data from API endpoint for the values
-        axios.get('http://127.0.0.1:5001/reviews/donut-chart-data')
-            .then(response => {
-                console.log('Donut Retrieved data:', response.data);
-                setReviews(response.data); // Update reviewsData state
-            })
-            .catch(error => {
-                console.error('Error fetching reviews:', error);
-                // Handle error, e.g., display error message to user
-            });
+        const fetchLabelData = async () => {
+            try {
+                const api2 = `http://127.0.0.1:5001/reviews/average-rating?start-date=${formattedStartDate}&end-date=${formattedEndDate}`;
+                const response = await fetch(api2.toString());
+                const jsonData = await response.json();
+                const gxsData = jsonData.filter(item => item.bank === 'GXS');
+                const averageLabel = (gxsData[0].average_ratings.total).toFixed(1);
+                setAverageLabel(averageLabel);
+            } catch (error) {
+                console.error('Error fetching label data:', error);
+            }
+        };
 
-        // fetch data for overall average rating for last n months
-        axios.get('http://127.0.0.1:5001/reviews/average-rating')
-            .then(response => {
-                console.log('Retrieved label data:', response.data);
-                // Set averageGXS state here
-                setAverageGXS(response.data.GXS.total.toFixed(1));
-            })
-            .catch(error => {
-                console.error('Error fetching reviews:', error);
-                // Handle error, e.g., display error message to user
-            });
-    }, []);
+        fetchLabelData();
+    }, [selectedDateRange]);
 
-    // process data
-    const transformedData = reviewsData.map(item => ({
-        name: item.name,
-        value: parseFloat((item.value * 100).toFixed(2)),
-        color: item.color
-    }));
-    console.log('Donut transformed data:', transformedData);
+    // Function for tooltip
+    function ChartTooltip({ label, payload }) {
+        if (!payload) return null;
+      
+        return (
+            <Paper px="md" py="sm" withBorder shadow="md" radius="md">
+                <Text fw={500} mb={5}>
+                    {label}
+                </Text>
+                {payload.map(item => (
+                    <Text key={item.name} c={item.color} fz="sm">
+                        {item.name}: {item.value}
+                    </Text>
+                ))}
+            </Paper>
+        );
+    };
 
+    // Render the component
     return (
-        <div style={{ marginLeft: '-600px', height: "250px" ,marginTop: "-200px"}}>
-            {/* Pass averageGXS as a prop to GetDonutLabel */}
-            <GetDonutLabel averageGXS={averageGXS} />
-            <DonutChart 
-                h="100%"
-                data={transformedData}
-                mx="auto"
-                withTooltip={false}
-                chartLabel={averageGXS} // Use averageGXS as chart label
-            />
+        <div>
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : (
+                <div className={classes.label}>
+                    <DonutChart 
+                        data={transformedData}
+                        tooltipProps={{
+                            content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
+                        }}
+                        h={380}
+                        w={280}
+                        mx="auto"
+                        size = {200}
+                        thickness = {25}
+                        chartLabel= {averageLabel}
+                        
+                    />
+                </div>
+                
+            )}
         </div>
     );
 }
+

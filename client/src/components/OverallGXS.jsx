@@ -204,11 +204,11 @@ export default function OverallGXSBySentiment({ selectedDateRange }) {
     //const yAxisDomain = [0, 100];
 
     return (
-        <div style={{ height: "250px", marginTop: "160px"  }}>
+        // <div style={{ marginLeft: '10px', height: "250px", marginTop: "10px", marginRight:'10px' }}>
           <LineChart
-              h="90%"
-              //w={600}
-              data={formattedData} // need to go under if condition, cus monthly data and weekly data are diff
+              h="100%"
+              w="100%"
+              data={formattedData}
               dataKey='month'
               unit='%'
               series={[
@@ -228,6 +228,6 @@ export default function OverallGXSBySentiment({ selectedDateRange }) {
               
           />
 
-        </div>
+        // {/* </div> */}
     );
 }
