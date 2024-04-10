@@ -16,7 +16,6 @@ class TopicModel:
         """
         # Initialise pipe - Load zero-shot classification pipeline
         self.pipe = pipeline("zero-shot-classification")
-        print(self.pipe.model.base_model.__class__.__name__)
         self.topics = topics
 
     def get_topic(self, reviews):

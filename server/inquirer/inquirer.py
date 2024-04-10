@@ -5,15 +5,24 @@ class Inquirer:
     A class for generating recommendations based on customer concerns.
 
     Attributes:
-        model (TextGenerationModel): A text generation model used for generating insights and recommendation.
-        prompt (function): A lambda function to generate a prompt based on a given concern.
+        model (TextGenerationModel): A text generation model used for generating insights and recommendations.
+        insights_output (str): Output format for insights.
+        comparison_output (str): Output format for feature comparison.
+        suggestions_output (str): Output format for suggestions.
+        main_data_prompt (function): A lambda function to generate a prompt based on overall data.
+        topic_data_prompt (function): A lambda function to generate a prompt based on topic-specific data.
+        insights_prompt (function): A lambda function to generate a prompt for insights.
+        comparison_prompt (function): A lambda function to generate a prompt for feature comparison.
+        suggestions_prompt (function): A lambda function to generate a prompt for suggestions.
+        rules_prompt (str): Prompt specifying rules for the generated output.
     """
 
     def __init__(self, api_key):
         """
-        Initialise the Recommender object.
+        Initialize the Inquirer object.
 
         Args:
+            api_key (str): The API key for accessing the text generation model.
         """
 
         self.model = TextGenerationModel(api_key=api_key)
@@ -33,14 +42,16 @@ class Inquirer:
 
     def get_insights(self, general_data, topics_data={}):
         """
-        Generate a recommendation based on the given concern.
+        Generate insights based on the provided data.
 
         Args:
-            concern (str): The concern provided by the user.
+            general_data (str): The overall data acquired from the banking application.
+            topics_data (dict): Dictionary containing ratings for different topics.
 
         Returns:
-            str: The generated recommendation.
+            str: The generated insights.
         """
+
         full_prompt = self.insights_prompt(self.insights_output) + self.rules_prompt
         full_prompt += self.main_data_prompt(general_data)
         for topic, data in topics_data.items():
@@ -51,14 +62,17 @@ class Inquirer:
     
     def get_comparison(self, gxs_topics_data, other_bank, other_bank_topics_data):
         """
-        Generate a recommendation based on the given concern.
+        Generate a comparison report between GXS Bank and another bank.
 
         Args:
-            concern (str): The concern provided by the user.
+            gxs_topics_data (dict): Dictionary containing ratings for GXS Bank's topics.
+            other_bank (str): Name of the other bank being compared.
+            other_bank_topics_data (dict): Dictionary containing ratings for the other bank's topics.
 
         Returns:
-            str: The generated recommendation.
+            str: The generated comparison report.
         """
+
         full_prompt = self.comparison_prompt(self.comparison_output) + self.rules_prompt
         for topic, data in gxs_topics_data.items():
             full_prompt += self.topic_data_prompt("GXS", topic, data)
@@ -70,14 +84,15 @@ class Inquirer:
     
     def get_suggestions(self, topics_data={}):
         """
-        Generate a recommendation based on the given concern.
+        Generate suggestions for improving features based on provided data.
 
         Args:
-            concern (str): The concern provided by the user.
+            topics_data (dict): Dictionary containing ratings for different topics.
 
         Returns:
-            str: The generated recommendation.
+            str: The generated suggestions.
         """
+        
         full_prompt = self.suggestions_prompt(self.suggestions_output) + self.rules_prompt
         for topic, data in topics_data.items():
             full_prompt += self.topic_data_prompt("GXS", topic, data)
