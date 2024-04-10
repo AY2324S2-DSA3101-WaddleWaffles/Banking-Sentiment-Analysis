@@ -1,0 +1,4 @@
+/* Align headers in the middle of each column */
+Th {
+    vertical-align: middle;
+  }

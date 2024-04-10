@@ -1,7 +1,5 @@
-# Summary: Replaced all the NaN with "Others". However, might not be the best solution - why is it 
-# evaluating to NaN? seems to be most gxs reviews evaluating to NaN.
+# Summary: 
 # 
-
 import csv
 import pandas as pd
 import gensim
@@ -33,7 +31,7 @@ tokenized_review = [word_tokenize(review.lower()) for review in df['review']]
 dictionary = Dictionary(tokenized_review)
 dictionary.filter_extremes(no_below=10, no_above=0.5)
 corpus = [dictionary.doc2bow(tokens) for tokens in tokenized_review]
-associated_words = ['application', 'login', 'interface', 'update', 'bug']
+associated_words = ['login', 'interface', 'crash', 'speed', 'update', 'notifications', 'functions', 'security', 'error']
 lda_model = LdaModel(corpus, num_topics=len(associated_words), passes=10, id2word=dictionary, eta='auto', eval_every=None, iterations=500, alpha='auto', random_state=42)
 similarity_df = pd.DataFrame(index=df.index, columns=associated_words)
 
@@ -52,14 +50,6 @@ for i, review in enumerate(tokenized_review):
             max_score = 0.0  # Assign a default probability score if below threshold
         similarity_df.at[i, word] = max_score
 
-
-'''
-for i, review in enumerate(tokenized_review):
-    bow = dictionary.doc2bow(review)
-    topics = lda_model.get_document_topics(bow)
-    for j, word in enumerate(associated_words):
-        similarity_df.at[i, word] = max(score for topic_id, score in topics if topic_id == j)
-'''
 similarity_df = similarity_df.apply(pd.to_numeric)
 
 df['associated_word'] = similarity_df.idxmax(axis=1)
@@ -73,5 +63,25 @@ print(df)
 full_associated_words_list = df['associated_word'].tolist()
 #print(full_associated_words_list)
 
-#######
+# Create a new column for accuracy score and initialize with 0
+df['accuracy'] = 0
+
+# Iterate over each row in the DataFrame
+for index, row in df.iterrows():
+    # Check if the associated word matches the label or label2
+    if row['associated_word'] == row['label'] or row['associated_word'] == row['label2']:
+        # If there's a match, assign an accuracy score of 1
+        df.at[index, 'accuracy'] = 1
+
+# Calculate the overall accuracy
+overall_accuracy = df['accuracy'].sum() / len(df)
+
+# Print the DataFrame with the accuracy column
+print(df)
+
+# Print the overall accuracy
+print("Overall Accuracy:", overall_accuracy)
+
+
+
 

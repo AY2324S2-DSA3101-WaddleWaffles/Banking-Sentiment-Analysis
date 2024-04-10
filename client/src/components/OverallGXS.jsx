@@ -8,7 +8,7 @@ export default function OverallGXSBySentiment({ selectedDateRange }) {
 
     useEffect(() => {
         // Fetch data from API endpoint
-        axios.get('http://127.0.0.1:5001/reviews/months-sentiment')
+        axios.get('http://127.0.0.1:5001/reviews')
             .then(response => {
                 console.log('Retrieved data:', response.data);
                 // Filter the fetched data based on the selected date range
@@ -140,10 +140,10 @@ export default function OverallGXSBySentiment({ selectedDateRange }) {
     const yAxisDomain = [0, maxValue] ;
 
     return (
-        <div style={{ marginLeft: '650px', height: "250px", marginTop: "120px"  }}>
+        // <div style={{ marginLeft: '10px', height: "250px", marginTop: "10px", marginRight:'10px' }}>
           <LineChart
-              h="90%"
-              w={600}
+              h="100%"
+              w="100%"
               data={sortedData}
               dataKey='month'
               series={[
@@ -163,6 +163,6 @@ export default function OverallGXSBySentiment({ selectedDateRange }) {
               
           />
 
-        </div>
+        // {/* </div> */}
     );
 }

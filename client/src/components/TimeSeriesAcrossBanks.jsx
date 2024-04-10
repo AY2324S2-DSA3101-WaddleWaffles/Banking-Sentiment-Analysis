@@ -11,9 +11,9 @@ export default function TimeSeries() {
 
     useEffect(() => {
       // fetch data from API endpoint
-      axios.get('http://127.0.0.1:5001/api/reviews')
+      axios.get('http://127.0.0.1:5001/reviews/average-rating')
         .then(response => {
-          console.log('Retrieved data:', response.data);
+          console.log('Retrieved data for line comparison chart :', response.data);
           setReviews(response.data); // Update reviewsData state
         })
         .catch(error => {
