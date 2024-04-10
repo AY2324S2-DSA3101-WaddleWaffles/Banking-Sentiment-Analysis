@@ -97,7 +97,7 @@ class DataManager:
                 }]
             }
             for feature, value in kwargs.items():
-                if feature not in ["start_date", "end_date"]:
+                if feature not in ["start_date", "end_date"] and value:
                     query["$and"].append({feature: value})
                 
             reviews = [doc for doc in collection.find(query, {"_id": 0})]
@@ -178,7 +178,7 @@ class DataManager:
                 }]
             }
             for feature, value in kwargs.items():
-                if feature not in ["start_date", "end_date"]:
+                if feature not in ["start_date", "end_date"] and value:
                     query["$and"].append({feature: value})
                 
             reviews = [doc for doc in collection.find(query, {"_id": 0})]
