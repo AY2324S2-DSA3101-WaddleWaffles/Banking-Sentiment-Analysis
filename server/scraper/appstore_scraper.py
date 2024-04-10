@@ -1,15 +1,14 @@
 """
 Scrapes data from the apple store
 If given a parameter, datetime, should only scrape data from that datetime onwards
+Request limit should be around 3500 requests per hour. If no datetime will not have enough requests to scrape.
 """
 
 import pandas as pd
 import numpy as np
 import json
-import datetime
+from datetime import datetime
 from app_store_scraper import AppStore
-
-## Request limit should be around 3500 requests per hour. If no datetime will not have enough requests to scrape.
 
 class AppScraper:
     """

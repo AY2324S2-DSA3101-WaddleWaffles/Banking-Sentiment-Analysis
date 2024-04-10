@@ -7,6 +7,7 @@ Quota is 200,000 queries per day
 import pandas as pd
 import numpy as np
 import json
+from datetime import datetime
 from google_play_scraper import reviews, Sort, app
 
 
@@ -28,30 +29,28 @@ class PlayStoreScraper:
 
         self.apps = {}
 
-    def scrape_banks(self, tokens):
+    def scrape_banks(self, datetime_scrape = datetime.min):
         """
         Scrapes reviews for multiple banks' apps and adds the bank name to each review.
 
         Args:
-            continuation_token (dictionary): Dictionary of banks to tokens allowing the scraper to skip past scraped data.
+            datetime (datetime, optional): Scrapes data from datetime onwards, if empty, scrapes all reviews.
 
         Returns:
             pd.DataFrame: A DataFrame containing the scraped dataset with columns for reviews and bank names.
-            dict: A dictionary mapping bank names to continuation tokens.
+            datetime: Current datetime
         """
         scraped_reviews = []
         banks_in_review = []
-        new_tokens = {}
         for bank in self.apps.keys():
             result, continuation_token = reviews(
                 self.apps[bank],
                 lang = 'en',
                 country = 'us',
                 sort = Sort.NEWEST,
-                count = 5000,
-                continuation_token = tokens[bank]
+                count = 500,
+                continuation_token = None
             )
-            new_tokens[bank] = continuation_token
 
             for i in result:
                 banks_in_review.append(bank)
@@ -62,5 +61,9 @@ class PlayStoreScraper:
         pd_reviews = pd_reviews.join(pd.DataFrame(pd_reviews.pop('review').tolist()))
 
         pd_reviews["bank"] = banks_in_review
+        
+        pd_reviews["date"] = pd.to_datetime(pd_reviews["date"])
 
-        return pd_reviews, new_tokens
+        pd_reviews = pd_reviews.loc(pd_reviews["date"] > datetime_scrape)
+
+        return pd_reviews, datetime.now()
