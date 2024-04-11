@@ -59,5 +59,6 @@ def preprocess_appstore_data(df):
     df['review'] = df['review'].apply(preproccessing)
     df['title'] = df['title'].apply(preproccessing)
     df['bank'] = df['bank'].str.upper()
-
+    df['source'] = "appstore"
+    
     return df

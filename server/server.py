@@ -4,8 +4,10 @@ from dateutil.relativedelta import relativedelta
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from inquirer.inquirer import Inquirer
 
 import calendar
+import json
 import os
 
 app = Flask(__name__)
@@ -15,9 +17,10 @@ CORS(app)
 load_dotenv()
 
 # Access the loaded variables
-db_user, db_pass = os.getenv("DATABASE_USERNAME"), os.getenv("DATABASE_PASSWORD")
+db_user, db_pass, h2o_api = os.getenv("DATABASE_USERNAME"), os.getenv("DATABASE_PASSWORD"), os.getenv("H2O_API_KEY")
 
 data_manager = DataManager(db_user, db_pass)
+inquirer = Inquirer(h2o_api)
 
 @app.route("/latest-day", methods=["GET"])
 def get_latest_day():
@@ -55,7 +58,7 @@ def get_sentiment_by_topic():
         
         for topic in topic_sentiments:
             review_count = sum(topic_sentiments[topic].values())
-            topic_sentiments[topic] = {sentiment: round(amount / review_count, 3) for sentiment, amount in topic_sentiments[topic].items()}
+            topic_sentiments[topic] = {sentiment: round(amount / review_count, 3) if review_count != 0 else None for sentiment, amount in topic_sentiments[topic].items()}
         result["bank"] = bank
         result["start_date"] = start_date
         result["end_date"] = end_date
@@ -69,6 +72,7 @@ def get_average_rating(num_months=None):
     start_date = datetime.strptime(request.args.get("start-date") or "01-08-2022", "%d-%m-%Y").date()
     end_date = datetime.strptime(request.args.get("end-date") or datetime.now().strftime("%d-%m-%Y"), "%d-%m-%Y").date()
     banks = request.args.getlist("bank") or data_manager.retrieve_sample_banks()
+    topic = request.args.get("topic")
 
     if num_months:
         latest_day = datetime.now().date()
@@ -86,7 +90,7 @@ def get_average_rating(num_months=None):
         for bank in banks:
             result = {}
             avg_ratings = {"total": [0, 0]}
-            reviews = data_manager.retrieve_sample_reviews(start_date=date(earliest_date.year, earliest_date.month, 1).strftime("%d-%m-%Y"), end_date=latest_day.strftime("%d-%m-%Y"), bank=bank)
+            reviews = data_manager.retrieve_sample_reviews(start_date=date(earliest_date.year, earliest_date.month, 1).strftime("%d-%m-%Y"), end_date=latest_day.strftime("%d-%m-%Y"), bank=bank, topic=topic)
             for review in reviews:
                 month_year = f"{calendar.month_name[review["month"]]} {review["year"]}"
                 avg_ratings[month_year] = avg_ratings.get(month_year, [0, 0])
@@ -97,7 +101,7 @@ def get_average_rating(num_months=None):
 
             for rating_period in avg_ratings:
                 summed_rating, count = avg_ratings[rating_period]
-                avg_ratings[rating_period] = round(summed_rating / count, 3)
+                avg_ratings[rating_period] = round(summed_rating / count, 3) if count != 0 else None
 
             sorted_ratings = []
             for year in range(earliest_date.year, latest_day.year + 1):
@@ -111,8 +115,10 @@ def get_average_rating(num_months=None):
                     sorted_ratings.append({"period": month_year, "rating": avg_rating})
 
             result["bank"] = bank
-            result["monthly_ratings"] = sorted_ratings
+            result["ratings"] = sorted_ratings
             result["total_rating"] = avg_ratings["total"]
+            if topic:
+                result["topic"] = topic
             results.append(result)
         
         return jsonify(results)
@@ -127,7 +133,7 @@ def get_average_rating(num_months=None):
             ratings = [0, 0]
             monday_date = tracked_date - relativedelta(days=6)
             date_string = f"{monday_date.strftime("%d %B %Y")} - {tracked_date.strftime("%d %B %Y")}"
-            reviews = data_manager.retrieve_sample_reviews(start_date=monday_date.strftime("%d-%m-%Y"), end_date=tracked_date.strftime("%d-%m-%Y"), bank=bank)
+            reviews = data_manager.retrieve_sample_reviews(start_date=monday_date.strftime("%d-%m-%Y"), end_date=tracked_date.strftime("%d-%m-%Y"), bank=bank, topic=topic)
             for review in reviews:
                 ratings[0] += review["rating"]
                 ratings[1] += 1
@@ -142,8 +148,10 @@ def get_average_rating(num_months=None):
         total_rating = total_rating[0] / total_rating[1] if total_rating[1] != 0 else None
         
         result["bank"] = bank
-        result["weekly_ratings"] = sorted_ratings[::-1]
+        result["ratings"] = sorted_ratings[::-1]
         result["total_rating"] = total_rating
+        if topic:
+            result["topic"] = topic
         results.append(result)
 
     return jsonify(results)
@@ -152,7 +160,6 @@ def get_average_rating(num_months=None):
 def get_latest_average_rating():
     earliest_date = datetime(2022, 8, 1)
     num_months = int(request.args.get("months-count") or (datetime.today().year - earliest_date.year) * 12 + (datetime.today().month - earliest_date.month))
-    print(num_months)
     return get_average_rating(num_months)
 
 @app.route("/reviews/average-sentiment", methods=["GET"])
@@ -165,6 +172,7 @@ def get_average_sentiment():
     earliest_date = start_date
 
     banks = request.args.getlist("bank") or data_manager.retrieve_sample_banks()
+    topic = request.args.get("topic")
 
     results = []
 
@@ -172,7 +180,7 @@ def get_average_sentiment():
         for bank in banks:
             result = {}
             sentiments = {"total": {"Positive": 0, "Neutral": 0, "Negative": 0}}
-            reviews = data_manager.retrieve_sample_reviews(start_date=date(earliest_date.year, earliest_date.month, 1).strftime("%d-%m-%Y"), end_date=latest_day.strftime("%d-%m-%Y"), bank=bank)
+            reviews = data_manager.retrieve_sample_reviews(start_date=date(earliest_date.year, earliest_date.month, 1).strftime("%d-%m-%Y"), end_date=latest_day.strftime("%d-%m-%Y"), bank=bank, topic=topic)
             for review in reviews:
                 month_year = f"{calendar.month_name[review["month"]]} {review["year"]}"
                 sentiments[month_year] = sentiments.get(month_year, {"Positive": 0, "Neutral": 0, "Negative": 0})
@@ -181,7 +189,7 @@ def get_average_sentiment():
 
             for sentiment_period in sentiments:
                 count = sum(sentiments[sentiment_period].values())
-                sentiments[sentiment_period] = {period: round(amount / count, 3) for period, amount in sentiments[sentiment_period].items()}
+                sentiments[sentiment_period] = {period: round(amount / count, 3) if count != 0 else None for period, amount in sentiments[sentiment_period].items()}
 
             sorted_sentiments = []
             for year in range(earliest_date.year, latest_day.year + 1):
@@ -195,8 +203,10 @@ def get_average_sentiment():
                     sorted_sentiments.append({"period": month_year, "sentiment": sentiment})
 
             result["bank"] = bank
-            result["monthly_sentiments"] = sorted_sentiments
+            result["sentiments"] = sorted_sentiments
             result["total_sentiments"] = sentiments["total"]
+            if topic:
+                result["topic"] = topic
             results.append(result)
         
         return jsonify(results)
@@ -211,23 +221,25 @@ def get_average_sentiment():
             current_sentiment = {"Positive": 0, "Neutral": 0, "Negative": 0}
             monday_date = tracked_date - relativedelta(days=6)
             date_string = f"{monday_date.strftime("%d %B %Y")} - {tracked_date.strftime("%d %B %Y")}"
-            reviews = data_manager.retrieve_sample_reviews(start_date=monday_date.strftime("%d-%m-%Y"), end_date=tracked_date.strftime("%d-%m-%Y"), bank=bank)
+            reviews = data_manager.retrieve_sample_reviews(start_date=monday_date.strftime("%d-%m-%Y"), end_date=tracked_date.strftime("%d-%m-%Y"), bank=bank, topic=topic)
             for review in reviews:
                 current_sentiment[review["sentiment"]] += 1
                 total_sentiment[review["sentiment"]] += 1
 
             count = sum(current_sentiment.values())
-            current_sentiment = {period: round(amount / count, 3) for period, amount in current_sentiment.items()} if count != 0 else current_sentiment
+            current_sentiment = {period: round(amount / count, 3) if count != 0 else None for period, amount in current_sentiment.items()} if count != 0 else current_sentiment
             sorted_sentiments.append({"period": date_string, "sentiment": current_sentiment})
 
             tracked_date = monday_date - relativedelta(days=1)
 
         total_count = sum(total_sentiment.values())
-        total_sentiment = {period: round(amount / total_count, 3) for period, amount in total_sentiment.items()} if total_count != 0 else total_sentiment
+        total_sentiment = {period: round(amount / total_count, 3) if count != 0 else None for period, amount in total_sentiment.items()} if total_count != 0 else total_sentiment
         
         result["bank"] = bank
-        result["weekly_sentiments"] = sorted_sentiments[::-1]
+        result["sentiments"] = sorted_sentiments[::-1]
         result["total_sentiments"] = total_sentiment
+        if topic:
+            result["topic"] = topic
         results.append(result)
 
     return jsonify(results)
@@ -277,17 +289,84 @@ def get_review_counts():
     
     return results
 
-@app.route("/reviews/recommendation", methods=["GET"])
-def generate_recommendation():
-    return jsonify({"recommendation": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "\
-                    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "\
-                    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."})
-
 @app.route("/reviews/insights", methods=["GET"])
 def generate_insights():
-    return jsonify({"insights": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "\
-                    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "\
-                    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."})
+    start_date = request.args.get("start-date") or "01-08-2022"
+    end_date = request.args.get("end-date") or datetime.now().strftime("%d-%m-%Y")
+    request_args = {
+        "start-date": start_date,
+        "end-date": end_date,
+        "bank": "GXS",
+        "topic": None
+    }
+    
+    topics = get_all_topics().get_json()["topics"]
+    topics_data = {}
+    with app.test_request_context('/reviews/average-rating', query_string=request_args):
+        general_data = json.dumps(get_average_rating().get_json())
+
+    for topic in topics:
+        request_args["topic"] = topic
+        with app.test_request_context('/reviews/average-rating', query_string=request_args):
+            topic_data = json.dumps(get_average_rating().get_json())
+            topics_data[topic] = topic_data
+    
+    insights = inquirer.get_insights(general_data=general_data, topics_data=topics_data)
+    return jsonify({"insights": insights})
+
+@app.route("/reviews/comparison", methods=["GET"])
+def generate_comparison():
+    start_date = request.args.get("start-date") or "01-08-2022"
+    end_date = request.args.get("end-date") or datetime.now().strftime("%d-%m-%Y")
+    compared_bank = request.args.get("compared-bank")
+    request_args = {
+        "start-date": start_date,
+        "end-date": end_date,
+        "bank": "GXS",
+        "topic": None
+    }
+    
+    topics = get_all_topics().get_json()["topics"]
+    gxs_topics_data = {}
+    for topic in topics:
+        request_args["topic"] = topic
+        with app.test_request_context('/reviews/average-rating', query_string=request_args):
+            topic_data = json.dumps(get_average_rating().get_json())
+            gxs_topics_data[topic] = topic_data
+
+    request_args["bank"] = compared_bank
+    other_bank_topics_data = {}
+    for topic in topics:
+        request_args["topic"] = topic
+        with app.test_request_context('/reviews/average-rating', query_string=request_args):
+            topic_data = json.dumps(get_average_rating().get_json())
+            other_bank_topics_data[topic] = topic_data
+        
+    comparison = inquirer.get_comparison(gxs_topics_data=gxs_topics_data, other_bank=compared_bank, other_bank_topics_data=other_bank_topics_data)
+    return jsonify({"comparison": comparison})
+
+@app.route("/reviews/suggestions", methods=["GET"])
+def generate_suggestions():
+    start_date = request.args.get("start-date") or "01-08-2022"
+    end_date = request.args.get("end-date") or datetime.now().strftime("%d-%m-%Y")
+    request_args = {
+        "start-date": start_date,
+        "end-date": end_date,
+        "bank": "GXS",
+        "topic": None
+    }
+    
+    topics = get_all_topics().get_json()["topics"]
+    topics_data = {}
+
+    for topic in topics:
+        request_args["topic"] = topic
+        with app.test_request_context('/reviews/average-rating', query_string=request_args):
+            topic_data = json.dumps(get_average_rating().get_json())
+            topics_data[topic] = topic_data
+    
+    suggestions = inquirer.get_suggestions(topics_data=topics_data)
+    return jsonify({"suggestions": suggestions})
 
 @app.route("/reviews/donut-chart-data", methods=["GET"])
 def get_donut_chart_data():
@@ -306,7 +385,7 @@ def get_donut_chart_data():
 
     total_count = sum(sentiments.values())
     for sentiment in sentiments:
-        sentiments[sentiment] = round(sentiments[sentiment] / total_count, 3)
+        sentiments[sentiment] = round(sentiments[sentiment] / total_count, 3)  if total_count != 0 else None
 
     colour = {"Positive": "teal.6", "Neutral": "yellow.6", "Negative": "red.6"}
     data = []

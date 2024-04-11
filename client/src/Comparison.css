@@ -1,4 +1,73 @@
-/* Align headers in the middle of each column */
-Th {
-    vertical-align: middle;
+h2 {
+  font-size: 10px;
+}
+  
+.grid-container-comparison {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 7px;
+  /* overflow: auto; */ /* do this if needed */
+  height: calc(100vh - 100px);
+  grid-template-areas: "rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	count	count	count"
+  "rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	count	count	count"
+  "sentiment-banks	sentiment-banks	sentiment-banks	sentiment-banks	sentiment-banks	insights-banks	insights-banks	insights-banks"
+  "sentiment-banks	sentiment-banks	sentiment-banks	sentiment-banks	sentiment-banks	insights-banks	insights-banks	insights-banks";
+
+
+}
+
+.grid-item-comparison {
+  display: flex;
+  /* size: 100%; */
+  padding: 7px;
+  border: 2px solid black;
+  border-radius: 10px; 
+  /* margin: 5px; */
+  /* margin-bottom: 0; */
+
+}
+
+.rating-banks {
+  grid-area: rating-banks;
+  /* font-size: 50px; */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+}
+
+.count {
+  grid-area: count;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sentiment-banks{
+  grid-area: sentiment-banks;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+}
+
+.insights-banks {
+  grid-area: insights-banks;
+
+}
+
+
+@media (max-width: 768px) {
+  .grid-container-comparison {
+    grid-template-columns: 2fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "rating-banks"
+      "count"
+      "sentiment-banks"
+      "insights-banks";
   }
+
+}
+
