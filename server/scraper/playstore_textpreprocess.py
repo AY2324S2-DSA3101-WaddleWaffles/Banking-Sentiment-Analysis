@@ -60,5 +60,6 @@ def preprocess_playstore_data(df):
     df['title'] = df['title'].apply(preproccessing)
     df['bank'] = df['bank'].str.upper()
     df['source'] = 'playstore'
-
+    df['review'].replace('', np.nan, inplace=True)
+    df.dropna(subset=['review'], inplace=True)
     return df

@@ -27,7 +27,7 @@ class PlayStoreScraper:
             apps (dictionary): Dictionary of bank names to apps
         """
 
-        self.apps = {}
+        self.apps = apps
 
     def scrape_banks(self, datetime_scrape = datetime.min):
         """
@@ -62,8 +62,8 @@ class PlayStoreScraper:
 
         pd_reviews["bank"] = banks_in_review
         
-        pd_reviews["date"] = pd.to_datetime(pd_reviews["date"])
+        pd_reviews["at"] = pd.to_datetime(pd_reviews["at"])
 
-        pd_reviews = pd_reviews.loc(pd_reviews["date"] > datetime_scrape)
+        pd_reviews = pd_reviews.loc[pd_reviews["at"] > datetime_scrape]
 
         return pd_reviews, datetime.now()
