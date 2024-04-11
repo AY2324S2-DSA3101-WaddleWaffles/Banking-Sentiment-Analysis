@@ -1,25 +1,50 @@
-from models.text_generation_model import TextGenerationModel
+from nltk.corpus import stopwords
+
+import numpy as np
+
+import nltk
+import shap
+
+nltk.download('stopwords')
 
 class Explainer:
+    """
+    Class for generating keyword explanations using SHAP values.
 
-    def __init__(self, api_key):
+    Attributes:
+        explainer: A SHAP explainer object.
+        special_chars: String containing special characters to be removed from words.
+        sentiment_index: Dictionary mapping sentiment labels to their corresponding indices.
+        stop_words: Set of stopwords in English.
+    """
+
+    def __init__(self, model):
         """
-        Initialize the Inquirer object.
+        Initialises the Explainer with a SHAP explainer object.
 
         Args:
-            api_key (str): The API key for accessing the text generation model.
+            model: A model to be explained.
         """
-        self.model = TextGenerationModel(api_key=api_key)
 
-        self.text_prompt = lambda text: f"Text: {text}"
-        self.sentiment_prompt = lambda sentiment: f"Sentiment: {sentiment}"
-        self.rules_prompt = "Given the following text and its sentiment, extract three key words that contributed most significantly to the expressed sentiment:"
-        self.format_prompt = "Extracted ONLY singular key words with no other output other than following this format: WORD, WORD, WORD."
-
+        self.explainer = shap.Explainer(model)
+        self.special_chars = ' \t\n\r!@#$%^&*()-_=+`~[]{}\\|;:\'",.<>?/'
+        self.sentiment_index = {"Negative": 0, "Neutral": 1, "Positive": 2}
+        self.stop_words = set(stopwords.words('english'))
+ 
     def get_keywords(self, text, sentiment):
+        """
+        Get keywords that contribute to the sentiment prediction of the text.
 
-        full_prompt =  self.rules_prompt + "\n\n" + self.text_prompt(text) + "\n\n" + self.sentiment_prompt(sentiment) + "\n\n" + self.format_prompt
+        Args:
+            text: Input text to be explained.
+            sentiment: Sentiment label of the text.
 
-        keywords = self.model.generate(full_prompt)
+        Returns:
+            List of keywords that contribute to the sentiment prediction.
+        """
+
+        shap_values = self.explainer([text])
+        importance = shap_values.values[0][:,self.sentiment_index[sentiment]]
+        sorted_words = shap_values.data[0][np.argsort(importance)][::-1]
+        keywords = list(filter(lambda word: word not in self.stop_words, [word.strip(self.special_chars).lower() for word in sorted_words if any(c.isalpha() for c in word)]))
         return keywords
-    
