@@ -5,7 +5,6 @@ sys.path[0] = sys.path[0] + '\\..'
 from data_processor.data_processor import DataProcessor
 
 import pytest
-import unittest.mock as mock
 
 @pytest.fixture
 def data_manager():
