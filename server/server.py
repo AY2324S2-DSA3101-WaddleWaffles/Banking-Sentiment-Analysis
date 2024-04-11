@@ -115,7 +115,7 @@ def get_average_rating(num_months=None):
                     sorted_ratings.append({"period": month_year, "rating": avg_rating})
 
             result["bank"] = bank
-            result["monthly_ratings"] = sorted_ratings
+            result["ratings"] = sorted_ratings
             result["total_rating"] = avg_ratings["total"]
             if topic:
                 result["topic"] = topic
@@ -148,7 +148,7 @@ def get_average_rating(num_months=None):
         total_rating = total_rating[0] / total_rating[1] if total_rating[1] != 0 else None
         
         result["bank"] = bank
-        result["weekly_ratings"] = sorted_ratings[::-1]
+        result["ratings"] = sorted_ratings[::-1]
         result["total_rating"] = total_rating
         if topic:
             result["topic"] = topic
@@ -203,7 +203,7 @@ def get_average_sentiment():
                     sorted_sentiments.append({"period": month_year, "sentiment": sentiment})
 
             result["bank"] = bank
-            result["monthly_sentiments"] = sorted_sentiments
+            result["sentiments"] = sorted_sentiments
             result["total_sentiments"] = sentiments["total"]
             if topic:
                 result["topic"] = topic
@@ -236,7 +236,7 @@ def get_average_sentiment():
         total_sentiment = {period: round(amount / total_count, 3) if count != 0 else None for period, amount in total_sentiment.items()} if total_count != 0 else total_sentiment
         
         result["bank"] = bank
-        result["weekly_sentiments"] = sorted_sentiments[::-1]
+        result["sentiments"] = sorted_sentiments[::-1]
         result["total_sentiments"] = total_sentiment
         if topic:
             result["topic"] = topic

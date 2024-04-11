@@ -48,7 +48,8 @@ function ComparisonBar({ selectedDateRange }) {
         </div>
       ) : (
         <BarChart
-          h="100%"
+          h={250}
+          w = {400}
           data={processedSentData}
           dataKey="bank"
           barProps={{ width: 10 }}
