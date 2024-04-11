@@ -71,11 +71,11 @@ export default function ComparisonLine({ selectedDateRange }) {
           <p>Loading...</p>
         </div>
       ) : (
-        <Grid gutter="md" style={{ width: '100%', height: '100vh' }}>
+        <Grid gutter="md" style={{ width: '100%', height: '100%' }}>
           <Grid.Col span={6.5}>
             <div style={{ padding: '0 20px', }}> {/* Add padding to the sides */}
               <LineChart
-                h={300}
+                h={150}
                 data={processedData}
                 dataKey="date"
                 xAxisProps={{padding:{ left: 30, right: 30 }}}
@@ -90,7 +90,7 @@ export default function ComparisonLine({ selectedDateRange }) {
                   content: ({ label, payload }) => (<ChartTooltip label={label} payload={payload} />),
                 }}
               />
-              <div style={{ marginTop: '20px', padding: '10px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
+              <div style={{ width: '400px', marginTop: '10px', padding: '5px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
                 <Legend
                   series={selectedBanks.map((bank) => ({
                     name: bank,
@@ -101,29 +101,29 @@ export default function ComparisonLine({ selectedDateRange }) {
             </div>
           </Grid.Col>
           <Grid.Col span={0.5}>
-          <Grid gutter="md">
-            {banksData.map((bankEntry) => (
-              <Grid.Col key={bankEntry.bank}>
-                <Button
-                  onClick={() => toggleBankSelection(bankEntry.bank)}
-                  color={selectedBanks.includes(bankEntry.bank) ? 'violet' : 'gray'}
-                  variant="outline"
-                  style={{ width: '110px', marginRight: '15px', borderWidth: '2px' }}
-                >
-                  {bankEntry.bank}
-                </Button>
-              </Grid.Col>
-            ))}
-          </Grid>
-          <div style={{ marginTop: '20px', padding: '10px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
-              {/* Legend for banks */}
+            <Grid gutter="xs">
+              {banksData.map((bankEntry) => (
+                <Grid.Col key={bankEntry.bank}>
+                  <Button
+                    onClick={() => toggleBankSelection(bankEntry.bank)}
+                    color={selectedBanks.includes(bankEntry.bank) ? 'violet' : 'gray'}
+                    variant="outline"
+                    size="xs"
+                    style={{ marginTop: '0px', marginBottom: '0px', marginRight: '100px', padding:'4px', borderWidth: '2px', fontSize: '8px'}}
+                  >
+                    {bankEntry.bank}
+                  </Button>
+                </Grid.Col>
+              ))}
+            </Grid>
+          {/* <div style={{ marginTop: '20px', padding: '10px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
               {selectedBanks.map((bank) => (
                 <div key={bank} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
-                  <div style={{ width: '20px', height: '20px', backgroundColor: lineColors[bank], marginRight: '10px' }} />
+                  <div style={{ width: '100px', height: '20px', backgroundColor: lineColors[bank], marginRight: '10px' }} />
                   <span>{bank}</span>
                 </div>
               ))}
-            </div>
+            </div> */}
           </Grid.Col>
         </Grid>
       )}
