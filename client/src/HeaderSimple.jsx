@@ -2,27 +2,12 @@ import { Container, Group, Burger, UnstyledButton, rem } from '@mantine/core';
 import classes from './HeaderSimple.module.css';
 import gxslogo from './assets/gxs-bank-logo.png';
 import DateFilter from './components/DateFilter.jsx';
+import Refresh from './components/RefreshButton.jsx';
 
-
-function TabLink({ icon: Icon, label, active, onClick }) {
-  return (
-    <UnstyledButton onClick={onClick} className={classes.link} data-active={active || undefined}>
-      <div className={classes.linkContent}>
-        <div className={classes.icon}>
-          <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-        </div>
-        <div className={classes.label}>{label}</div>
-      </div>
-    </UnstyledButton>
-  );
-}
-
-export function HeaderSimple({ onDateRangeChange  }) {
-
-
+export function HeaderSimple({ onDateRangeChange, onRefresh}) {
   return (
     <div className={classes.header}>
-      <Container size="100%" className={classes.inner}>
+      {/* <Container size="100%" className={classes.inner}> */}
         
 
         {/* for the logo and heading */}
@@ -37,11 +22,16 @@ export function HeaderSimple({ onDateRangeChange  }) {
         </Container>
 
         {/* for the tabs */}
-        <div>
-            Filter by Date:  <DateFilter onDateRangeChange={onDateRangeChange} />
+        <div style={{marginRight: "100px"}}>
+            Filter by Date:  <DateFilter onDateRangeChange={onDateRangeChange}  />
         </div>
 
-      </Container>
+        <div>
+          
+          <Refresh onRefresh ={onRefresh}/>
+        </div>
+
+      {/* </Container> */}
     </div>
 
 
