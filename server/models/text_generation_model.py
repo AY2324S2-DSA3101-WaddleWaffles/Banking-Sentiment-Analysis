@@ -21,6 +21,7 @@ class TextGenerationModel:
             address='https://h2ogpte.genai.h2o.ai',
             api_key=api_key,
         )
+        self.session_id = self.client.create_chat_session()
 
     def generate(self, prompt):
         """
@@ -36,10 +37,11 @@ class TextGenerationModel:
         response = None
         while not response:
             try:
-                session_id = self.client.create_chat_session()
-                with self.client.connect(session_id) as session:
-                    response = session.query(prompt, timeout=40, rag_config={"rag_type": "llm_only"})
+                with self.client.connect(self.session_id) as session:
+                    response = session.query(prompt, timeout=15, rag_config={"rag_type": "llm_only"}, llm_args={"max_new_tokens": 128})
             except Exception as e:
+                self.client.delete_chat_sessions([self.session_id])
+                self.session_id = self.client.create_chat_session()
                 continue
 
         return response.content
