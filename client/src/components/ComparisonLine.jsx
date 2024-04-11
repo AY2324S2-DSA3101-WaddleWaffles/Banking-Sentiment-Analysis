@@ -4,7 +4,7 @@ import axios, { formToJSON } from 'axios';
 import Legend from './Legend';
 import { Paper, Text, Button, Grid } from '@mantine/core';
 
-export default function ComparisonLine({ selectedDateRange }) {
+export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
   
   const [banksData, setBanksData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +25,8 @@ export default function ComparisonLine({ selectedDateRange }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
+
         const response = await fetch(api.toString());
         const jsonData = await response.json();
         setBanksData(jsonData);
@@ -40,16 +42,17 @@ export default function ComparisonLine({ selectedDateRange }) {
           colors[entry.bank] = entry.bank === "GXS" ? "#FF0000" : getRandomColor(index); // Set GXS color to red
         });
         setLineColors(colors);
-  
+        
+        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
-        setIsLoading(false);
+        //setIsLoading(false);
       }
     }; // Fetch data with default date range when the component mounts
 
     fetchData();
-  }, [selectedDateRange]); // Fetch data when start date or end date changes
+  }, [selectedDateRange, refreshFlag]); // Fetch data when start date or end date changes
 
   //console.log("selected banks:", selectedBanks)
   const toggleBankSelection = (bank) => {

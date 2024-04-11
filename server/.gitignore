@@ -3,4 +3,4 @@ venv/
 .env
 *.csv
 .DS_Store
-*test.py
+.pytest_cache

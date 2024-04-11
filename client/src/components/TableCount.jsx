@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table } from '@mantine/core';
 
-function TableBanksCount({selectedDateRange}) {
+function TableBanksCount({selectedDateRange, refreshFlag}) {
   const [countData, setCountData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -20,19 +20,23 @@ function TableBanksCount({selectedDateRange}) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
+
         const response = await fetch(api.toString());
         const jsonData = await response.json();
         console.log('Retrieved data:', response.data);
         setCountData(jsonData); // Set the fetched data in state
+
+        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching count data:', error);
       } finally {
-        setIsLoading(false);
+        //setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [selectedDateRange]); // Only run this effect once, similar to componentDidMount
+  }, [selectedDateRange, refreshFlag ]); // Only run this effect once, similar to componentDidMount
 
   if (!countData) {
     return <div>Loading...</div>; // Render a loading indicator while data is being fetched

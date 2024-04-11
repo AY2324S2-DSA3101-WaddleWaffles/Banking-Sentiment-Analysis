@@ -41,9 +41,9 @@ export default function NavbarTooltip({setActiveHeaderTab, activeHeaderTab, onEx
         </Stack>
       </div>
 
-      <Stack justify="center" gap={0}>
+      {/* <Stack justify="center" gap={0}>
         <NavbarLink icon={IconLogout} label="Logout" />
-      </Stack>
+      </Stack> */}
     </div>
   );
 }
