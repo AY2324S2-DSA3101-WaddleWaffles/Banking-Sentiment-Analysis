@@ -2,25 +2,29 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { Button } from '@mantine/core';
 
-const RefreshDatabase = ({ apiEndpoint }) => {
+const RefreshDatabase = ({ onRefresh }) => {
     const [loading, setLoading] = useState(false);
     const [lastUpdatedTime, setLastUpdatedTime] = useState(null);
 
+    
     const handleRefresh = async() => {
         try {
             setLoading(true);
             // make API request to refresh database
-            await axios.get(apiEndpoint); //change to link
+            //await axios.get(apiEndpoint); //change to link
+            
+            onRefresh()
 
+            console.log("Refreshed")
             // handle success
             setLastUpdatedTime(new Date()); // set current time
-        } catch (error){
-            // handle error
-            console.error('Error refreshing data:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    } catch (error){
+        // handle error
+        console.error('Error refreshing data:', error);
+    } finally {
+        setLoading(false);
+    }
+};
 
     useEffect(() => {
         console.log(lastUpdatedTime);
@@ -40,24 +44,24 @@ const RefreshDatabase = ({ apiEndpoint }) => {
     };
 
     return (
-        <div>
-            <Button variant = "filled" color = "blue" onClick = {handleRefresh} disabled={loading}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Button variant = "filled" color = "blue" onClick = {handleRefresh} disabled={loading} style={{marginRight:"5px"}}>
                 {loading ? 'Refreshing...': 'Refresh Database'}
             </Button>
             {lastUpdatedTime && (
-                <p>Last updated: {formatDateTime(lastUpdatedTime)}</p>
+                <p style={{ fontSize: "12px", margin: "0" }}>Last updated: {formatDateTime(lastUpdatedTime)}</p>
             )}
         </div>
     );
 };
 
 // usage
-const Refresh = () => {
+const Refresh = ({onRefresh}) => {
     const apiEndpoint = 'http://127.0.0.1:5001/reviews/average-rating' // NEED TO CONFIRM
-
     return (
         <div>
-            <RefreshDatabase apiEndpoint={apiEndpoint} />
+             {/* apiEndpoint={apiEndpoint} */}
+            <RefreshDatabase onRefresh = {onRefresh}  />
         </div>
     );
 };
