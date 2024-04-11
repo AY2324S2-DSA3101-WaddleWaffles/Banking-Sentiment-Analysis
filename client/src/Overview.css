@@ -50,10 +50,10 @@ h2 {
     grid-gap: 7px;
     overflow: auto;
     height: calc(100vh - 100px);
-    grid-template-areas: "number	number	number	topic	topic	topic"
-    "donut	donut	donut	topic	topic	topic"
-    "donut	donut	donut	topic	topic	topic"
-    "donut	donut	donut	topic	topic	topic"
+    grid-template-areas: "number	number	topic	topic	topic	topic"
+    "donut	donut	topic	topic	topic	topic"
+    "donut	donut	topic	topic	topic	topic"
+    "donut	donut	topic	topic	topic	topic"
     "ratings	ratings	ratings	insights	insights	insights"
     "ratings	ratings	ratings	insights	insights	insights"
     "ratings	ratings	ratings	insights	insights	insights"
@@ -97,7 +97,8 @@ h2 {
   .topic {
     grid-area: topic;
     height: "100%";
-    width: "100%"
+    width: "100%";
+    padding: 20px;
     /* align-items: center; */
 
   }

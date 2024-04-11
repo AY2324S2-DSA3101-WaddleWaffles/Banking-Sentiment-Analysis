@@ -64,7 +64,7 @@ export default function SentimentByTopic({selectedDateRange}) {
     if (!payload) return null;
 
     return (
-      <Paper px="md" py="sm" withBorder radius="md">
+      <Paper px="md" py="sm" withBorder shadow="md" radius="md">
         <Text fw={500} mb={5}>
           {label}
         </Text>
@@ -88,8 +88,8 @@ export default function SentimentByTopic({selectedDateRange}) {
         <p>Loading...</p>
       ) : (
           <BarChart
-              h={300}
-              w={600}
+              h={280}
+              w={500}
               data={useThis}
               dataKey="feature"
               type="stacked"

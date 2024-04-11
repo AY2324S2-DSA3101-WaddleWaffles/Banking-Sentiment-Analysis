@@ -20,6 +20,7 @@ export default function TimeSeriesGXS({ selectedDateRange }){
     const [reviewsData, setReviews] = useState({});
     const [gxsData, setGxsData] = useState(null); // for GXS bank data only
     const [avgData, setAvgData] = useState(null); // for average_ratings object
+    const [processedData, setProcessedData] = useState(null);
 
     // const [processedData, setProcessedData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
@@ -29,17 +30,19 @@ export default function TimeSeriesGXS({ selectedDateRange }){
             try {
                 const response = await fetch(api.toString());
                 const jsonData = await response.json();
-                console.log(jsonData);
                 setReviews(jsonData);
 
                 const gxsData = jsonData.filter(item => item.bank === 'GXS');
                 setGxsData(gxsData);
                 console.log(gxsData);
 
-                const avgData = gxsData[0]['average_ratings'];
+                const avgData = gxsData[0]["ratings"];
                 setAvgData(avgData);
                 delete avgData.total;
                 console.log(avgData);
+
+                const processedData = processDataForLine(avgData)
+                setProcessedData(processedData);
 
 
             } catch (error) {
@@ -51,19 +54,16 @@ export default function TimeSeriesGXS({ selectedDateRange }){
 
         fetchData();
     }, [selectedDateRange]);
-    // console.log(reviewsData);
-    // console.log(gxsData);
-    // console.group(avgData);
 
     // test function
-    const processedData = processDataForLine(avgData);
-    console.log(processedData); // correct output
+    // const processedData = processDataForLine(avgData);
+    // console.log(processedData); // correct output
 
     return (
         // <div style = {{ marginTop: '10px' , marginLeft: '-30px' }}> 
             <LineChart 
-                h = "100%" // adjust margins after layout done!!!!!!
-                w = "100%"
+                h = {280}// adjust margins after layout done!!!!!!
+                w = {780}
                 data = {processedData}
                 dataKey = "month" 
                 series={[{name: 'rating', color: 'indigo.6'}]}
@@ -102,10 +102,15 @@ const processDataForLine = (gxsData) => { // input will be avgData
     const processedData = [];
 
     // check if each key in object contains "-"
-    for (const month in gxsData){
-        if (month.includes("-")){ // week aggregation, already sorted by year and month
+    gxsData.forEach(entry => {
+        const period = entry.period;
+        const rating = entry.rating;
+        // console.log(period);
+        // console.log(rating);
+
+        if (period.includes("-")){ // week aggregation, already sorted by year and month
             console.log("weekly aggregation")
-            const [startDateString, endDateString] = month.split(' - ');
+            const [startDateString, endDateString] = period.split(' - ');
             const [startDate, startMonth, startYear] = startDateString.split(' ')
             const monthAbb = startMonth.substring(0,3); // extract first 3 characters of month
             const yearAbb = startYear.slice(2); // extract last 2 characters of year
@@ -119,15 +124,15 @@ const processDataForLine = (gxsData) => { // input will be avgData
 
             const formattedDateRange = formattedStartDate + ' - ' + formattedEndDate; 
             // console.log(formattedDateRange); // correct format
-            processedData.push({month: formattedDateRange, rating: gxsData[month]});
+            processedData.push({month: formattedDateRange, rating: rating});
 
 
         } else {
             console.log("monthly aggregation")
-            const monthYear = month.split(" ");
+            const monthYear = period.split(" ");
             const monthAbbreviation = monthYear[0].slice(0,3); // extract first 3 characters
             const year = monthYear[1].slice(2); // extract last 2 characters
-            processedData.push({ month: `${monthAbbreviation} ${year}`, rating: gxsData[month] });
+            processedData.push({ month: `${monthAbbreviation} ${year}`, rating: rating });
             // console.log(processedData);
 
             // sort data according to year and month
@@ -151,7 +156,6 @@ const processDataForLine = (gxsData) => { // input will be avgData
             });
 
         }
-    }
+    });
     return (processedData);
-};
-
+}

@@ -8,6 +8,7 @@ import OverallGXSBySentiment from "./components/OverallGXS";
 import DonutChartComponent from "./components/DonutChart";
 import RefreshDatabase from "./components/RefreshButton";
 import SentimentByTopic from "./components/BarChart";
+import GetInsights from "./components/InsightsOverview";
 
 export default function Overview({ selectedDateRange }) {
     console.log("overview page date:", selectedDateRange);
@@ -25,19 +26,21 @@ export default function Overview({ selectedDateRange }) {
             <GetNumReviews selectedDateRange={selectedDateRange}/>&nbsp;reviews
         </div> 
 
-       {/*  <div className="grid-item insights"> 
-            Insights
-        </div>*/}
+       <div className="grid-item insights"> 
+            <GetInsights />
+        </div>
 
-        <div className="grid-item topic" style={{ display: 'flex', justifyContent: 'center' }} >
+        <div className="grid-item topic" style={{ display: 'flex', justifyContent: 'center', height:'340px' }} >
             <Container size = "100%" >
-                <SentimentByTopic selectedDateRange={selectedDateRange}/>
+                <TimeSeriesGXS selectedDateRange={selectedDateRange}/>  
+
             </Container>
             
         </div>
 
         <div className="grid-item ratings" style={{ display: 'flex', justifyContent: 'center', height: '320px' }}>
-            <TimeSeriesGXS selectedDateRange={selectedDateRange}/>
+            <SentimentByTopic selectedDateRange={selectedDateRange}/> 
+            
             {/* <OverallGXSBySentiment selectedDateRange={selectedDateRange} /> */}
         </div>
 
