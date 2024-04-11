@@ -1,12 +1,36 @@
 import calendar
 
 class DataProcessor:
+    """
+    A class for processing review data.
+    """
 
     def get_topics(self, data):
+        """
+        Extracts unique topics from the provided data.
+
+        Args:
+            data (list): List of dictionaries containing review data.
+
+        Returns:
+            dict: A dictionary containing unique topics extracted from the data.
+        """
         topics = {"topics": list(set(map(lambda x: x["topic"], data)))}
         return topics
     
     def get_topic_sentiments(self, data, start_date, end_date, bank):
+        """
+        Calculates sentiment distribution for each topic within a specified date range.
+
+        Args:
+            data (list): List of dictionaries containing review data.
+            start_date (datetime.date): Start date of the analysis period.
+            end_date (datetime.date): End date of the analysis period.
+            bank (str): Name of the bank.
+
+        Returns:
+            dict: A dictionary containing sentiment distribution for each topic.
+        """
         result = {}
         topic_sentiments = {}
         for review in data:
@@ -25,6 +49,19 @@ class DataProcessor:
         return result
     
     def get_monthly_avg_rating(self, data, start_date, end_date, bank, topic):
+        """
+        Calculates the monthly average rating for reviews within a specified date range.
+
+        Args:
+            data (list): List of dictionaries containing review data.
+            start_date (datetime.date): Start date of the analysis period.
+            end_date (datetime.date): End date of the analysis period.
+            bank (str): Name of the bank.
+            topic (str): Optional topic to filter the analysis.
+
+        Returns:
+            dict: A dictionary containing the monthly average rating.
+        """
         result = {}
         avg_ratings = {"total": [0, 0]}
         for review in data:
@@ -58,7 +95,42 @@ class DataProcessor:
         
         return result
     
+    def aggregate_weekly_avg_rating(self, data, monday_date, tracked_date):
+        """
+        Aggregates weekly average rating from the provided data.
+
+        Args:
+            data (list): List of dictionaries containing review data.
+            monday_date (datetime.date): Monday date of the week.
+            tracked_date (datetime.date): Tracked date of the week.
+
+        Returns:
+            tuple: A tuple containing aggregated weekly average rating and total ratings.
+        """
+        total_ratings = [0, 0]
+        date_string = f"{monday_date.strftime("%d %B %Y")} - {tracked_date.strftime("%d %B %Y")}"
+        for review in data:
+            total_ratings[0] += review["rating"]
+            total_ratings[1] += 1
+        
+        weekly_rating = round(total_ratings[0] / total_ratings[1], 3) if total_ratings[1] != 0 else None
+        result = {"period": date_string, "rating": weekly_rating}
+        return result, total_ratings
+
     def get_monthly_avg_sentiment(self, data, start_date, end_date, bank, topic):
+        """
+        Calculates the monthly average sentiment for reviews within a specified date range.
+
+        Args:
+            data (list): List of dictionaries containing review data.
+            start_date (datetime.date): Start date of the analysis period.
+            end_date (datetime.date): End date of the analysis period.
+            bank (str): Name of the bank.
+            topic (str): Optional topic to filter the analysis.
+
+        Returns:
+            dict: A dictionary containing the monthly average sentiment.
+        """
         result = {}
         sentiments = {"total": {"Positive": 0, "Neutral": 0, "Negative": 0}}
         for review in data:
@@ -91,6 +163,17 @@ class DataProcessor:
         return result
     
     def aggregate_weekly_avg_sentiment(self, data, monday_date, tracked_date):
+        """
+        Aggregates weekly average sentiment from the provided data.
+
+        Args:
+            data (list): List of dictionaries containing review data.
+            monday_date (datetime.date): Monday date of the week.
+            tracked_date (datetime.date): Tracked date of the week.
+
+        Returns:
+            tuple: A tuple containing aggregated weekly average sentiment and total sentiment.
+        """
         total_sentiment = {"Positive": 0, "Neutral": 0, "Negative": 0}
         date_string = f"{monday_date.strftime("%d %B %Y")} - {tracked_date.strftime("%d %B %Y")}"
         for review in data:
@@ -102,6 +185,18 @@ class DataProcessor:
         return result, total_sentiment
 
     def get_weekly_avg_sentiment(self, sorted_sentiments, all_summed_sentiments, bank, topic):
+        """
+        Calculates the weekly average sentiment for reviews.
+
+        Args:
+            sorted_sentiments (list): List of sorted sentiments.
+            all_summed_sentiments (list): List of dictionaries containing summed sentiments.
+            bank (str): Name of the bank.
+            topic (str): Optional topic to filter the analysis.
+
+        Returns:
+            dict: A dictionary containing the weekly average sentiment.
+        """
         result = {}
         total_sentiment = {"Positive": 0, "Neutral": 0, "Negative": 0}
         for summed_sentiments in all_summed_sentiments:
@@ -118,6 +213,18 @@ class DataProcessor:
         return result
     
     def get_word_associations(self, data, start_date, end_date, bank):
+        """
+        Extracts top association words for each topic.
+
+        Args:
+            data (list): List of dictionaries containing review data.
+            start_date (datetime.date): Start date of the analysis period.
+            end_date (datetime.date): End date of the analysis period.
+            bank (str): Name of the bank.
+
+        Returns:
+            dict: A dictionary containing top association words for each topic.
+        """
         result = {}
         associations = {}
         for review in data:
@@ -140,11 +247,34 @@ class DataProcessor:
         return result
     
     def get_review_counts(self, data, start_date, end_date, bank):
+        """
+        Calculates the total count of reviews within a specified date range.
+
+        Args:
+            data (list): List of dictionaries containing review data.
+            start_date (datetime.date): Start date of the analysis period.
+            end_date (datetime.date): End date of the analysis period.
+            bank (str): Name of the bank.
+
+        Returns:
+            dict: A dictionary containing the total count of reviews.
+        """
         review_counts = len(data)
         result = {"start_date": start_date, "end_date": end_date, "bank": bank, "count":review_counts}
         return result
     
     def get_donut_data(self, data, start_date, end_date):
+        """
+        Prepares data for creating a donut chart based on sentiment distribution.
+
+        Args:
+            data (list): List of dictionaries containing review data.
+            start_date (datetime.date): Start date of the analysis period.
+            end_date (datetime.date): End date of the analysis period.
+
+        Returns:
+            list: A list containing data for creating a donut chart.
+        """
         sentiments = {"Positive": 0, "Neutral": 0, "Negative": 0}
         for review in data:
             sentiment = review["sentiment"]
