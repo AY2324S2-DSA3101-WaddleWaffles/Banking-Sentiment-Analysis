@@ -117,6 +117,34 @@ class DataProcessor:
         result = {"period": date_string, "rating": weekly_rating}
         return result, total_ratings
 
+    
+    def get_weekly_avg_rating(self, sorted_ratings, all_summed_ratings, bank, topic):
+        """
+        Calculates the weekly average rating for reviews.
+
+        Args:
+            sorted_ratings (list): List of sorted ratings.
+            all_summed_ratings (list): List of lists containing summed ratings.
+            bank (str): Name of the bank.
+            topic (str): Optional topic to filter the analysis.
+
+        Returns:
+            dict: A dictionary containing the weekly average rating.
+        """
+        result = {}
+        total_rating = [0, 0]
+        for summed_ratings in all_summed_ratings:
+            total_rating[0] += summed_ratings[0]
+            total_rating[1] += summed_ratings[1]
+
+        total_rating = round(total_rating[0] / total_rating[1], 3) if total_rating[1] != 0 else None
+        result["bank"] = bank
+        result["ratings"] = sorted_ratings[::-1]
+        result["total_rating"] = total_rating
+        if topic:
+            result["topic"] = topic
+        return result
+
     def get_monthly_avg_sentiment(self, data, start_date, end_date, bank, topic):
         """
         Calculates the monthly average sentiment for reviews within a specified date range.
