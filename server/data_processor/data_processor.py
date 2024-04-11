@@ -265,7 +265,7 @@ class DataProcessor:
                 associations[topic][word] = associations[topic].get(word, 0) + 1
 
         for topic in associations:
-            top_associations = sorted(associations[topic].items(), key=lambda x: x[1], reverse=True)[:5]
+            top_associations = sorted(associations[topic].items(), key=lambda x: (x[1], x[0]), reverse=True)[:5]
             associations[topic] = top_associations
         
         result["bank"] = bank
