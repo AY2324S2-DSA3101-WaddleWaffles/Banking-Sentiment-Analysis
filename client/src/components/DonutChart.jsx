@@ -51,7 +51,8 @@ export default function DonutChartComponent({ selectedDateRange }) {
                 const response = await fetch(api2.toString());
                 const jsonData = await response.json();
                 const gxsData = jsonData.filter(item => item.bank === 'GXS');
-                const averageLabel = (gxsData[0].average_ratings.total).toFixed(1);
+                console.log(gxsData);
+                const averageLabel = (gxsData[0].total_rating).toFixed(1);
                 setAverageLabel(averageLabel);
             } catch (error) {
                 console.error('Error fetching label data:', error);

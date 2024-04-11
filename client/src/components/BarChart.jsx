@@ -64,7 +64,7 @@ export default function SentimentByTopic({selectedDateRange}) {
     if (!payload) return null;
 
     return (
-      <Paper px="md" py="sm" withBorder shadow="md" radius="md">
+      <Paper px="md" py="sm" withBorder radius="md">
         <Text fw={500} mb={5}>
           {label}
         </Text>
