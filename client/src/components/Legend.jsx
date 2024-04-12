@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Legend({ series }) {
+function Legend({ series, fontSize }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+    <div className="legend-container" style={{ fontSize: fontSize }}>
       {series.map((item, index) => (
-        <div key={index} style={{ marginRight: '10px', display: 'flex', alignItems: 'center' }}>
-          <div style={{ width: '12px', height: '12px', backgroundColor: item.color, marginRight: '5px' }}></div>
+        <div key={index} className="legend-item">
+          <div className="legend-color" style={{ backgroundColor: item.color }}></div>
           <span>{item.name}</span>
         </div>
       ))}
