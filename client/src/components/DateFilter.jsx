@@ -56,36 +56,36 @@ const DateFilter = ({onDateRangeChange}) => {
 
     };
 
-  return (
-    <div className="calendarWrap">
-      
-      <input
-        value={`${format(range[0].startDate, "dd/MM/yyyy")} to ${format(range[0].endDate, "dd/MM/yyyy")}`}
-        readOnly
-        className="inputBox"
-        onClick={ () => setOpen(open => !open) }
-      />
+    return (
+      <div className="calendarWrap">
+        
+        <input
+          value={`${format(range[0].startDate, "dd/MM/yyyy")} to ${format(range[0].endDate, "dd/MM/yyyy")}`}
+          readOnly
+          className="inputBox"
+          onClick={ () => setOpen(open => !open) }
+        />
 
-      <div ref={refOne}>
-        {open && 
-          <DateRangePicker
-            onChange={handleDateRangeChange}
-            editableDateInputs={true}
-            moveRangeOnFirstSelection={false}
-            ranges={range}
-            months={2}
-            direction="horizontal"
-            className="calendarElement"
-            staticRanges={[]}
-            inputRanges={[]}
-            showSelectionPreview={false} // Hide the sidebar
-            
-          />
-        }
+        <div ref={refOne}>
+          {open && 
+            <DateRangePicker
+              onChange={handleDateRangeChange}
+              editableDateInputs={true}
+              moveRangeOnFirstSelection={false}
+              ranges={range}
+              months={2}
+              direction="horizontal"
+              className="calendarElement"
+              staticRanges={[]}
+              inputRanges={[]}
+              showSelectionPreview={false} // Hide the sidebar
+              
+            />
+          }
+        </div>
+
       </div>
-
-    </div>
-  )
-}
+    )
+  }
 
 export default DateFilter;
