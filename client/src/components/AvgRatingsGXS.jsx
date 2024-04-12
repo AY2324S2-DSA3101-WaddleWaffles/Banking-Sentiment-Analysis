@@ -3,17 +3,48 @@ import axios from 'axios';
 import { LineChart } from '@mantine/charts';
 import { Paper, Text } from '@mantine/core';
 
-function TimeSeriesGXS(){
+export default function TimeSeriesGXS({ selectedDateRange }){
+    console.log(selectedDateRange);
+
+    // save updated start and end dates into variable
+    const newStartDate = selectedDateRange.startDate;
+    const newEndDate = selectedDateRange.endDate;
+
+    // change format of start and end date to dd-mm-yyyy
+    const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
+    const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
+
+    const api = `http://127.0.0.1:5001/reviews/average-rating?start-date=${formattedStartDate}&end-date=${formattedEndDate}`
+    console.log(api);
+
     const [reviewsData, setReviews] = useState({});
-    const [processedData, setProcessedData] = useState({});
+    const [gxsData, setGxsData] = useState(null); // for GXS bank data only
+    const [avgData, setAvgData] = useState(null); // for average_ratings object
+    const [processedData, setProcessedData] = useState(null);
+
+    // const [processedData, setProcessedData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:5001/reviews/average-rating');
+                const response = await fetch(api.toString());
                 const jsonData = await response.json();
                 setReviews(jsonData);
+
+                const gxsData = jsonData.filter(item => item.bank === 'GXS');
+                setGxsData(gxsData);
+                console.log(gxsData);
+
+                const avgData = gxsData[0]["ratings"];
+                setAvgData(avgData);
+                delete avgData.total;
+                console.log(avgData);
+
+                const processedData = processDataForLine(avgData)
+                setProcessedData(processedData);
+
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
@@ -22,60 +53,21 @@ function TimeSeriesGXS(){
         };
 
         fetchData();
-    }, []);
-    console.log(reviewsData);
+    }, [selectedDateRange]);
 
-    useEffect(() => {
-        const processData = () => {
-            if (reviewsData && reviewsData.GXS) {
-                const gxsData = reviewsData.GXS;
-                const transformedData = Object.keys(gxsData)
-                    .filter(month => month != 'total')
-                    .map(month => ({
-                        month: convertMonthFormat(month),
-                        value: gxsData[month]
-                    }));
-                setProcessedData(transformedData);
-            }
-        };
-
-        processData();
-    }, [reviewsData]);
-    console.log(processedData);
-    
-    // convert to Mon-YY 
-    function convertMonthFormat(month) {
-        const [mm, yyyy] = month.split('-');
-        const date = new Date(`${yyyy}-${mm}-01`);
-        return date.toLocaleString('default', { month: 'short', year: '2-digit' });
-    }
-
-    // function for tooltip
-    function ChartTooltip({ label, payload }) {
-        if (!payload) return null;
-          
-        return (
-            <Paper px="md" py="sm" withBorder shadow="md" radius="md">
-            <Text fw={500} mb={5}>
-                {label}
-            </Text>
-            {payload.map(item => (
-                <Text key={item.name} c={item.color} fz="sm">
-                {item.name}: {item.value}
-                </Text>
-            ))}
-            </Paper>
-        );
-    }
+    // test function
+    // const processedData = processDataForLine(avgData);
+    // console.log(processedData); // correct output
 
     return (
         // <div style = {{ marginTop: '10px' , marginLeft: '-30px' }}> 
             <LineChart 
-                h = "100%" // adjust margins after layout done!!!!!!
-                w = "100%"
+                h = {280}// adjust margins after layout done!!!!!!
+                w = {780}
                 data = {processedData}
-                dataKey = "month" // change to week if filter <= 2 months? HOW??
-                series={[{name: 'value', color: 'indigo.6'}]}
+                dataKey = "month" 
+                series={[{name: 'rating', color: 'indigo.6'}]}
+                connectNulls
                 tooltipProps={{
                     content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
                 }}
@@ -86,4 +78,84 @@ function TimeSeriesGXS(){
 
 };
 
-export default TimeSeriesGXS;
+
+// function for tooltip
+function ChartTooltip({ label, payload }) {
+    if (!payload) return null;
+        
+    return (
+        <Paper px="md" py="sm" withBorder shadow="md" radius="md">
+        <Text fw={500} mb={5}>
+            {label}
+        </Text>
+        {payload.map(item => (
+            <Text key={item.name} c={item.color} fz="sm">
+            {item.name}: {item.value}
+            </Text>
+        ))}
+        </Paper>
+    );
+};
+
+// function to process data based on filtered date range
+const processDataForLine = (gxsData) => { // input will be avgData
+    const processedData = [];
+
+    // check if each key in object contains "-"
+    gxsData.forEach(entry => {
+        const period = entry.period;
+        const rating = entry.rating;
+        // console.log(period);
+        // console.log(rating);
+
+        if (period.includes("-")){ // week aggregation, already sorted by year and month
+            console.log("weekly aggregation")
+            const [startDateString, endDateString] = period.split(' - ');
+            const [startDate, startMonth, startYear] = startDateString.split(' ')
+            const monthAbb = startMonth.substring(0,3); // extract first 3 characters of month
+            const yearAbb = startYear.slice(2); // extract last 2 characters of year
+
+            const [endDate, endMonth, endYear] = endDateString.split(' ');
+            const endMonthAbb = endMonth.substring(0,3);
+            const endYearAbb = endYear.slice(2);
+
+            const formattedStartDate = `${startDate} ${monthAbb} ${yearAbb}`;
+            const formattedEndDate = `${endDate} ${endMonthAbb} ${endYearAbb}`;
+
+            const formattedDateRange = formattedStartDate + ' - ' + formattedEndDate; 
+            // console.log(formattedDateRange); // correct format
+            processedData.push({month: formattedDateRange, rating: rating});
+
+
+        } else {
+            console.log("monthly aggregation")
+            const monthYear = period.split(" ");
+            const monthAbbreviation = monthYear[0].slice(0,3); // extract first 3 characters
+            const year = monthYear[1].slice(2); // extract last 2 characters
+            processedData.push({ month: `${monthAbbreviation} ${year}`, rating: rating });
+            // console.log(processedData);
+
+            // sort data according to year and month
+            processedData.sort((a,b) => {
+                // Extract years from month strings
+                const yearA = parseInt(a.month.split(" ")[1]);
+                const yearB = parseInt(b.month.split(" ")[1]);
+
+                // Extract months from month strings and convert them to numerical representation
+                const monthOrder = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                const monthA = monthOrder.indexOf(a.month.split(" ")[0]);
+                const monthB = monthOrder.indexOf(b.month.split(" ")[0]);
+
+                // Compare years
+                if (yearA !== yearB) {
+                    return yearA - yearB;
+                } else {
+                    // If years are equal, compare months
+                    return monthA - monthB;
+                }
+            });
+
+        }
+    });
+    return (processedData);
+}
