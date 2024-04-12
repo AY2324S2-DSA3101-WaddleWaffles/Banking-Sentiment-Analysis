@@ -3,6 +3,7 @@ import { DateRangePicker } from 'react-date-range'
 
 import format from 'date-fns/format'
 import { addDays } from 'date-fns'
+import dayjs from 'dayjs';
 
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
@@ -79,6 +80,8 @@ const DateFilter = ({onDateRangeChange}) => {
               staticRanges={[]}
               inputRanges={[]}
               showSelectionPreview={false} // Hide the sidebar
+              minDate = {dayjs('2022-01-01').toDate()} //to change later when decided
+              maxDate = {dayjs(new Date()).endOf('month').toDate()}
               
             />
           }

@@ -7,20 +7,9 @@ import {Button} from '@mantine/core'
 
 
 const SelectTopics = ({handleFeaturesChange, selectedFeatures, features_list}) => {
-    console.log("Features_list in SelectTopics:", features_list)
+    console.log("Features_list in SelectTopics:", features_list)    
     console.log("selectedFeatures in SelectTopics:", selectedFeatures)
     console.log("Type of handleFC in SelectTopics:", typeof handleFeaturesChange)
-
-    //Previous handletopicchange
-    // const [selectedTopics, setSelectedTopics] = useState([]);
-
-    // const handleFeatureSelection = (feature) => {
-    //     if (selectedTopics.includes(feature)) {
-    //       setSelectedTopics(selectedTopics.filter((selectedTopics) => selectedTopics !== feature));
-    //     } else {
-    //         setSelectedTopics([...selectedTopics, feature]);
-    //     }
-    //   };
     
     return (
         <div>

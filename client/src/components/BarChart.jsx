@@ -122,7 +122,8 @@ export default function SentimentByTopic({selectedDateRange}) {
   console.log("useThis:", useThis);
   //console.log("Features out:", features_list);
   
-  const filteredUseThis = useThis.filter(item => selectedFeatures.includes(item.feature));
+  const filteredUseThis = useThis?.filter(item => selectedFeatures.includes(item.feature)) || [];
+
   console.log("filteredUseThis: ",filteredUseThis)
 
   return (

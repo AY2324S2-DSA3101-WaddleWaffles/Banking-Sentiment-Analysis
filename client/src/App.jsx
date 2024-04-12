@@ -15,6 +15,8 @@ function App() {
   //const [activeTab, setActiveTab] = useState(0); // Set the default tab to 'Overview'
   const [activeHeaderTab, setActiveHeaderTab] = useState('Overview'); //change this to 'Overview' when Overview is done! 
   const [opened, { toggle }] = useDisclosure();
+
+  //TODO decide if needed later
   const handleExit = () => {
     if (window.confirm('Are you sure you want to exit?')) {
       window.close(); // Close the current window/tab if the user confirms
@@ -26,17 +28,22 @@ function App() {
   useEffect(() => {
     //const savedActiveTab = localStorage.getItem('activeTab');
     const savedActiveHeaderTab = localStorage.getItem('activeHeaderTab');
+    const savedDateRange = JSON.parse(localStorage.getItem('selectedDateRange'));
     if (savedActiveHeaderTab) {
       //setActiveTab(Number(savedActiveTab));
       setActiveHeaderTab(savedActiveHeaderTab);
     } 
+    
   }, []);
+
 
   // Update local storage when the active tab changes
   useEffect(() => {
     //localStorage.setItem('activeTab', activeTab);
     localStorage.setItem('activeHeaderTab', activeHeaderTab);
   }, [activeHeaderTab]);
+
+  
 
   //Set state for Date Filter across all pages
   const [selectedDateRange, setSelectedDateRange] = useState({
@@ -48,6 +55,9 @@ function App() {
   const handleDateRangeChange = (dateRange) => {
     setSelectedDateRange(dateRange);
   };
+
+
+
 
   // handle database refresh
   const [refreshFlag, setRefreshFlag] = useState(false);
