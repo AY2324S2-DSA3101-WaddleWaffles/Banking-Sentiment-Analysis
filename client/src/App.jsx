@@ -100,7 +100,7 @@ function App() {
       <AppShell.Main className="fullscreen-main">
         {/* style={{ width: '100%', height: '100%', overflow: 'auto' }} */}
         {activeHeaderTab === 'Overview' && <Overview selectedDateRange={selectedDateRange}/>}
-        {activeHeaderTab === 'Product Reviews' && <NewProductReviews/>}
+        {activeHeaderTab === 'Product Reviews' && <NewProductReviews selectedDateRange={selectedDateRange} refreshFlag={refreshFlag}/>}
         {activeHeaderTab === 'Comparison' && <Comparison selectedDateRange={selectedDateRange} refreshFlag={refreshFlag} />}
         
       </AppShell.Main>

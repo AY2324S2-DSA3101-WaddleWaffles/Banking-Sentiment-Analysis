@@ -26,8 +26,14 @@
 .original {
     grid-area: original;
     font-size: 10px;
+    max-height: 89vh;
+    overflow-y: auto; 
 }
-  
+.small-blockquote {
+  width: 600px; 
+  height: auto;
+}
+
 .topword {
     grid-area: topword;
 }

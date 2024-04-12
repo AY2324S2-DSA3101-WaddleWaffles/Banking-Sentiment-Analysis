@@ -19,7 +19,7 @@
     "@mui/x-date-pickers": "^7.1.0",
     "@mui/x-date-pickers-pro": "^7.1.0",
     "@syncfusion/ej2-react-charts": "^25.1.35",
-    "@tabler/icons-react": "^3.1.0",
+    "@tabler/icons-react": "^3.2.0",
     "axios": "^1.6.8",
     "d3": "^7.9.0",
     "d3-cloud": "^1.2.7",
