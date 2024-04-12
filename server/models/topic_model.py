@@ -2,7 +2,7 @@ from transformers import pipeline
 import pandas as pd
 import re  # Import the regular expression module
 
-class TopicModellingModel:
+class TopicModel:
     """
     A class for topic modelling.
 

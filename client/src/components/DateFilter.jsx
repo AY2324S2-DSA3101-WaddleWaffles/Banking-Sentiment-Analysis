@@ -3,6 +3,7 @@ import { DateRangePicker } from 'react-date-range'
 
 import format from 'date-fns/format'
 import { addDays } from 'date-fns'
+import dayjs from 'dayjs';
 
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
@@ -56,36 +57,38 @@ const DateFilter = ({onDateRangeChange}) => {
 
     };
 
-  return (
-    <div className="calendarWrap">
-      
-      <input
-        value={`${format(range[0].startDate, "dd/MM/yyyy")} to ${format(range[0].endDate, "dd/MM/yyyy")}`}
-        readOnly
-        className="inputBox"
-        onClick={ () => setOpen(open => !open) }
-      />
+    return (
+      <div className="calendarWrap">
+        
+        <input
+          value={`${format(range[0].startDate, "dd/MM/yyyy")} to ${format(range[0].endDate, "dd/MM/yyyy")}`}
+          readOnly
+          className="inputBox"
+          onClick={ () => setOpen(open => !open) }
+        />
 
-      <div ref={refOne}>
-        {open && 
-          <DateRangePicker
-            onChange={handleDateRangeChange}
-            editableDateInputs={true}
-            moveRangeOnFirstSelection={false}
-            ranges={range}
-            months={2}
-            direction="horizontal"
-            className="calendarElement"
-            staticRanges={[]}
-            inputRanges={[]}
-            showSelectionPreview={false} // Hide the sidebar
-            
-          />
-        }
+        <div ref={refOne}>
+          {open && 
+            <DateRangePicker
+              onChange={handleDateRangeChange}
+              editableDateInputs={true}
+              moveRangeOnFirstSelection={false}
+              ranges={range}
+              months={1}
+              direction="horizontal"
+              className="calendarElement"
+              staticRanges={[]}
+              inputRanges={[]}
+              showSelectionPreview={false} // Hide the sidebar
+              minDate = {dayjs('2022-01-01').toDate()} //to change later when decided
+              maxDate = {dayjs(new Date()).endOf('month').toDate()}
+              
+            />
+          }
+        </div>
+
       </div>
-
-    </div>
-  )
-}
+    )
+  }
 
 export default DateFilter;

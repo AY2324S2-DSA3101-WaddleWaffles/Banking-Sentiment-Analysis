@@ -4,12 +4,13 @@ import axios, { formToJSON } from 'axios';
 import Legend from './Legend';
 import { Paper, Text, Button, Grid } from '@mantine/core';
 
-export default function ComparisonLine({ selectedDateRange }) {
+export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
   
   const [banksData, setBanksData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedBanks, setSelectedBanks] = useState([]);
   const [lineColors, setLineColors] = useState({});
+  const [processedData, setProcessedData] = useState([]);
   
   // save updated start and end dates into variable
   const newStartDate = selectedDateRange.startDate;
@@ -20,16 +21,23 @@ export default function ComparisonLine({ selectedDateRange }) {
   const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
 
   const api = `http://127.0.0.1:5001/reviews/average-rating?start-date=${formattedStartDate}&end-date=${formattedEndDate}`
-  //console.log(api);
+  console.log(api);
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
+
         const response = await fetch(api.toString());
         const jsonData = await response.json();
         setBanksData(jsonData);
         console.log("retrieved line:", jsonData)
-        
+
+        // Process data and set it to processedData state
+        const processingData = processDataForLineChart(jsonData);
+        console.log("processed line data:", processingData);
+        setProcessedData(processingData);
   
         // Select all banks by default
         setSelectedBanks(jsonData.map(entry => entry.bank));
@@ -40,7 +48,8 @@ export default function ComparisonLine({ selectedDateRange }) {
           colors[entry.bank] = entry.bank === "GXS" ? "#FF0000" : getRandomColor(index); // Set GXS color to red
         });
         setLineColors(colors);
-  
+        
+        //setIsLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -49,7 +58,7 @@ export default function ComparisonLine({ selectedDateRange }) {
     }; // Fetch data with default date range when the component mounts
 
     fetchData();
-  }, [selectedDateRange]); // Fetch data when start date or end date changes
+  }, [selectedDateRange, refreshFlag]); // Fetch data when start date or end date changes
 
   //console.log("selected banks:", selectedBanks)
   const toggleBankSelection = (bank) => {
@@ -59,23 +68,22 @@ export default function ComparisonLine({ selectedDateRange }) {
       setSelectedBanks([...selectedBanks, bank]);
     }
   };
-
-  const processedData = processDataForLineChart(banksData);
-  console.log("processed line data:", processedData);
+  console.log("banksData: ",banksData);
+  console.log(processedData);
+  
 
   return (
     <div>
       {isLoading ? (
-        <div>
-          <h2>Bank Ratings Over Time</h2>
+        <div  style={{ padding: '100px', marginLeft:'px' }}>
           <p>Loading...</p>
         </div>
       ) : (
-        <Grid gutter="md" style={{ width: '100%', height: '100vh' }}>
-          <Grid.Col span={6.5}>
+        <Grid gutter="md" style={{ width: '100%', height: '100%' }}>
+          <Grid.Col span={10}>
             <div style={{ padding: '0 20px', }}> {/* Add padding to the sides */}
               <LineChart
-                h={300}
+                h={200}
                 data={processedData}
                 dataKey="date"
                 xAxisProps={{padding:{ left: 30, right: 30 }}}
@@ -90,46 +98,43 @@ export default function ComparisonLine({ selectedDateRange }) {
                   content: ({ label, payload }) => (<ChartTooltip label={label} payload={payload} />),
                 }}
               />
-              <div style={{ marginTop: '20px', padding: '10px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
-                <Legend
-                  series={selectedBanks.map((bank) => ({
-                    name: bank,
-                    color: lineColors[bank],
-                  }))}
-                />
-              </div>
             </div>
           </Grid.Col>
-          <Grid.Col span={0.5}>
-          <Grid gutter="md">
+          <Grid.Col span={0.5} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{marginLeft: '50px', width: '100px', marginTop: '10px', padding: '5px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
+              <Legend
+                series={selectedBanks.map((bank) => ({
+                  name: bank,
+                  color: lineColors[bank],
+                }
+                ))}
+                fontSize="14px"
+              />
+            </div>
+          </Grid.Col >
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' , marginLeft: '50px',}}>
+            <Text>Select banks for comparison:</Text>
             {banksData.map((bankEntry) => (
-              <Grid.Col key={bankEntry.bank}>
-                <Button
-                  onClick={() => toggleBankSelection(bankEntry.bank)}
-                  color={selectedBanks.includes(bankEntry.bank) ? 'violet' : 'gray'}
-                  variant="outline"
-                  style={{ width: '110px', marginRight: '15px', borderWidth: '2px' }}
-                >
-                  {bankEntry.bank}
-                </Button>
-              </Grid.Col>
+
+
+              <Button
+                key={bankEntry.bank}
+                onClick={() => toggleBankSelection(bankEntry.bank)}
+                color={selectedBanks.includes(bankEntry.bank) ? 'violet' : 'gray'}
+                variant="outline"
+                size="xs"
+                style={{ marginTop: '0px', marginBottom: '0px', marginRight: '3px', marginLeft:'10px', padding:'4px', borderWidth: '2px', fontSize: '10px'}}
+              >
+                {bankEntry.bank}
+              </Button>
             ))}
-          </Grid>
-          <div style={{ marginTop: '20px', padding: '10px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
-              {/* Legend for banks */}
-              {selectedBanks.map((bank) => (
-                <div key={bank} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
-                  <div style={{ width: '20px', height: '20px', backgroundColor: lineColors[bank], marginRight: '10px' }} />
-                  <span>{bank}</span>
-                </div>
-              ))}
-            </div>
-          </Grid.Col>
+          </div>
         </Grid>
       )}
     </div>
   );
-};
+}
+  
 
 function ChartTooltip({ label, payload }) {
   if (!payload) return null;
@@ -149,15 +154,14 @@ function ChartTooltip({ label, payload }) {
 }
 
 const processDataForLineChart = (banksData) => {
-  if (!banksData) return []; // Return empty array if no data
+  if (!banksData || !Array.isArray(banksData)) return []; // Return empty array if no data or if data is not an array
   const processedData = [];
 
   // Iterate over each bank entry
   banksData.forEach((entry) => {
     const bankName = entry.bank; // Extract the bank name
 
-    // Choose ratings array based on data availability
-    const ratingsArray = entry.monthly_ratings || entry.weekly_ratings;
+    const ratingsArray = entry.ratings;
 
     // Iterate over each rating period
     ratingsArray.forEach((ratingData) => {

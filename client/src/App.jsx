@@ -15,6 +15,8 @@ function App() {
   //const [activeTab, setActiveTab] = useState(0); // Set the default tab to 'Overview'
   const [activeHeaderTab, setActiveHeaderTab] = useState('Overview'); //change this to 'Overview' when Overview is done! 
   const [opened, { toggle }] = useDisclosure();
+
+  //TODO decide if needed later
   const handleExit = () => {
     if (window.confirm('Are you sure you want to exit?')) {
       window.close(); // Close the current window/tab if the user confirms
@@ -26,17 +28,22 @@ function App() {
   useEffect(() => {
     //const savedActiveTab = localStorage.getItem('activeTab');
     const savedActiveHeaderTab = localStorage.getItem('activeHeaderTab');
+    const savedDateRange = JSON.parse(localStorage.getItem('selectedDateRange'));
     if (savedActiveHeaderTab) {
       //setActiveTab(Number(savedActiveTab));
       setActiveHeaderTab(savedActiveHeaderTab);
     } 
+    
   }, []);
+
 
   // Update local storage when the active tab changes
   useEffect(() => {
     //localStorage.setItem('activeTab', activeTab);
     localStorage.setItem('activeHeaderTab', activeHeaderTab);
   }, [activeHeaderTab]);
+
+  
 
   //Set state for Date Filter across all pages
   const [selectedDateRange, setSelectedDateRange] = useState({
@@ -49,6 +56,28 @@ function App() {
     setSelectedDateRange(dateRange);
   };
 
+
+
+
+  // handle database refresh
+  const [refreshFlag, setRefreshFlag] = useState(false);
+
+  
+  const handleRefresh = async() => {
+    try {
+        // make API request to refresh database
+        //await axios.get(apiEndpoint); //change to link
+        
+        console.log("Refreshed")
+
+        setRefreshFlag(!refreshFlag);
+      } catch (error){
+          // handle error
+          console.error('Error refreshing data:', error);
+      } 
+      };
+
+
   return (
     <AppShell
       // controls the actual height of them
@@ -56,12 +85,12 @@ function App() {
       navbar={{ width: 70, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding="md"
     >
-      <AppShell.Header>
-        <Group h="100%" px="md">
+      <AppShell.Header style={{display: "flex"}}>
+        {/* <Group h="100%" px="md"> */}
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            {/* HeaderSimple will have a component inside which will change date range. handleDateRangeChange will update to the new DateRange */}
-            <HeaderSimple onDateRangeChange={handleDateRangeChange}  />
-        </Group>
+          {/* HeaderSimple will have a component inside which will change date range. handleDateRangeChange will update to the new DateRange */}
+          <HeaderSimple onDateRangeChange={handleDateRangeChange} onRefresh={handleRefresh}  />
+        {/* </Group> */}
       </AppShell.Header>
 
       <AppShell.Navbar style={{ backgroundColor: '#F8F8FF'}} >
@@ -72,7 +101,7 @@ function App() {
         {/* style={{ width: '100%', height: '100%', overflow: 'auto' }} */}
         {activeHeaderTab === 'Overview' && <Overview selectedDateRange={selectedDateRange}/>}
         {activeHeaderTab === 'Product Reviews' && <NewProductReviews/>}
-        {activeHeaderTab === 'Comparison' && <Comparison selectedDateRange={selectedDateRange}/>}
+        {activeHeaderTab === 'Comparison' && <Comparison selectedDateRange={selectedDateRange} refreshFlag={refreshFlag} />}
         
       </AppShell.Main>
     </AppShell>

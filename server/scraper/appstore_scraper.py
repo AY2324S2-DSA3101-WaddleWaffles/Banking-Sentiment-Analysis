@@ -1,15 +1,15 @@
 """
 Scrapes data from the apple store
 If given a parameter, datetime, should only scrape data from that datetime onwards
+Request limit should be around 3500 requests per hour. If no datetime will not have enough requests to scrape.
 """
 
 import pandas as pd
 import numpy as np
 import json
-import datetime
+from datetime import datetime
 from app_store_scraper import AppStore
-
-## Request limit should be around 3500 requests per hour. If no datetime will not have enough requests to scrape.
+from util.stdout_supress import suppress_stdout
 
 class AppScraper:
     """
@@ -41,20 +41,19 @@ class AppScraper:
             pd.Dataframe: of all bank reviews scraped
             datetime: Current datetime
         """
-
+        suppress_stdout(enable=True)
         scraped_reviews = []
         banks_in_review = []
         for bank in self.apps.keys():
-            result = AppStore(country = 'sg', app_name = self.apps[bank], app_id = self.app_ids[bank], after = datetime_scrape)
-            
-            for i in result:
+            result = AppStore(country = 'sg', app_name = self.apps[bank], app_id = self.app_ids[bank])
+            result.review(after = datetime_scrape)
+            for i in result.reviews:
                 banks_in_review.append(bank)
                 scraped_reviews.append(i)
 
-        pd_reviews = pd.DataFrame(np.array(scraped_reviews), columns = ['review'])
-
-        pd_reviews = pd_reviews.join(pd.DataFrame(pd_reviews.pop('review').tolist()))
+        pd_reviews = pd.DataFrame(scraped_reviews)
+        print(pd_reviews)
 
         pd_reviews["bank"] = banks_in_review
-
+        suppress_stdout(enable=False)
         return pd_reviews, datetime.now()

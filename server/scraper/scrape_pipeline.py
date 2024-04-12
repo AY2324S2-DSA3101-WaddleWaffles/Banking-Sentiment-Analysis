@@ -1,13 +1,11 @@
-from appstore_scraper import AppScraper
-from appstore_textpreprocess import preprocess_appstore_data
+from scraper.appstore_scraper import AppScraper
+from scraper.appstore_textpreprocess import preprocess_appstore_data
 from database.database_pipeline import DataManager
-from playstore_scraper import PlayStoreScraper
-from playstore_textpreprocess import preprocess_playstore_data
-
+from scraper.playstore_scraper import PlayStoreScraper
+from scraper.playstore_textpreprocess import preprocess_playstore_data
 
 import datetime as dt
 import pandas as pd
-
 
 class ScrapePipeline:
     """
@@ -16,9 +14,9 @@ class ScrapePipeline:
         appstore_apps (dict): Dictionary of bank names to appstore apps
         appstore_app_ids (dict): Dictionary of bank names to playstore app ids
         bank_names (list): List of bank names
-        last_scraped (datetime): datetime of last called scrape
+        app_last_scraped (datetime): datetime of last called scrape on app store
         playstore_apps (dict): Dictionary of bank names to playstore apps
-        playstore_tokens (dict): Dictionary of banknames to tokens
+        play_last_scraped (datetime): datetime of last called scrape on play store
     """
 
     def __init__(self, username, password):
@@ -33,26 +31,31 @@ class ScrapePipeline:
         
         database = DataManager(username, password)
         self.playstore_apps = database.retrieve_miscellaneous("playstore", "apps")
-        self.playstore_tokens = database.retrieve_miscellaneous("playstore", "tokens")
+        self.play_last_scraped = pd.to_datetime(database.retrieve_miscellaneous("playstore", "datetime")["latestdate"])
         self.appstore_app_ids = database.retrieve_miscellaneous("appstore", "app_ids")
         self.appstore_apps = database.retrieve_miscellaneous("appstore", "apps")
-        self.last_scraped = database.retrieve_miscellaneous("appstore", "datetime")
+        self.app_last_scraped = pd.to_datetime(database.retrieve_miscellaneous("appstore", "datetime")["latestdate"])
     
     def scrape_new_reviews(self):
         """
         Get preprocessed reviews from playstore and appstore update to database
+        
+        Returns:
+            pd.Dataframe of all new reviews
+            datetime of scraping playstore
+            datetime of scraping appstore
         """
-        playstore_scraper = PlayStoreScraper(self.bank_names, self.playstore_apps)
-        playstore_reviews, new_tokens = playstore_scraper.scrape_banks(self.playstore_tokens)
+        playstore_scraper = PlayStoreScraper(self.playstore_apps)
+        playstore_reviews, playstore_scraped_datetime = playstore_scraper.scrape_banks(self.play_last_scraped)
         playstore_reviews_processed = preprocess_playstore_data(playstore_reviews)
-        playstore_reviews_processed["source"] = "playstore"
+    
 
-        appstore_scraper =  AppScraper(self.bank_names,  self.appstore_apps, self.appstore_app_ids)
-        appstore_reviews, scraped_datetime = appstore_scraper.scrape_banks(self.last_scraped) 
+        appstore_scraper =  AppScraper(self.appstore_apps, self.appstore_app_ids)
+        appstore_reviews, app_scraped_datetime = appstore_scraper.scrape_banks(self.app_last_scraped) 
         appstore_reviews_processed = preprocess_appstore_data(appstore_reviews)
-        appstore_reviews_processed["source"] = "appstore"
+    
 
-        all_reviews = pd.concat([playstore_reviews, appstore_reviews])
+        all_reviews = pd.concat([playstore_reviews_processed, appstore_reviews_processed])
 
         datetime_col = pd.to_datetime(all_reviews["date"])
 
@@ -61,5 +64,5 @@ class ScrapePipeline:
         all_reviews["day"] = datetime_col.dt.day
         all_reviews.drop(columns = ["date"], inplace = True)
         
-        return all_reviews, new_tokens, scraped_datetime
+        return all_reviews, playstore_scraped_datetime, app_scraped_datetime
  

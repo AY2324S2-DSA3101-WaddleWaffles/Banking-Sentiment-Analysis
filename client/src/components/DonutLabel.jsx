@@ -46,3 +46,4 @@ export default function GetDonutLabel({ averageGXS }){
         <>{averageGXS !== null && <span></span>}</>
     );
 }
+

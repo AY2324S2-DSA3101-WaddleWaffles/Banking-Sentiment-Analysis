@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Paper, Text } from '@mantine/core';
 
-function ComparisonBar({ selectedDateRange }) {
+function ComparisonBar({ selectedDateRange, refreshFlag  }) {
   const [sentimentData, setSentiments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,19 +18,23 @@ function ComparisonBar({ selectedDateRange }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
+
         const response = await fetch(api.toString());
         const jsonData = await response.json();
         setSentiments(jsonData); // Update reviewsData state
         console.log("retrieved bar data:", jsonData);
+        console.log("setIsLoading:", isLoading)
+
       } catch (error) {
         console.error('Error fetching bar graph data:', error);
       } finally {
         setIsLoading(false);
       }
     };
-
+    
     fetchData(); // Call the fetchData function to fetch data when the component mounts
-  }, [selectedDateRange]); // Empty dependency array means this effect runs only once after the component mounts
+  }, [selectedDateRange, refreshFlag ]); // Empty dependency array means this effect runs only once after the component mounts
 
   console.log('Retrieved bar data:', sentimentData);
   // Function to process JSON data
@@ -48,7 +52,8 @@ function ComparisonBar({ selectedDateRange }) {
         </div>
       ) : (
         <BarChart
-          h="100%"
+          h={250}
+          w = {400}
           data={processedSentData}
           dataKey="bank"
           barProps={{ width: 10 }}

@@ -18,7 +18,7 @@ def preprocess_appstore_data(df):
     Return:
         pd.Dataframe of the preprocessed text containing date,review,rating,title,bank as columns
     """
-    df = df.drop(["userName", "isEdited", "Unnamed: 0", "Unnamed: 0.1", 'developerResponse'], axis= 1)
+    df = df.drop(["userName", "isEdited", 'developerResponse'], axis= 1)
 
     df.dropna(subset=['review'], inplace=True) # Drops empty reviews
 
@@ -59,5 +59,7 @@ def preprocess_appstore_data(df):
     df['review'] = df['review'].apply(preproccessing)
     df['title'] = df['title'].apply(preproccessing)
     df['bank'] = df['bank'].str.upper()
-
+    df['source'] = "appstore"
+    df['review'].replace('', np.nan, inplace=True)
+    df.dropna(subset=['review'], inplace=True)
     return df

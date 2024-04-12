@@ -4,66 +4,157 @@ import React, { useState, useEffect } from 'react';
 import { Paper, Text } from '@mantine/core';
 
 export default function OverallGXSBySentiment({ selectedDateRange }) {
-    const [filteredData, setFilteredData] = useState([]);
+    console.log(selectedDateRange);
+
+    // save updated start and end dates into variable
+    const newStartDate = selectedDateRange.startDate;
+    const newEndDate = selectedDateRange.endDate;
+
+    // change format of start and end date to dd-mm-yyyy
+    const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
+    console.log(formattedStartDate);
+    const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
+    console.log(formattedEndDate);
+
+    const api = `http://127.0.0.1:5001/reviews/average-sentiment?start-date=${formattedStartDate}&end-date=${formattedEndDate}`
+    console.log(api);
+
+    const [reviewsData, setReviews] = useState([]);
+    //const [processedData, setProcessedData] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Fetch data from API endpoint
-        axios.get('http://127.0.0.1:5001/reviews')
-            .then(response => {
-                console.log('Retrieved data:', response.data);
-                // Filter the fetched data based on the selected date range
-                const filtered = filterDataByDateRange(response.data, selectedDateRange);
-                setFilteredData(filtered);
-            })
-            .catch(error => {
-                console.error('Error fetching reviews:', error);
-                // Handle error, e.g., display error message to user
-            });
-    }, [selectedDateRange]); // Run effect whenever selectedDateRange changes
-
-    // Function to filter data by date range
-    const filterDataByDateRange = (data, dateRange) => {
-        if (!dateRange) return data; // Return data unchanged if date range is not provided
-
-        // Since currently data given to us is by motnhs only
-        const startMonth = dateRange.startDate.getMonth();;
-        const endMonth = dateRange.endDate.getMonth();
-        const filteredData = {};
-        const monthNames = Object.keys(data);
-
-        // Map month names to their corresponding numeric representation
-        const monthMap = {
-          "January": 0,
-          "February": 1,
-          "March": 2,
-          "April": 3,
-          "May": 4,
-          "June": 5,
-          "July": 6,
-          "August": 7,
-          "September": 8,
-          "October": 9,
-          "November": 10,
-          "December": 11
+        const fetchData = async () => {
+            try {
+                const response = await fetch(api.toString());
+                const jsonData = await response.json();
+                setReviews(jsonData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setIsLoading(false);
+            }
         };
 
-        Object.entries(data).forEach(([month, sentiments]) => {
-          const monthIndex = monthMap[month]; // Get month index from monthMap
-          
-          // Check if month index falls within the range of startMonth and endMonth
-          if (monthIndex >= startMonth && monthIndex <= endMonth) {
-              // Add the entry to the filteredData object
-              filteredData[month] = sentiments;
-          }
+        fetchData();
+    }, [selectedDateRange]);
+    console.log(reviewsData); 
+    
+    // process data 
+
+    const gxsData = reviewsData.filter(item => item.bank === 'GXS');
+    gxsData.forEach(item => { // remove the "total" element
+        if ("total" in item.sentiments){
+            delete item.sentiments.total;
+        }
+    });
+
+
+    
+    const monthAbbreviations = {
+        "January": "Jan",
+        "February": "Feb",
+        "March": "Mar",
+        "April": "Apr",
+        "May": "May",
+        "June": "Jun",
+        "July": "Jul",
+        "August": "Aug",
+        "September": "Sep",
+        "October": "Oct",
+        "November": "Nov",
+        "December": "Dec"
+      };
+    
+    // WEEK PROCESSING
+    // 1. change from 23 February 2024 to 23 Feb 24
+    const weeklyData = JSON.parse(JSON.stringify(gxsData));
+    // Iterate through the modified data array and modify the date range format
+    weeklyData.forEach(item => {
+        const sentiments = item.sentiments;
+        Object.keys(sentiments).forEach(dateRange => {
+        if (dateRange !== "total") {
+            const [startDate, endDate] = dateRange.split(" - ").map(date => {
+            const [day, month, year] = date.split(" ");
+            return `${day} ${month.substring(0, 3)} ${year.slice(-2)}`;
+            });
+            const newDateRange = `${startDate} - ${endDate}`;
+            sentiments[newDateRange] = sentiments[dateRange];
+            delete sentiments[dateRange];
+        }
         });
+    });
 
-        console.log("dateRange:", dateRange);
-        console.log("startMonth:", startMonth)
-        console.log("endMonth:", endMonth);
-        console.log("filteredData:", filteredData);
+    console.log(weeklyData);
 
-        return filteredData;
-    };
+    // 2. convert to percentage, change to correct format for input 
+    const formattedData = weeklyData.map(item => {
+        const sentiments = item.sentiments;
+        const formattedSentiments = Object.keys(sentiments).map(dateRange => {
+          const sentimentValues = sentiments[dateRange];
+          // Multiply each sentiment value by 100 and round to 1 decimal place
+          const formattedValues = {
+            "Negative": parseFloat((sentimentValues["Negative"] * 100).toFixed(1)),
+            "Neutral": parseFloat((sentimentValues["Neutral"] * 100).toFixed(1)),
+            "Positive": parseFloat((sentimentValues["Positive"] * 100).toFixed(1))
+          };
+          return { month: dateRange, ...formattedValues };
+        });
+        return formattedSentiments;
+    }).flat();
+      
+    console.log(formattedData);
+
+    // MONTH PROCESSING
+//     gxsData.forEach(item => {
+//         // Loop through the sentiments object of each item
+//         Object.keys(item.sentiments).forEach(dateRange => {
+//             // Split the date range by " - " to get the start and end dates
+//             const dates = dateRange.split(" - ");
+//             // Extract the components of start and end dates
+//             const [startDay, startMonth, startYear] = dates[0].split(" ");
+//             const [endDay, endMonth, endYear] = dates[1].split(" ");
+//             // Replace full month names with their abbreviations
+//             const abbreviatedStartDate = `${startDay} ${monthAbbreviations[startMonth]} ${startYear.slice(-2)}`;
+//             const abbreviatedEndDate = `${endDay} ${monthAbbreviations[endMonth]} ${endYear.slice(-2)}`;
+//             // Construct the new date range format
+//             const newDateRange = `${abbreviatedStartDate} - ${abbreviatedEndDate}`;
+//             // Update the sentiments object with the new date range format
+//             item.sentiments[newDateRange] = item.sentiments[dateRange];
+//             // Remove the old date range from the sentiments object
+//             delete item.sentiments[dateRange];
+//   });
+// });
+
+//     console.log(gxsData);
+
+
+
+
+    // // if selectedDateRange > 3 months: aggregate by month
+
+    // month abbreviation, ONLY CAN DO IF FILTER FOR > 3 MONTHS
+    // const monthAbbreviaton = (dateString) => {
+    //     const dateParts = dateString.split(" ");
+    //     const mm = dateParts[0].substring(0,3);
+    //     const year = dateParts[1].substring(2);
+    //     return `${mm} ${year}`;
+    // }
+
+    // const transformedData = Object.entries(gxsData.sentiments)
+    //     .map(([month, sentiment]) => ({
+    //         //month: monthAbbreviaton(month),
+    //         month,
+    //         Positive: ((sentiment.Positive) * 100).toFixed(1),
+    //         Neutral: ((sentiment.Neutral) * 100).toFixed(1),
+    //         Negative: ((sentiment.Negative) * 100).toFixed(1)
+    //     }));
+
+    // console.log(transformedData);
+
+
+    
+
 
     // Function for tooltip
     function ChartTooltip({ label, payload }) {
@@ -81,71 +172,44 @@ export default function OverallGXSBySentiment({ selectedDateRange }) {
                 ))}
             </Paper>
         );
-    }
-
-    // Process data
-
-    // Map full month names to abbreviations
-    const monthAbbreviations = {
-        "January": "Jan",
-        "February": "Feb",
-        "March": "Mar", 
-        "April": "Apr",
-        "May": "May",
-        "June": "Jun",
-        "July": "Jul",
-        "August": "Aug",
-        "September": "Sep",
-        "October": "Oct",
-        "November": "Nov",
-        "December": "Dec"
     };
 
-    // Map month abbreviations to order
-    const monthOrder = {
-        "Jan": 1,
-        "Feb": 2,
-        "Mar": 3,
-        "Apr": 4,
-        "May": 5,
-        "Jun": 6,
-        "Jul": 7,
-        "Aug": 8,
-        "Sep": 9,
-        "Oct": 10,
-        "Nov": 11,
-        "Dec": 12
-    };
+    // const sortedData = transformedData.sort((a,b) => {
+    //     const [monthA, yearA] = a.month.split(" ");
+    //     const [monthB, yearB] = b.month.split(" ");
 
-    // Convert data format for chart
-    const transformedData = Object.keys(filteredData).map(month => {
-        const abbreviation = monthAbbreviations[month];
-        return {
-            month: abbreviation,
-            Positive: (filteredData[month].Positive * 100).toFixed(2),
-            Neutral: (filteredData[month].Neutral * 100).toFixed(2),
-            Negative: (filteredData[month].Negative * 100).toFixed(2)
-        };
-    });
+    //     // compare years first
+    //     if (yearA !== yearB) {
+    //         return parseInt(yearA) - parseInt(yearB);
+    //     }
 
-    // Sort data by month order
-    const sortedData = transformedData.sort((a, b) => {
-        return monthOrder[a.month] - monthOrder[b.month];
-    });
+    //     // if years are the same, compare months
+    //     const monthOrder = {
+    //         "January": 1, "February": 2, "March": 3, "April": 4,
+    //         "May": 5, "June": 6, "July": 7, "August": 8,
+    //         "September": 9, "October": 10, "November": 11, "December": 12
+    //     };
 
-    // Calculate max value for y-axis
-    const maxValue = Math.max(...sortedData.map(item => Math.max(item.Positive, item.Neutral, item.Negative)));
+    //     return monthOrder[monthA] - monthOrder[monthB];
+    // })
+
+    // console.log(sortedData);
+
+
+    // // // Calculate max value for y-axis
+    // // const maxValue = Math.max(...sortedData.map(item => Math.max(item.Positive, item.Neutral, item.Negative)));
 
     // Define domain for y-axis
-    const yAxisDomain = [0, maxValue] ;
+    //const yAxisDomain = [0, 100];
 
     return (
         // <div style={{ marginLeft: '10px', height: "250px", marginTop: "10px", marginRight:'10px' }}>
           <LineChart
               h="100%"
               w="100%"
-              data={sortedData}
+              data={formattedData}
               dataKey='month'
+              unit='%'
               series={[
                   {name: 'Positive', color: 'teal'},
                   {name: 'Neutral', color: 'yellow.6'},
@@ -157,9 +221,9 @@ export default function OverallGXSBySentiment({ selectedDateRange }) {
               xAxisProps={{
                 tickRotation: -90 // NOT WORKING
               }}
-              yAxisProps={{
-                domain: yAxisDomain
-              }}
+            //   yAxisProps={{
+            //     domain: yAxisDomain
+            //   }}
               
           />
 

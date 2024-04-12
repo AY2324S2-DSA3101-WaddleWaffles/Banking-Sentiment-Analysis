@@ -1,6 +1,5 @@
 from transformers import pipeline
 
-
 class SentimentAnalysisModel:
     """
     A class for sentiment analysis.
