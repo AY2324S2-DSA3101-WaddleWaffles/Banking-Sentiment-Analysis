@@ -10,6 +10,7 @@ import RefreshDatabase from "./components/RefreshButton";
 import SentimentByTopic from "./components/BarChart";
 import GetInsights from "./components/InsightsOverview";
 
+
 export default function Overview({ selectedDateRange }) {
     console.log("overview page date:", selectedDateRange);
   return (
@@ -26,9 +27,9 @@ export default function Overview({ selectedDateRange }) {
             <GetNumReviews selectedDateRange={selectedDateRange}/>&nbsp;reviews
         </div> 
 
-       <div className="grid-item insights"> 
+       {/* <div className="grid-item insights"> 
             <GetInsights />
-        </div>
+        </div> */}
 
         <div className="grid-item topic" style={{ display: 'flex', justifyContent: 'center', height:'340px' }} >
             <Container size = "100%" >
@@ -40,6 +41,7 @@ export default function Overview({ selectedDateRange }) {
 
         <div className="grid-item ratings" style={{ display: 'flex', justifyContent: 'center', height: '320px' }}>
             <SentimentByTopic selectedDateRange={selectedDateRange}/> 
+
             
             {/* <OverallGXSBySentiment selectedDateRange={selectedDateRange} /> */}
         </div>
