@@ -66,14 +66,13 @@ export default function OriginalComments(){
 
     return (
         <div>
-            <h2>Original Comments</h2>
             <Select
                 placeholder="Sort by: "
                 data={filterOptions}
                 value={filter}
                 onChange={(value) => setFilter(value)}
                 clearable
-                style={{ position: "sticky", top: "40px", zIndex: "1000" }}
+                style={{ position: "sticky", top: "20px", zIndex: "1000" }}
             />
             <div style={{ height: "300px", overflowY: "auto" }}>
                 {renderComments()}

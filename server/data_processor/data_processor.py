@@ -65,7 +65,7 @@ class DataProcessor:
         result = {}
         avg_ratings = {"total": [0, 0]}
         for review in data:
-            month_year = f"{calendar.month_name[review["month"]]} {review["year"]}"
+            month_year = f"{calendar.month_name[review['month']]} {review['year']}"
             avg_ratings[month_year] = avg_ratings.get(month_year, [0, 0])
             avg_ratings[month_year][0] += review["rating"]
             avg_ratings[month_year][1] += 1
@@ -108,7 +108,7 @@ class DataProcessor:
             tuple: A tuple containing aggregated weekly average rating and total ratings.
         """
         total_ratings = [0, 0]
-        date_string = f"{monday_date.strftime("%d %B %Y")} - {tracked_date.strftime("%d %B %Y")}"
+        date_string = f"{monday_date.strftime('%d %B %Y')} - {tracked_date.strftime('%d %B %Y')}"
         for review in data:
             total_ratings[0] += review["rating"]
             total_ratings[1] += 1
@@ -162,7 +162,7 @@ class DataProcessor:
         result = {}
         sentiments = {"total": {"Positive": 0, "Neutral": 0, "Negative": 0}}
         for review in data:
-            month_year = f"{calendar.month_name[review["month"]]} {review["year"]}"
+            month_year = f"{calendar.month_name[review['month']]} {review['year']}"
             sentiments[month_year] = sentiments.get(month_year, {"Positive": 0, "Neutral": 0, "Negative": 0})
             sentiments[month_year][review["sentiment"]] += 1
             sentiments["total"][review["sentiment"]] += 1
@@ -203,7 +203,7 @@ class DataProcessor:
             tuple: A tuple containing aggregated weekly average sentiment and total sentiment.
         """
         total_sentiment = {"Positive": 0, "Neutral": 0, "Negative": 0}
-        date_string = f"{monday_date.strftime("%d %B %Y")} - {tracked_date.strftime("%d %B %Y")}"
+        date_string = f"{monday_date.strftime('%d %B %Y')} - {tracked_date.strftime('%d %B %Y')}"
         for review in data:
             total_sentiment[review["sentiment"]] += 1
 

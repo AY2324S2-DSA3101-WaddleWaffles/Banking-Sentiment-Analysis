@@ -1,15 +1,33 @@
 import React, { useState } from "react";
 import { Container, Grid, Select } from "@mantine/core";
+import "./NewProductReviews.css";
+
+import OriginalComments from "./components/OriginalComments";
 
 export default function NewProductReviews() {
 
   return (
-    <Container size="100%">
+    <Container size="100%" className="grid-container-pd">
       
-      <div> Hello </div>
+      <div className ="grid-item original"> 
+        <h2 style={{ fontSize: '20px', fontWeight: 'bold' }}>
+          Original Reviews 
+          <OriginalComments/>
+        </h2>
+      </div>
   
       
-      <div> Hello</div>
+      <div className="grid-item topword">
+        <h2 style={{ fontSize: '20px', fontWeight: 'bold' }}>
+          Top Words from Reviews
+        </h2>
+      </div>
+      
+      <div className="grid-item suggestion"> 
+      <h2 style={{ fontSize: '20px', fontWeight: 'bold' }}>
+          Suggestions
+        </h2>
+      </div> 
     </Container>
   );
 }
