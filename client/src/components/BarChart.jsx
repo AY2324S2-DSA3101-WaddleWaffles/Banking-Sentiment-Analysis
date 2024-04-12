@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BarChart } from '@mantine/charts'; 
 import { Paper, Text } from '@mantine/core';
 import axios from 'axios';
-import SimplePopup from './TopicFilter'
+import TopicFilter from './TopicFilter'
 
 
 export default function SentimentByTopic({selectedDateRange}) {
@@ -21,7 +21,17 @@ export default function SentimentByTopic({selectedDateRange}) {
     const [useThis, setUseThis] = useState(null);
     // const [sentimentData, setSentimentData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [features_list, setFeaturesList] = useState([]);
+    const [features_list, setFeaturesList] = useState([]); //features_list from data
+    const [ selectedFeatures, setselectedFeatures] = useState([]); //selected features from TopicFilter
+
+    //this is used in filtering
+    const handleFeaturesChange = (ftr) => {
+      if (selectedFeatures.includes(ftr)) {
+        setselectedFeatures(selectedFeatures.filter((selectedFeatures) => selectedFeatures !== ftr));
+      } else {
+        setselectedFeatures([...selectedFeatures, ftr]);
+      }
+    };
 
     useEffect(() => {
       const fetchData = async () => {
@@ -50,7 +60,15 @@ export default function SentimentByTopic({selectedDateRange}) {
               // setIsLoading(false);
               
               // Extracting features for filter
-              setFeaturesList(useThis.flatMap(data => data.feature));
+              const extractedFeatures = useThis.flatMap(data => data.feature);
+              setFeaturesList(extractedFeatures);
+              extractedFeatures.forEach(feature => {
+                if (!selectedFeatures.includes(feature)) {
+                  setselectedFeatures(selectedFeatures => [...selectedFeatures, feature]);
+                }
+               });
+
+  
               // console.log("Type of useThis in Fetchdata: ",typeof useThis);
               //console.log("Features:", features_list);
               // console.log("Type of features_list in Fetchdata: ",typeof features_list);
@@ -66,8 +84,18 @@ export default function SentimentByTopic({selectedDateRange}) {
       };
 
       fetchData();
-  }, [selectedDateRange]);
+      
 
+      
+
+  }, [selectedDateRange]);
+  
+  //default the selected features in the filter to all features
+  // features_list.forEach(feature => {
+  //   setselectedFeatures(selectedFeatures => [...selectedFeatures, feature]);
+  // });
+  //console.log("features_list:", features_list)
+  //console.log("selectedFeatures:", selectedFeatures)
 
 
   // Function for tooltip
@@ -93,7 +121,10 @@ export default function SentimentByTopic({selectedDateRange}) {
   console.log(gxsData);
   console.log("useThis:", useThis);
   //console.log("Features out:", features_list);
-    
+  
+  const filteredUseThis = useThis.filter(item => selectedFeatures.includes(item.feature));
+  console.log("filteredUseThis: ",filteredUseThis)
+
   return (
     <div style={{ display: 'flex' }}>
       
@@ -104,7 +135,7 @@ export default function SentimentByTopic({selectedDateRange}) {
           <BarChart
               h={280}
               w={500}
-              data={useThis}
+              data={filteredUseThis}
               dataKey="feature"
               type="stacked"
               orientation="vertical"
@@ -122,7 +153,7 @@ export default function SentimentByTopic({selectedDateRange}) {
               }}
           />
       )}
-      <SimplePopup features_list = {features_list}/>
+      <TopicFilter handleFeaturesChange={handleFeaturesChange} selectedFeatures={selectedFeatures} features_list = {features_list}/>
     </div> 
   );
 };

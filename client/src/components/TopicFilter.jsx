@@ -6,25 +6,29 @@ import {Button} from '@mantine/core'
 
 
 
-const SelectTopics = ({features_list}) => {
+const SelectTopics = ({handleFeaturesChange, selectedFeatures, features_list}) => {
     console.log("Features_list in SelectTopics:", features_list)
-    const [selectedTopics, setSelectedTopics] = useState([]);
+    console.log("selectedFeatures in SelectTopics:", selectedFeatures)
+    console.log("Type of handleFC in SelectTopics:", typeof handleFeaturesChange)
 
-    const handleFeatureSelection = (feature) => {
-        if (selectedTopics.includes(feature)) {
-          setSelectedTopics(selectedTopics.filter((selectedTopics) => selectedTopics !== feature));
-        } else {
-            setSelectedTopics([...selectedTopics, feature]);
-        }
-      };
+    //Previous handletopicchange
+    // const [selectedTopics, setSelectedTopics] = useState([]);
+
+    // const handleFeatureSelection = (feature) => {
+    //     if (selectedTopics.includes(feature)) {
+    //       setSelectedTopics(selectedTopics.filter((selectedTopics) => selectedTopics !== feature));
+    //     } else {
+    //         setSelectedTopics([...selectedTopics, feature]);
+    //     }
+    //   };
     
     return (
         <div>
             {features_list && features_list.map((feature)  => (
                 <Button
                     key={feature}
-                    onClick={() => handleFeatureSelection(feature) }
-                    color={selectedTopics.includes(feature) ? 'violet' : 'gray'} // Assuming you have selectedFeatures state to track selected features
+                    onClick={() => handleFeaturesChange(feature) }
+                    color={selectedFeatures.includes(feature) ? 'violet' : 'gray'} // Assuming you have selectedFeatures state to track selected features
                     variant="outline"
                     size="xs"
                     style={{ 
@@ -46,7 +50,7 @@ const SelectTopics = ({features_list}) => {
 };
 
 
-export default function SimplePopup({features_list}) {
+export default function TopicFilter({handleFeaturesChange, selectedFeatures, features_list}) {
     console.log("Type of features_list in SimgplePopup: ",typeof features_list)
     
     // Set state for opening and closing of popup
@@ -100,7 +104,7 @@ export default function SimplePopup({features_list}) {
             <div >
                 <BasePopup id={id} open={open} anchor={anchor} ref={refOne}>
                     <PopupBody>
-                        <SelectTopics features_list = {features_list}/>
+                        <SelectTopics handleFeaturesChange={handleFeaturesChange} selectedFeatures={selectedFeatures} features_list = {features_list}/>
                     </PopupBody>
                 </BasePopup>
             </div>
