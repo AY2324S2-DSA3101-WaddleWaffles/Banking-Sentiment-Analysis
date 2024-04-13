@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table } from '@mantine/core';
 
-function TableBanksCount({selectedDateRange, refreshFlag}) {
+function TableBanksCount({selectedDateRange, refreshFlag, setAvailableBanks }) {
   const [countData, setCountData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,6 +26,9 @@ function TableBanksCount({selectedDateRange, refreshFlag}) {
         const jsonData = await response.json();
         console.log('Retrieved data:', response.data);
         setCountData(jsonData); // Set the fetched data in state
+
+        // Select all banks by default
+        setAvailableBanks(jsonData.map(entry => entry.bank));
 
         setIsLoading(false);
       } catch (error) {
