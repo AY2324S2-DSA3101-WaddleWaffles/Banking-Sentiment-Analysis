@@ -11,7 +11,7 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
   const [selectedBanks, setSelectedBanks] = useState([]);
   const [lineColors, setLineColors] = useState({});
   const [processedData, setProcessedData] = useState([]);
-  
+
   
   // save updated start and end dates into variable
   const newStartDate = selectedDateRange.startDate;
@@ -69,7 +69,9 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
       setSelectedBanks([...selectedBanks, bank]);
     }
   };
-  console.log(banksData);
+
+  console.log("banksData: ",banksData);
+
   console.log(processedData);
   
 
@@ -80,6 +82,7 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
           <p>Loading...</p>
         </div>
       ) : (
+
         <Grid gutter="md" style={{ width: '100%', height: '100%', marginTop: '5px' }}>
           <Grid.Col span={10}>
             <div style={{ padding: '0 20px', }}> {/* Add padding to the sides */}
