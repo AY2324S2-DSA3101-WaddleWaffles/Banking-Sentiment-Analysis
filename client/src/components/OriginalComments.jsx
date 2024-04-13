@@ -1,9 +1,6 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
-import { Loader } from '@mantine/core';
-import { Blockquote } from "@mantine/core";
-import { Badge } from '@mantine/core';
+import { Badge, Blockquote, Loader } from "@mantine/core";
 import { IconMoodAngry, IconMoodNeutral, IconMoodHappy } from '@tabler/icons-react';
 
 
@@ -23,8 +20,8 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
       day: '2-digit', month: '2-digit', year: 'numeric',
     }).replace(/\//g, '-');
 
-    // API link for specified date range
-    const api = `http://127.0.0.1:5001/reviews?start-date=${formattedStartDate}&end-date=${formattedEndDate}`;
+    // API link for GXS bank reviews with specified date range
+    const api = `http://127.0.0.1:5001/reviews?bank=GXS&start-date=${formattedStartDate}&end-date=${formattedEndDate}`;
 
     const fetchData = async () => {
       setIsLoading(true);
@@ -34,10 +31,8 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
           throw new Error(`Network response was not ok (${response.status})`);
         }
         const data = await response.json();
+        setCommentsData(data);
 
-        // Filter for GXS Bank data only
-        const gxsData = data.filter(review => review.bank === "GXS");
-        setCommentsData(gxsData);
       } catch (error) {
         console.error('Fetch Error:', error);
       } finally {
@@ -91,7 +86,7 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
   // Yay, all set! Now, we can display the reviews on the webpage (ㅎ.ㅎ)✧˖°
   return (
     <div>
-      <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>
+      <h2 style={{ fontSize: '25px', fontWeight: 'bold', marginBottom: '10px' }}>
         Reviews
       </h2>
       {isLoading ? (
@@ -99,7 +94,7 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
       ) : sortedCommentsData.length > 0 ? (
         <>
           {/* Legend for the colors of blockquotes */}
-          <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+          <p style={{ fontSize: '12px', fontWeight: 'bold', display: 'flex', justifyContent: 'flex-end' }}>
             <Badge size="xs" circle color="red"></Badge>
             <span style={{ marginLeft: '5px' }}>Negative</span>
             <Badge size="xs" circle color="yellow" style={{ marginLeft: '10px' }}></Badge>
@@ -120,15 +115,15 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
               style={{ marginBottom: '10px' }} 
             >
               <div style={{ marginBottom: '5px' }}> 
-              <Badge color="gray">{comment.topic}</Badge>
+              <Badge color={getSentimentColor(comment.sentiment)}>{comment.topic}</Badge>
               </div>
               {comment.review}
             </Blockquote>
           ))}
-          <p style={{ color: 'grey', marginBottom: '10px' }}>All reviews for the selected date range have been shown.</p>
+          <p style={{ fontSize: '14px', fontStyle: 'italic', color: 'gray', marginBottom: '10px' }}>All reviews for the selected date range have been shown.</p>
         </>
       ) : (
-        <div style={{ textAlign: 'center' }}>
+        <div>
           {/* If there are no review found, show this instead */}
           <p>No reviews found for the selected date range.</p>
         </div>

@@ -3,6 +3,7 @@ import { Container, Grid, Select } from "@mantine/core";
 import "./NewProductReviews.css";
 
 import OriginalComments from "./components/OriginalComments";
+import TopWords from "./components/TopWords";
 
 export default function NewProductReviews({ selectedDateRange, refreshFlag }) {
   console.log("reviews page date:", selectedDateRange);
@@ -16,9 +17,7 @@ export default function NewProductReviews({ selectedDateRange, refreshFlag }) {
   
       
       <div className="grid-item topword">
-        <h2 style={{ fontSize: '20px', fontWeight: 'bold' }}>
-          Top Words from Reviews
-        </h2>
+        <TopWords selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag}/>
       </div>
       
       <div className="grid-item suggestion"> 

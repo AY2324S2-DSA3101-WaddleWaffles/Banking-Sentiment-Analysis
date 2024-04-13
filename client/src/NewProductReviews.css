@@ -26,14 +26,13 @@
 
 .original {
     grid-area: original;
-    font-size: 10px;
     max-height: 89vh;
     overflow-y: auto; 
 }
 
 .small-blockquote {
   text-align: left;
-  font-size: 14px;
+  font-size: 15px;
   width: 600px; 
   height: auto;
 }
