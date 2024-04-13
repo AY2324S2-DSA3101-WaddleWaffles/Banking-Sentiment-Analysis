@@ -16,20 +16,24 @@
 .grid-item {
     display: flex;
     justify-content: center; /* Center items horizontally */
-    padding: 0;
+    /* size: 100%; */
+    padding: 7px;
     border: 2px solid black;
     border-radius: 10px;
-    margin: 0;
-    margin-bottom: 0;
+   /* margin: 5px; */
+   /* margin-bottom: 0; */
 }
-  
+
 .original {
     grid-area: original;
     font-size: 10px;
     max-height: 89vh;
     overflow-y: auto; 
 }
+
 .small-blockquote {
+  text-align: left;
+  font-size: 14px;
   width: 600px; 
   height: auto;
 }
