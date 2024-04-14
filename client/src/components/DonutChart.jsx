@@ -86,16 +86,18 @@ export default function DonutChartComponent({ selectedDateRange }) {
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
+                
                 <div className={classes.label}>
+                    <h2 style = {{ fontSize: '15px', fontWeight: 'bold' }}>A Quick Glance...</h2>
                     <DonutChart 
                         data={transformedData}
                         tooltipProps={{
                             content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
                         }}
-                        h={380}
-                        w={280}
+                        h={180}
+                        w={180}
                         mx="auto"
-                        size = {200}
+                        size = {170}
                         thickness = {25}
                         chartLabel= {averageLabel}
                         

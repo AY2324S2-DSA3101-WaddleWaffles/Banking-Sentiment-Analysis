@@ -14,24 +14,27 @@ export default function Overview({ selectedDateRange }) {
     console.log("overview page date:", selectedDateRange);
   return (
     <Container size="100%" height="100%" className="grid-container">
+        <div className="grid-item number" style={{ display: 'flex', justifyContent: 'center' }}> 
+            <GetNumReviews selectedDateRange={selectedDateRange}/>&nbsp;reviews
+        </div> 
 
-        <div className="grid-item donut" style={{ display: 'flex', justifyContent: 'center', height: '250px', width: '400px'}}> 
+        <div className="grid-item donut" style={{ display: 'flex', justifyContent: 'center'}}> 
+            
             <Container size="100%">
+
                 <DonutChartComponent selectedDateRange={selectedDateRange} />
             </Container>
             
         </div>
 
-        <div className="grid-item number" style={{ display: 'flex', justifyContent: 'center', height: '80px', width: '400px' }}> 
-            <GetNumReviews selectedDateRange={selectedDateRange}/>&nbsp;reviews
-        </div> 
 
        <div className="grid-item insights"> 
             <GetInsights />
         </div>
 
-        <div className="grid-item topic" style={{ display: 'flex', justifyContent: 'center', height:'340px' }} >
+        <div className="grid-item topic" style={{ display: 'flex', justifyContent: 'center' }} >
             <Container size = "100%" >
+                <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginTop: '-10px'}}> Time-Series Analysis of Average Ratings  </h2>
                 <TimeSeriesGXS selectedDateRange={selectedDateRange}/>  
 
             </Container>
@@ -39,6 +42,7 @@ export default function Overview({ selectedDateRange }) {
         </div>
 
         <div className="grid-item ratings" style={{ display: 'flex', justifyContent: 'center', height: '320px' }}>
+        <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginTop: '-10px'}}> Time-Series Analysis of Average Ratings  </h2>
             <SentimentByTopic selectedDateRange={selectedDateRange}/> 
             
             {/* <OverallGXSBySentiment selectedDateRange={selectedDateRange} /> */}

@@ -22,11 +22,11 @@ export default function Comparison({ selectedDateRange, refreshFlag  }) {
           </div>
 
 
-        <div className="grid-item-comparison rating-banks">
-          {/* line chart title refuses to shift to directly above chart*/} 
-          <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px', marginLeft: '0px'  }}>Bank Ratings Over Time (Out of 10) </h2> 
-          <ComparisonLine selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag }/>
-        </div>
+        {/* <div className="grid-item-comparison rating-banks"> */}
+          {/* line chart title refuses to shift to directly above chart  */}
+          {/* <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '10px', marginLeft: '0px'  }}>Bank Ratings Over Time (Out of 10) </h2>  */}
+          {/* <ComparisonLine selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag }/> */}
+        {/* </div> */}
 
         <div className = "grid-item-comparison insights-banks">
           Insights

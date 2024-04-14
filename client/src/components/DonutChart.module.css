@@ -13,3 +13,7 @@
   fill: var(--mantine-color-text);
   font-size: 30px;
 }
+
+.existingContainer {
+  margin: 0;
+}
