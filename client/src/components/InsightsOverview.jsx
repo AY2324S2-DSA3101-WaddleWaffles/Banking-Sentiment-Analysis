@@ -89,17 +89,19 @@ export default function GetInsights() {
     // );
 
     return (
-        <ScrollArea h={300}>
-                    <Table highlightOnHover className = {classes.custom}>
-                        <Table.Thead>
-                            <Table.Tr>
-                                <Table.Th style = {{ textAlign: 'center'}}>Insight Group</Table.Th>
-                                <Table.Th style = {{ textAlign: 'center'}}>Generated Insights</Table.Th>
-                            </Table.Tr>
-                        </Table.Thead>
-                        <Table.Tbody>{rows}</Table.Tbody>
-                    </Table>
-                </ScrollArea>
+        <div style = {{display: 'flex', height: '100%'}}>
+            <ScrollArea h={320}>
+                <Table highlightOnHover className = {classes.custom}>
+                    <Table.Thead>
+                        <Table.Tr>
+                            <Table.Th style = {{ textAlign: 'center'}}>Insight Group</Table.Th>
+                            <Table.Th style = {{ textAlign: 'center'}}>Generated Insights</Table.Th>
+                        </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>{rows}</Table.Tbody>
+                </Table>
+            </ScrollArea>
+        </div>
     );
 
 }; // END OF MAIN FUNCTION

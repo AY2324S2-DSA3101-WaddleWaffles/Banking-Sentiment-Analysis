@@ -1,4 +1,4 @@
-import { Container } from "@mantine/core";
+import { Container, Badge } from "@mantine/core";
 import "./Overview.css";
 
 // IMPORT CHART COMPONENTS
@@ -10,6 +10,7 @@ import RefreshDatabase from "./components/RefreshButton";
 import SentimentByTopic from "./components/BarChart";
 import GetInsights from "./components/InsightsOverview";
 
+
 export default function Overview({ selectedDateRange }) {
     console.log("overview page date:", selectedDateRange);
   return (
@@ -18,15 +19,32 @@ export default function Overview({ selectedDateRange }) {
             <GetNumReviews selectedDateRange={selectedDateRange}/>&nbsp;reviews
         </div> 
 
-        <div className="grid-item donut" style={{ display: 'flex', justifyContent: 'center'}}> 
+        <div className="grid-item donut" style={{ display: 'flex'}}> 
             
-            <Container size="100%">
-
+            <Container size="auto">
+            
                 <DonutChartComponent selectedDateRange={selectedDateRange} />
             </Container>
             
         </div>
 
+        <div className = "grid-item legend" style = {{display: 'flex'}}>
+            <Container size="100%">
+                <h2 style = {{ fontSize: '18px', fontWeight: 'bold' , textAlign: 'left'}}>Average Rating for the past 3 months</h2>
+                <p style = {{ fontSize: '12px', fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
+                    <Badge size="xs" circle color="green.6" ></Badge>
+                    <span style={{ marginLeft: '5px' }}>Positive</span>
+                </p>
+                <p style = {{ fontSize: '12px', fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
+                    <Badge size="xs" circle color="yellow.6" ></Badge>
+                    <span style={{ marginLeft: '5px' }}>Neutral</span>
+                </p>
+                <p style={{ fontSize: '12px', fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
+                    <Badge size="xs" circle color="red.6"></Badge>
+                    <span style={{ marginLeft: '5px' }}>Negative</span>
+                </p>    
+            </Container>
+        </div>
 
        <div className="grid-item insights"> 
             <GetInsights />
@@ -41,9 +59,10 @@ export default function Overview({ selectedDateRange }) {
             
         </div>
 
-        <div className="grid-item ratings" style={{ display: 'flex', justifyContent: 'center', height: '320px' }}>
-        <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginTop: '-10px'}}> Time-Series Analysis of Average Ratings  </h2>
+        <div className="grid-item ratings" style={{ display: 'flex', justifyContent: 'center' }}>
+        {/* <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginTop: '-10px'}}> Time-Series Analysis of Average Ratings  </h2> */}
             <SentimentByTopic selectedDateRange={selectedDateRange}/> 
+
             
             {/* <OverallGXSBySentiment selectedDateRange={selectedDateRange} /> */}
         </div>

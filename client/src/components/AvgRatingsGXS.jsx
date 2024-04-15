@@ -65,7 +65,8 @@ export default function TimeSeriesGXS({ selectedDateRange }){
 
 
     return (
-        <div style = {{ marginTop: '20px', padding: '10px', position: 'relative'  }}> 
+        // <div style = {{ marginTop: '20px', padding: '10px', position: 'relative'  }}> 
+        <div style = {{ width: '100%', height: '100%'  }}> 
             <LineChart 
                 h = {280}// adjust margins after layout done!!!!!!
                 w = {780}

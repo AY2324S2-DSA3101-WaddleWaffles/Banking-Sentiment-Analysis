@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container } from "@mantine/core";
 import { DonutChart } from '@mantine/charts';
-import { Paper, Text } from '@mantine/core';
+import { Paper, Text, Badge, Blockquote, Loader } from '@mantine/core';
 import classes from "./DonutChart.module.css"
 
 export default function DonutChartComponent({ selectedDateRange }) {
@@ -82,27 +82,33 @@ export default function DonutChartComponent({ selectedDateRange }) {
 
     // Render the component
     return (
-        <div>
+        <div >
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
                 
-                <div className={classes.label}>
-                    <h2 style = {{ fontSize: '15px', fontWeight: 'bold' }}>A Quick Glance...</h2>
+                <div className={classes.label} >
+                    
+
+                  
+
                     <DonutChart 
                         data={transformedData}
                         tooltipProps={{
                             content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
                         }}
-                        h={180}
+                        h={200}
                         w={180}
                         mx="auto"
-                        size = {170}
+                        size = {180}
                         thickness = {25}
                         chartLabel= {averageLabel}
                         
                     />
                 </div>
+
+
+
                 
             )}
         </div>
