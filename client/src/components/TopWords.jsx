@@ -61,7 +61,7 @@ export default function TopWords({ selectedDateRange, refreshFlag }) {
 
   return (
     <div>
-      <h2 style={{ fontSize: '25px', fontWeight: 'bold', marginBottom: '10px' }}>Top Words</h2>
+      <h2 style={{ fontSize: '25px', fontWeight: 'bold', marginBottom: '5px' }}>Top Words</h2>
       {isLoading ? (
         <p><Loader color="blue" /></p>
       ) : (
