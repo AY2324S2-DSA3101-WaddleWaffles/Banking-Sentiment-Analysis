@@ -41,7 +41,7 @@ export default function GetNumReviews({ selectedDateRange }) {
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
-                <p>{gxsCount}</p>
+                <p style = {{ margin: '5px 0' }}>{gxsCount}</p>
             )}
         </div>
     );

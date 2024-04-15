@@ -3,6 +3,7 @@ import axios from 'axios';
 import { LineChart } from '@mantine/charts';
 import { Paper, Text } from '@mantine/core';
 
+
 export default function TimeSeriesGXS({ selectedDateRange }){
     console.log(selectedDateRange);
 
@@ -34,15 +35,16 @@ export default function TimeSeriesGXS({ selectedDateRange }){
 
                 const gxsData = jsonData.filter(item => item.bank === 'GXS');
                 setGxsData(gxsData);
-                console.log(gxsData);
+                // console.log(gxsData);
 
                 const avgData = gxsData[0]["ratings"];
                 setAvgData(avgData);
                 delete avgData.total;
-                console.log(avgData);
+                // console.log(avgData);
 
                 const processedData = processDataForLine(avgData)
                 setProcessedData(processedData);
+                console.log(processedData);
 
 
             } catch (error) {
@@ -59,21 +61,29 @@ export default function TimeSeriesGXS({ selectedDateRange }){
     // const processedData = processDataForLine(avgData);
     // console.log(processedData); // correct output
 
+    // const yAxisDomain=[0,5];
+
+
     return (
-        // <div style = {{ marginTop: '10px' , marginLeft: '-30px' }}> 
+        // <div style = {{ marginTop: '20px', padding: '10px', position: 'relative'  }}> 
+        <div style = {{ width: '100%', height: '100%'  }}> 
             <LineChart 
                 h = {280}// adjust margins after layout done!!!!!!
                 w = {780}
                 data = {processedData}
                 dataKey = "month" 
                 series={[{name: 'rating', color: 'indigo.6'}]}
+                // yAxisProps={{
+                //     domain: yAxisDomain
+                //     // padding: {top: 10}
+                // }}  
                 connectNulls
                 tooltipProps={{
                     content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
                 }}
-                
             />
-        // </div>
+            
+         </div>
     )
 
 };

@@ -168,12 +168,14 @@ const processDataForInsights = (inputData) => {
       allInsights[currentKey].push(item);
     }
   }
+  console.log("allInsights: ", allInsights);
 
   // transform data to correct format for input
   const transformedData = Object.entries(allInsights).map(([group, insights]) => ({
     group,
     insights: insights.join('\n')
   }));
+  console.log("transformedData: ", transformedData);
   return transformedData;
 
 }; // END OF FUNCTION
