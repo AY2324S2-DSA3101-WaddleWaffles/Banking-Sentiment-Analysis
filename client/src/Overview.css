@@ -51,9 +51,9 @@ h2 {
     overflow: auto;
     height: calc(100vh - 100px);
     grid-template-areas: "number	number	topic	topic	topic	topic"
-    "donut	donut	topic	topic	topic	topic"
-    "donut	donut	topic	topic	topic	topic"
-    "donut	donut	topic	topic	topic	topic"
+    "donut	legend	topic	topic	topic	topic"
+    "donut	legend	topic	topic	topic	topic"
+    "ratings	ratings	ratings	insights	insights	insights"
     "ratings	ratings	ratings	insights	insights	insights"
     "ratings	ratings	ratings	insights	insights	insights"
     "ratings	ratings	ratings	insights	insights	insights"
@@ -65,7 +65,8 @@ h2 {
   .grid-item {
     display: flex;
     /* size: 100%; */
-    padding: 7px;
+    padding: 0;
+    margin: 0;
     border: 2px solid black;
     border-radius: 10px; 
     /* margin: 5px; */
@@ -83,10 +84,18 @@ h2 {
   .donut {
     grid-area: donut;
     align-items: center;
+    margin: 0;
+  }
+
+  .legend {
+    grid-area: legend;
+    margin: 0;
+    justify-self: start;
+
+    /* align-items: center; */
   }
 
 
-  
   .insights{
     grid-area: insights;
     /* height: auto; 
@@ -98,23 +107,24 @@ h2 {
     grid-area: topic;
     height: "100%";
     width: "100%";
-    padding: 20px;
+    /* padding: 20px; */
     /* align-items: center; */
 
   }
 
   .ratings {
     grid-area: ratings;
-    padding: 10px;
+    /* padding: 10px; */
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 768px) { /*originally 768}*/
     .grid-container {
       grid-template-columns: 2fr;
       grid-template-rows: auto;
       grid-template-areas:
         "number"
         "donut"
+        "legend"
         "topic"
         "ratings"
         "insights";

@@ -127,14 +127,14 @@ export default function SentimentByTopic({selectedDateRange}) {
   console.log("filteredUseThis: ",filteredUseThis)
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', width: '100%', height: '100%' }}>
       
 
       {isLoading ? (
         <p>Loading...</p>
       ) : (
           <BarChart
-              h={280}
+              // h={280}
               w={500}
               data={filteredUseThis}
               dataKey="feature"
