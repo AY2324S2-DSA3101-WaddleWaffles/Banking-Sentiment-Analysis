@@ -35,7 +35,8 @@
 }
 
 .fullscreen-main {
-  background-color: #638affaa;
+  background-color: #e6e6e6;
+  /* background-color: #0b011f; */
   overflow: auto;
   width: '100%';
   height: '100%'

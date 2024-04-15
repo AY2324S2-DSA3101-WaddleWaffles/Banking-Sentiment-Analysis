@@ -44,9 +44,11 @@ const RefreshDatabase = ({ onRefresh }) => {
     };
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Button variant = "filled" color = "blue" onClick = {handleRefresh} disabled={loading} style={{marginRight:"5px"}}>
-                {loading ? 'Refreshing...': 'Refresh Database'}
+        <div style={{ display: 'flex', alignItems: 'center'}}>
+            <Button variant = "filled" color = "#bbbbbd" onClick = {handleRefresh} disabled={loading} style={{marginRight:"5px"}}>
+                <span style={{ color: "black" }}>
+                    {loading ? 'Refreshing...': 'Refresh Database'}
+                </span>
             </Button>
             {lastUpdatedTime && (
                 <p style={{ fontSize: "12px", margin: "0" }}>Last updated: {formatDateTime(lastUpdatedTime)}</p>

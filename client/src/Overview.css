@@ -46,8 +46,8 @@ h2 {
   .grid-container {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-    grid-gap: 7px;
+    grid-template-rows: auto;
+    grid-gap: 15px;
     overflow: auto;
     height: calc(100vh - 100px);
     grid-template-areas: "number	number	topic	topic	topic	topic"
@@ -67,8 +67,8 @@ h2 {
     /* size: 100%; */
     padding: 0;
     margin: 0;
-    border: 2px solid black;
-    border-radius: 10px; 
+    background-color: #ffffff;
+    box-shadow: 3px -3px 5px 0px rgba(107, 107, 107, 0.5); 
     /* margin: 5px; */
     /* margin-bottom: 0; */
 

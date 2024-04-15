@@ -61,6 +61,7 @@ const DateFilter = ({onDateRangeChange}) => {
       <div className="calendarWrap">
         
         <input
+          style = {{backgroundColor: "#bbbbbd", color: "black"}}
           value={`${format(range[0].startDate, "dd/MM/yyyy")} to ${format(range[0].endDate, "dd/MM/yyyy")}`}
           readOnly
           className="inputBox"

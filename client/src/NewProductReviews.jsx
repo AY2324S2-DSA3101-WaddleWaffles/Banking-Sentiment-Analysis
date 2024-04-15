@@ -11,16 +11,16 @@ export default function NewProductReviews({ selectedDateRange, refreshFlag }) {
   return (
     <Container size="100%" className="grid-container-pd">
       
-      <div className ="grid-item original"> 
+      <div className ="grid-item-pr original"> 
           <OriginalComments selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag}/>
       </div>
   
       
-      <div className="grid-item topword">
+      <div className="grid-item-pr topword">
         <TopWords selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag}/>
       </div>
       
-      <div className="grid-item suggestion"> 
+      <div className="grid-item-pr suggestion"> 
       <h2 style={{ fontSize: '20px', fontWeight: 'bold' }}>
           Suggestions
         </h2>
