@@ -106,7 +106,7 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
             </div>
           </Grid.Col>
           <Grid.Col span={0.5} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{marginLeft: '80px', width: '600%', marginTop: '10px', padding: '5px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
+            <div style={{marginLeft: '80px', width: '600%', marginTop: '10px', padding: '5px', background: 'black', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
               <Legend
                 series={selectedBanks.map((bank) => ({
                   name: bank,
@@ -123,7 +123,7 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
               <Button
                 key={bankEntry.bank}
                 onClick={() => toggleBankSelection(bankEntry.bank)}
-                color={selectedBanks.includes(bankEntry.bank) ? 'violet' : 'gray'}
+                color={selectedBanks.includes(bankEntry.bank) ? 'white' : 'gray'}
                 variant="outline"
                 size="xm"
                 style={{ marginTop: '0px', marginBottom: '0px', marginRight: '3px', 
@@ -162,6 +162,21 @@ function ChartTooltip({ label, payload }) {
 
 const processDataForLineChart = (banksData) => {
   if (!banksData || !Array.isArray(banksData)) return []; // Return empty array if no data or if data is not an array
+
+  // Determine the start date based on the earliest available date in the data
+  let startDate = new Date();
+  banksData.forEach((entry) => {
+    const ratingsArray = entry.ratings;
+    ratingsArray.forEach((ratingData) => {
+      const { period } = ratingData;
+      const [startDateString, _] = period.split(' - ');
+      const date = new Date(startDateString);
+      if (date < startDate) {
+        startDate = date;
+      }
+    });
+  });
+
   const processedData = [];
 
   // Iterate over each bank entry
@@ -173,7 +188,6 @@ const processDataForLineChart = (banksData) => {
     // Iterate over each rating period
     ratingsArray.forEach((ratingData) => {
       const { period, rating } = ratingData;
-      //console.log("month period: ", period);
       let dateString;
 
       // If the period is a range, parse the start date from it
@@ -184,22 +198,28 @@ const processDataForLineChart = (banksData) => {
         const yearShortened = startYear.substring(2,4);
         dateString = `${startDay} ${monthAbbreviated} ${yearShortened}`;
       } else { 
-        //console.log("month period: ", period);
-        dateString = period;
-
+        const [month, year] = period.split(' ');
+        const monthAbb = month.substring(0,3);
+        dateString = `${monthAbb} ${year}`;
       }
 
-      // Find if an entry for the date exists in the processed data array
-      const existingEntry = processedData.find((item) => item.date === dateString);
+      // Parse the date from the period
+      const date = new Date(dateString);
 
-      // If an entry for the date doesn't exist, create a new one
-      if (!existingEntry) {
-        const newEntry = { date: dateString }; // Initialize with the date
-        newEntry[bankName] = rating; // Add the rating for the current bank
-        processedData.push(newEntry); // Push the new entry to the processed data array
-      } else {
-        // If an entry for the date already exists, update the rating for the current bank
-        existingEntry[bankName] = rating;
+      // Only process data if it is after or equal to the start date and the rating is not null
+      if (date >= startDate && rating !== null) {
+        // Find if an entry for the date exists in the processed data array
+        const existingEntry = processedData.find((item) => item.date === dateString);
+
+        // If an entry for the date doesn't exist, create a new one
+        if (!existingEntry) {
+          const newEntry = { date: dateString }; // Initialize with the date
+          newEntry[bankName] = rating; // Add the rating for the current bank
+          processedData.push(newEntry); // Push the new entry to the processed data array
+        } else {
+          // If an entry for the date already exists, update the rating for the current bank
+          existingEntry[bankName] = rating;
+        }
       }
     });
   });
@@ -209,9 +229,10 @@ const processDataForLineChart = (banksData) => {
 
 
 
+
 const getRandomColor = (index) => {
   const colors = [
-    '#6b6b6b', // Grey
+    '#6b6b6b', // 
     '#a8a8a8', // Light Grey
     '#999999', // Medium Grey
     '#bdbdbd', // Silver

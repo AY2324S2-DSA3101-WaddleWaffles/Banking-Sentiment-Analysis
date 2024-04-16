@@ -2,7 +2,6 @@ import { BarChart } from '@mantine/charts';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Paper, Text } from '@mantine/core';
-import './bar.css';
 
 function ComparisonBar({ selectedDateRange, refreshFlag  }) {
   const [sentimentData, setSentiments] = useState([]);
@@ -79,7 +78,7 @@ function ChartTooltip({ label, payload, unit }) {
   if (!payload) return null;
 
   return (
-    <Paper px="md" py="sm" withBorder shadow="md" radius="md">
+    <Paper px="md" py="sm" withBorder shadow="lg" radius="md">
       <Text fw={500} mb={5}>
         {label}
       </Text>

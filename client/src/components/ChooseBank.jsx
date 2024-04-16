@@ -12,7 +12,7 @@ function ChooseBank({ availableBanks, onSelectBank }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Select
-        label="Selected Bank for Comparison:"
+        label="Select Bank for Comparison:"
         placeholder="No Bank Selected"
         data={banksWithoutGXS}
         style={{ width: '300px' }}

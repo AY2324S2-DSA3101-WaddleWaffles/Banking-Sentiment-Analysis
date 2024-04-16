@@ -54,7 +54,10 @@ function TableBanksCount({selectedDateRange, refreshFlag, setAvailableBanks }) {
   ));
 
   return (
-    <Table highlightOnHover>
+    <Table highlightOnHover  style={{
+      "--mantine-highlighted-row-background-color": "darkblue",
+      "--mantine-highlighted-row-hover-background-color": "darkblue",
+    }}>
       <Table.Thead>
         <Table.Tr>
           {/* need to fix alignment of header */}

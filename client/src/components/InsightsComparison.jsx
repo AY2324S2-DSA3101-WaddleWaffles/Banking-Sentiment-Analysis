@@ -43,7 +43,7 @@ function InsightsComparison({ selectedBank }) {
   };
 
   if (!selectedBank) {
-    return <div>Please select a bank for comparison</div>;
+    return <div>Please select a bank to view insights </div>;
   }
 
   if (isLoading) {
@@ -91,7 +91,7 @@ function InsightsComparison({ selectedBank }) {
         );
       });
       return (
-        <Paper key={index} withBorder p="md" shadow="lg" radius='md' style={{ textAlign: 'left', marginBottom: '20px' }}>
+        <Paper key={index} withBorder p="md" shadow="lg" radius='md' style={{ textAlign: 'left', marginBottom: '20px', background: 'none', backgroundColor: 'rgba(32, 37, 92, 0.2)'}}>
           <strong style={{ marginLeft: '15px' }}>{heading}</strong>
           <table style={{ borderCollapse: 'collapse', width: '100%' }}>
             <tbody>
@@ -121,7 +121,7 @@ function InsightsComparison({ selectedBank }) {
           );
         });
         return (
-          <Paper key={index} shadow="lg" withBorder p="md" radius='md' style={{ textAlign: 'left', marginBottom: '20px' }}>
+          <Paper key={index} shadow="lg" withBorder p="md" radius='md' style={{ textAlign: 'left', marginBottom: '20px', background: 'none', backgroundColor:'rgba(32, 37, 92, 0.2)'}}>
             <strong style={{ marginLeft: '15px'}}>{secondHeading}</strong>
             <table style={{ borderCollapse: 'collapse', width: '100%' }}>
               <tbody>
