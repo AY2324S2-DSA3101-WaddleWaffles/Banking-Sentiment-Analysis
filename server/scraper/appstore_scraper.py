@@ -7,6 +7,7 @@ Request limit should be around 3500 requests per hour. If no datetime will not h
 import pandas as pd
 import numpy as np
 import json
+import time
 from datetime import datetime
 from app_store_scraper import AppStore
 from util.stdout_supress import suppress_stdout
@@ -46,14 +47,12 @@ class AppScraper:
         banks_in_review = []
         for bank in self.apps.keys():
             result = AppStore(country = 'sg', app_name = self.apps[bank], app_id = self.app_ids[bank])
-            result.review(after = datetime_scrape)
+            result.review(after = datetime_scrape, sleep=2)
             for i in result.reviews:
                 banks_in_review.append(bank)
                 scraped_reviews.append(i)
 
         pd_reviews = pd.DataFrame(scraped_reviews)
-        print(pd_reviews)
-
         pd_reviews["bank"] = banks_in_review
         suppress_stdout(enable=False)
         return pd_reviews, datetime.now()
