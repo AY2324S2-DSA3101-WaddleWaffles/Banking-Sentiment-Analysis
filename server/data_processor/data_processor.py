@@ -5,6 +5,21 @@ class DataProcessor:
     A class for processing review data.
     """
 
+    def clear_nan(self, data):
+        """
+        Convert NaNs in topics into None.
+
+        Args:
+            data (list): List of dictionaries containing review data.
+
+        Returns:
+            list: List of dictionaries containing updated review data.
+        """
+        for review in data:
+            if review.get("title") != review.get("title"):  # Check if it's NaN
+                review["title"] = None
+        return data
+
     def get_topics(self, data):
         """
         Extracts unique topics from the provided data.
