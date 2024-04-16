@@ -32,12 +32,13 @@
     grid-area: original;
     max-height: 89vh;
     overflow-y: auto; 
+    overflow-x: hidden; /*disable horizontal scrolling */
 }
 
 .small-blockquote {
   text-align: left;
   font-size: 15px;
-  width: 600px; 
+  /* width: 600px;  */
   height: auto;
 }
 

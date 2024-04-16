@@ -22,16 +22,22 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
 
     // API link for GXS bank reviews with specified date range
     const api = `http://127.0.0.1:5001/reviews?bank=GXS&start-date=${formattedStartDate}&end-date=${formattedEndDate}`;
+    console.log("apiendpoint:",api)
 
     const fetchData = async () => {
       setIsLoading(true);
       try {
         const response = await fetch(api);
+        // console.log("Data from Original Comments", response)
+
         if (!response.ok) {
           throw new Error(`Network response was not ok (${response.status})`);
         }
+
         const data = await response.json();
+        console.log("Data from Original comments", data)
         setCommentsData(data);
+        
 
       } catch (error) {
         console.error('Fetch Error:', error);
@@ -110,10 +116,10 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
               className="small-blockquote"
               key={index}
               icon={getSentimentIcon(comment.sentiment)}
-              iconSize={45}
+              iconSize={30}
               color={getSentimentColor(comment.sentiment)}
               cite={`- Reviewed on: ${getCommentDate(comment.day, comment.month, comment.year)}`}
-              style={{ marginBottom: '10px' }} 
+              style={{ marginBottom: '10px', marginLeft:'10px' }} 
             >
               <div style={{ marginBottom: '5px' }}> 
               <Badge color={getSentimentColor(comment.sentiment)}>{comment.topic}</Badge>

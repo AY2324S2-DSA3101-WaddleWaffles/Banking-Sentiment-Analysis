@@ -58,7 +58,7 @@ export default function TopWords({ selectedDateRange, refreshFlag }) {
   //   return { featureName, associations };
   // });
 
-  console.log("features_available", processedData)
+
 
   // Check if processed data is empty
   const isEmpty = Object.keys(processedData).length === 0;
