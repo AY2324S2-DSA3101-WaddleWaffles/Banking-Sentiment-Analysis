@@ -54,6 +54,7 @@ def get_reviews():
     reviews = []
     for bank in banks:
         reviews.extend(data_manager.retrieve_reviews(start_date=start_date, end_date=end_date, bank=bank))
+    reviews = data_processor.clear_nan(reviews)
 
     return jsonify(reviews)
 
