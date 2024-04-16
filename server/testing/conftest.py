@@ -1,8 +1,17 @@
-import sys
-sys.path[0] = sys.path[0] + '\\..'
+from sys import platform
 
+import sys
+import pandas as pd
+import json
+
+if (platform == 'darwin'):
+    sys.path[0] = sys.path[0] + '/..'
+else:
+    sys.path[0] = sys.path[0] + '\\..'
 
 from data_processor.data_processor import DataProcessor
+from scraper.appstore_textpreprocess import preprocess_appstore_data
+from scraper.playstore_textpreprocess import preprocess_playstore_data
 
 import pytest
 
@@ -160,3 +169,23 @@ def gxs_data_time_filtered_5_months(reviews_data):
 def gxs_data_time_filtered_5_months_interface(reviews_data):
     data = list(filter(lambda review: review["bank"] == "GXS" and review["year"] == 2023 and review["month"] in [2, 3, 4, 5, 6, 7] and review["topic"] == "interface", reviews_data))
     return data
+
+@pytest.fixture
+def appstore_data_preprocessor():
+    return preprocess_appstore_data
+
+@pytest.fixture
+def unprocessed_appstore_text():
+    data = '{"review":"have been using for years and still the best banking app ","title":"very good app","date":1709953965000,"rating":"5","bank":"DBS","source":"appstore"}'
+    df = pd.json_normalize(json.loads(data))
+    return df
+
+@pytest.fixture
+def playstore_data_preprocessor():
+    return preprocess_playstore_data
+
+@pytest.fixture
+def unprocessed_playstore_text():
+    data = '''{"reviewId":"6629d4a4-53b3-4c08-829c-531ddc8d3eb5","userName":"Zack Zizou","userImage":"https:\/\/play-lh.googleusercontent.com\/a-\/ALV-UjU555lUZP5HWjaaG-UHnIhPr7gHmO9X5lta_QNl_vK_tOX1IU4","content":"Generally good. However please add either NFC function to the app, or allow link to Google Wallet or Apple Pay. Everyone is going wallet-less these days without having the need to carry physical wallets or cards. And why are we unable to scan SGQR codes for payments? Only PayNow QR codes? Would definitely get my 5 stars if not for the above 2 shortcomings. 4 stars for now.","score":4,"thumbsUpCount":0,"reviewCreatedVersion":"2.26.0","at":1712987614000,"replyContent":"Thanks for your feedback on mobile wallets and Scan QR payment, Zack! Currently, our scan QR feature only supports PayNow QR codes. However, we hear you and understand the convenience of NFC technology. We'll certainly work with our team to capture this as part of our continuous improvement process. Please stay tuned for more updates on our app! \ud83d\ude0a","repliedAt":1712905295000,"appVersion":"2.26.0","bank":"gxs"}'''
+    df = pd.json_normalize(json.loads(data))
+    return df
