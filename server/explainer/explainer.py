@@ -1,11 +1,11 @@
 from nltk.corpus import stopwords
+from util.stdout_supress import suppress_stdout
 
 import numpy as np
 
 import nltk
 import shap
-
-nltk.download('stopwords')
+nltk.download('stopwords', quiet=True)
 
 class Explainer:
     """
@@ -42,9 +42,9 @@ class Explainer:
         Returns:
             List of keywords that contribute to the sentiment prediction.
         """
-
-        shap_values = self.explainer([text])
+        shap_values = self.explainer([text], silent=True)
         importance = shap_values.values[0][:,self.sentiment_index[sentiment]]
         sorted_words = shap_values.data[0][np.argsort(importance)][::-1]
         keywords = list(filter(lambda word: word not in self.stop_words, [word.strip(self.special_chars).lower() for word in sorted_words if any(c.isalpha() for c in word)]))
+        
         return keywords

@@ -44,17 +44,15 @@ class ScrapePipeline:
         """
         playstore_scraper = PlayStoreScraper(self.playstore_apps)
         playstore_reviews, playstore_scraped_datetime = playstore_scraper.scrape_banks(self.play_last_scraped)
-        if not playstore_reviews.empty:
-            playstore_reviews_processed = preprocess_playstore_data(playstore_reviews)
+        playstore_reviews = preprocess_playstore_data(playstore_reviews)
     
 
         appstore_scraper =  AppScraper(self.appstore_apps, self.appstore_app_ids)
         appstore_reviews, app_scraped_datetime = appstore_scraper.scrape_banks(self.app_last_scraped) 
-        if not appstore_reviews.empty:
-            appstore_reviews_processed = preprocess_appstore_data(appstore_reviews)
+        appstore_reviews = preprocess_appstore_data(appstore_reviews)
     
 
-        all_reviews = pd.concat([playstore_reviews_processed, appstore_reviews_processed])
+        all_reviews = pd.concat([playstore_reviews, appstore_reviews])
         
         if all_reviews.empty:
             return all_reviews, playstore_scraped_datetime, app_scraped_datetime
