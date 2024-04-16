@@ -43,10 +43,13 @@
 
 .topword {
     grid-area: topword;
+    max-height: 37vh;
 }
   
 .suggestion {
     grid-area: suggestion;
+    max-height: 52vh;
+    overflow-y: auto; 
 }
   
 @media (max-width: 768px) {

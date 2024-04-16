@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Badge, Blockquote, Loader } from "@mantine/core";
+import { Badge, Blockquote, Loader, Rating } from "@mantine/core";
 import { IconMoodAngry, IconMoodNeutral, IconMoodHappy } from '@tabler/icons-react';
 
 
@@ -116,6 +116,9 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
             >
               <div style={{ marginBottom: '5px' }}> 
               <Badge color={getSentimentColor(comment.sentiment)}>{comment.topic}</Badge>
+              </div>
+              <div style={{ marginBottom: '5px' }}> 
+              <Rating value={comment.rating} fractions={2} readOnly />
               </div>
               {comment.review}
             </Blockquote>
