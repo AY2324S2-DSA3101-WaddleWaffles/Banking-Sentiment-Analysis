@@ -50,11 +50,11 @@ const Suggestions = () => {
           <ThemeIcon variant="light" radius="xl" size="lg" color="violet" style={{ marginRight: '5px', verticalAlign: 'middle' }}>
             <IconZoomQuestion style={{ width: '70%', height: '70%' }} />
           </ThemeIcon>
-          <span style={{ fontSize: '18px', fontWeight: 'bold', verticalAlign: 'middle' }}>
+          <span style={{ fontSize: '12px', fontWeight: 'bold', verticalAlign: 'middle' }}>
             Current Problems
           </span>
         </div>
-        <ul style={{ textAlign: 'left' }}>
+        <ul style={{ textAlign: 'left', fontSize: '12px' }}>
           {problemsContent.split('\n').map((item, index) => (
             item && <li key={index}>{removeAsterisks(item)}</li> // Remove asterisks from each problem
           ))}
@@ -65,16 +65,16 @@ const Suggestions = () => {
         <ThemeIcon variant="light" radius="xl" size="lg" color="violet" style={{ marginRight: '5px', verticalAlign: 'middle' }}>
           <IconBulb style={{ width: '70%', height: '70%' }} />
         </ThemeIcon>
-        <span style={{ fontSize: '18px', fontWeight: 'bold', verticalAlign: 'middle' }}>
+        <span style={{ fontSize: '12px', fontWeight: 'bold', verticalAlign: 'middle' }}>
           Suggestions for Different Areas 
         </span>
       </div>
 
       <Accordion variant="contained" transitionDuration={500} style={{ textAlign: 'left' }}>
         {suggestions.map(([category, content]) => (
-          <Accordion.Item key={category} value={category.toLowerCase().replace(/\s+/g, '-')}>
-            <Accordion.Control>{category}</Accordion.Control>
-            <Accordion.Panel>
+          <Accordion.Item  key={category} value={category.toLowerCase().replace(/\s+/g, '-')}>
+            <Accordion.Control style={{color: "black", backgroundColor:"#666fc9", borderRadius:"0px"}}>{category}</Accordion.Control>
+            <Accordion.Panel style={{backgroundColor:"#37384a"}}>
               <ul>
                 {content.split('\n').map((item, index) => (
                   <li key={index}>{removeAsterisks(item)}</li> // Remove asterisks from each suggestion item

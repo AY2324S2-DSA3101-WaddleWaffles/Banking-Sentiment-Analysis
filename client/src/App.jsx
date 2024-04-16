@@ -85,7 +85,7 @@ function App() {
       navbar={{ width: 70, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding="md"
     >
-      <AppShell.Header style={{display: "flex", backgroundColor: '#37384a'}}>
+      <AppShell.Header style={{display: "flex", backgroundColor: '#37384a', borderColor:'#37384a'}}>
         {/* <Group h="100%" px="md"> */}
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
           {/* HeaderSimple will have a component inside which will change date range. handleDateRangeChange will update to the new DateRange */}
@@ -93,7 +93,7 @@ function App() {
         {/* </Group> */}
       </AppShell.Header>
       
-      <AppShell.Navbar style={{ backgroundColor: '#2b3141' }} >
+      <AppShell.Navbar style={{ backgroundColor: '#2b3141', borderColor:'#2b3141' }} >
         <NavbarTooltip setActiveHeaderTab={setActiveHeaderTab} activeHeaderTab={activeHeaderTab} onExitClick={handleExit} />
       </AppShell.Navbar>
 
