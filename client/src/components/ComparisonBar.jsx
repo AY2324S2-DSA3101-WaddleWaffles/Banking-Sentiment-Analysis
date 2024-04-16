@@ -2,6 +2,7 @@ import { BarChart } from '@mantine/charts';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Paper, Text } from '@mantine/core';
+import './bar.css';
 
 function ComparisonBar({ selectedDateRange, refreshFlag  }) {
   const [sentimentData, setSentiments] = useState([]);
@@ -44,25 +45,25 @@ function ComparisonBar({ selectedDateRange, refreshFlag  }) {
   console.log('Processed bar data:', processedSentData);
 
   return (
-    <div className="CompChart-container" style={{ height: '300px', maxWidth: '800px', margin: '0 auto' }}>
+    <div  style={{ height: '350px', width: '100%' }}>
       {isLoading ? (
         <div>
-          <h2>Comparative Analysis</h2>
           <p>Loading...</p>
         </div>
       ) : (
         <BarChart
-          h={250}
-          w = {400}
+          h="100%"
+          w = "100%"
           data={processedSentData}
           dataKey="bank"
           barProps={{ width: 10 }}
+          yAxisProps={{padding:{ top: 20}}}
           xAxisProps={{ padding: { left: processedSentData.length > 1 ? 20 : 40, right: 20 } }} // Adjust padding based on the number of bars
           orientation="horizontal"
           type="percent"
           series={[
             { name: 'Positive', color: 'teal.6' },
-            { name: 'Neutral', color: 'blue.6' },
+            { name: 'Neutral', color: 'yellow.6' },
             { name: 'Negative', color: 'red' },
           ]}
           tooltipProps={{

@@ -73,7 +73,6 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
   console.log("banksData: ",banksData);
 
   console.log(processedData);
-  
 
   return (
     <div>
@@ -83,14 +82,16 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
         </div>
       ) : (
 
-        <Grid gutter="md" style={{ width: '100%', height: '100%', marginTop: '5px' }}>
+        <Grid gutter="md" style={{ width: '100%', height: '100%'}}>
           <Grid.Col span={10}>
-            <div style={{ padding: '0 20px', }}> {/* Add padding to the sides */}
+            <div style={{ padding: '0 15px', }}> {/* Add padding to the sides */}
               <LineChart
                 h={200}
                 data={processedData}
                 dataKey="date"
                 xAxisProps={{padding:{ left: 30, right: 30 }}}
+                yAxisProps={{padding:{ top: 15}, domain: [0, 6] }}
+                //yAxisLabel="Rating"
                 series={selectedBanks.map((bank) => ({
                   name: bank,
                   color: lineColors[bank], // Use fixed color for each bank
@@ -105,7 +106,7 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
             </div>
           </Grid.Col>
           <Grid.Col span={0.5} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{marginLeft: '50px', width: '100px', marginTop: '10px', padding: '5px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
+            <div style={{marginLeft: '80px', width: '600%', marginTop: '10px', padding: '5px', background: 'lightgrey', borderRadius:'8px' , fontFamily: 'Inter, sans serif'}}>
               <Legend
                 series={selectedBanks.map((bank) => ({
                   name: bank,
@@ -116,7 +117,7 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
               />
             </div>
           </Grid.Col >
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' , marginLeft: '50px',}}>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' , marginLeft: '50px',marginTop: '20px' }}>
             <Text>Select banks for comparison:</Text>
             {banksData.map((bankEntry) => (
               <Button
@@ -124,8 +125,12 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
                 onClick={() => toggleBankSelection(bankEntry.bank)}
                 color={selectedBanks.includes(bankEntry.bank) ? 'violet' : 'gray'}
                 variant="outline"
-                size="xs"
-                style={{ marginTop: '0px', marginBottom: '0px', marginRight: '3px', marginLeft:'10px', padding:'4px', borderWidth: '2px', fontSize: '10px'}}
+                size="xm"
+                style={{ marginTop: '0px', marginBottom: '0px', marginRight: '3px', 
+                        marginLeft:'10px', padding:'4px', borderWidth: '2px', 
+                        fontSize: '10px',whiteSpace: 'nowrap', // Ensure that the text doesn't wrap
+                        minWidth: 'auto', // Allow the button to dynamically adjust its width
+                      }}
               >
                 {bankEntry.bank}
               </Button>
@@ -142,7 +147,7 @@ function ChartTooltip({ label, payload }) {
   if (!payload) return null;
 
   return (
-    <Paper px="md" py="sm" withBorder shadow="md" radius="md" style={{ background: 'black' }}>
+    <Paper px="md" py="sm" withBorder shadow="md" radius="md" style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)', transform: 'translate(10px, -8px)' }}>
       <Text fw={500} mb={5}  style={{ color: 'white' }}>
         {label}
       </Text>
