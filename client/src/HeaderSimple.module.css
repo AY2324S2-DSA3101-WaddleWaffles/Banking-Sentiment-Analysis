@@ -1,9 +1,10 @@
 .header {
-    background-color: var(--mantine-color-body);
-    border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+    /* background-color: #2f3036; */
+    /* border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4)); */
     justify-content: space-between;
     align-items: center; /* Align items vertically in the center */
     display:flex;
+    color: white;
     
 }
   

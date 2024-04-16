@@ -5,7 +5,7 @@ import axios from 'axios';
 import TopicFilter from './TopicFilter'
 
 
-export default function SentimentByTopic({selectedDateRange}) {
+export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
     console.log(selectedDateRange);
 
     // save updated start and end dates into variable
@@ -48,9 +48,9 @@ export default function SentimentByTopic({selectedDateRange}) {
               const transformData = (sentiments) => {
                 return Object.keys(sentiments).map(key => ({
                   feature: key.charAt(0).toUpperCase() + key.slice(1),
-                  Positive: sentiments[key].Positive * 100,
-                  Neutral: sentiments[key].Neutral * 100,
-                  Negative: sentiments[key].Negative * 100
+                  Positive: (sentiments[key].Positive * 100).toFixed(1),
+                  Neutral: (sentiments[key].Neutral * 100).toFixed(1),
+                  Negative: Math.floor((sentiments[key].Negative * 100)).toFixed(1)
                 }));
               };
 
@@ -82,13 +82,10 @@ export default function SentimentByTopic({selectedDateRange}) {
             setIsLoading(false);
           }
       };
-
+      console.log("Feteched data")
       fetchData();
-      
-
-      
-
-  }, [selectedDateRange]);
+      console.log("Refreshflag in barchart", refreshFlag)
+  }, [selectedDateRange, refreshFlag]);
   
   //default the selected features in the filter to all features
   // features_list.forEach(feature => {
@@ -104,7 +101,7 @@ export default function SentimentByTopic({selectedDateRange}) {
 
     return (
       <Paper px="md" py="sm" withBorder radius="md">
-        <Text fw={500} mb={5}>
+        <Text fw={500} mb={5} style={{color: 'black'}}>
           {label}
         </Text>
         {payload.map(item => (
@@ -138,15 +135,18 @@ export default function SentimentByTopic({selectedDateRange}) {
               dataKey="feature"
               type="stacked"
               orientation="vertical"
-              yAxisProps={{ width: 80 }}
-              xAxisProps={{ height: 80,
+              yAxisProps={{ width: 100, padding: { top: 15}}}
+              xAxisProps={{ height: 100,
                   labelProps: { weight: 100, size: 'lg' },
-                  unit: "%"}}
+                  unit: "%",
+                  domain: [0,100]
+                }}
               series={[
                   { name: 'Positive', color: 'teal.6' },
                   { name: 'Neutral', color: 'yellow.6' },
                   { name: 'Negative', color: 'red.6' },
               ]}
+              // barProps={{ width: 10 }}
               tooltipProps={{
                   content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
               }}

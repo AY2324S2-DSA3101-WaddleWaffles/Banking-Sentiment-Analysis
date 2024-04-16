@@ -4,7 +4,7 @@ import { DonutChart } from '@mantine/charts';
 import { Paper, Text, Badge, Blockquote, Loader } from '@mantine/core';
 import classes from "./DonutChart.module.css"
 
-export default function DonutChartComponent({ selectedDateRange }) {
+export default function DonutChartComponent({ selectedDateRange, refreshFlag }) {
 
     console.log(selectedDateRange);
 
@@ -68,7 +68,7 @@ export default function DonutChartComponent({ selectedDateRange }) {
       
         return (
             <Paper px="md" py="sm" withBorder shadow="md" radius="md">
-                <Text fw={500} mb={5}>
+                <Text fw={500} mb={5} style={{color: 'black'}}>
                     {label}
                 </Text>
                 {payload.map(item => (
@@ -82,12 +82,12 @@ export default function DonutChartComponent({ selectedDateRange }) {
 
     // Render the component
     return (
-        <div >
+        <div className={classes.label}>
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
                 
-                <div className={classes.label}  >
+                <div >
                     <DonutChart 
                         data={transformedData}
                         tooltipProps={{
@@ -99,6 +99,7 @@ export default function DonutChartComponent({ selectedDateRange }) {
                         size = {180}
                         thickness = {27}
                         chartLabel= {averageLabel}
+                        
                         
                     />
                 </div>

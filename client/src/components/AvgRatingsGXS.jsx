@@ -4,7 +4,7 @@ import { LineChart } from '@mantine/charts';
 import { Paper, Text } from '@mantine/core';
 
 
-export default function TimeSeriesGXS({ selectedDateRange }){
+export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
     console.log(selectedDateRange);
 
     // save updated start and end dates into variable
@@ -55,7 +55,7 @@ export default function TimeSeriesGXS({ selectedDateRange }){
         };
 
         fetchData();
-    }, [selectedDateRange]);
+    }, [selectedDateRange, refreshFlag]);
 
     // test function
     // const processedData = processDataForLine(avgData);
@@ -69,7 +69,7 @@ export default function TimeSeriesGXS({ selectedDateRange }){
         // <div style = {{ height: '100%', display: 'flex'  }}> 
         <div style = {{ display: 'flex', height: '100%'}}>
             {isLoading ? (
-                <p>Loading...</p>
+                <p style = {{ textAlign: 'center'}}>Loading...</p>
             ) : (
                 <LineChart 
                     // h = {280}// adjust margins after layout done!!!!!!
@@ -82,6 +82,13 @@ export default function TimeSeriesGXS({ selectedDateRange }){
                     //     // padding: {top: 10}
                     // }}  
                     connectNulls
+                    xAxisProps={{
+                        ticks: null,
+                        label: null
+                    }}
+                    yAxisProps={{
+                        domain: [0,6]
+                    }}
                     tooltipProps={{
                         content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
                     }}
@@ -99,7 +106,7 @@ function ChartTooltip({ label, payload }) {
         
     return (
         <Paper px="md" py="sm" withBorder shadow="md" radius="md">
-        <Text fw={500} mb={5}>
+        <Text fw={500} mb={5} style={{color: 'black'}}>
             {label}
         </Text>
         {payload.map(item => (
@@ -133,10 +140,14 @@ const processDataForLine = (gxsData) => { // input will be avgData
             const endMonthAbb = endMonth.substring(0,3);
             const endYearAbb = endYear.slice(2);
 
-            const formattedStartDate = `${startDate} ${monthAbb} ${yearAbb}`;
-            const formattedEndDate = `${endDate} ${endMonthAbb} ${endYearAbb}`;
+            // const formattedStartDate = `${startDate} ${monthAbb} ${yearAbb}`;
+            // const formattedEndDate = `${endDate} ${endMonthAbb} ${endYearAbb}`;
 
-            const formattedDateRange = formattedStartDate + ' - ' + formattedEndDate; 
+            const formattedStartDate = `${startDate} ${monthAbb}`;
+            const formattedEndDate = `${endDate} ${endMonthAbb}`;
+
+            // const formattedDateRange = formattedStartDate + ' - ' + formattedEndDate; 
+            const formattedDateRange = formattedStartDate;
             // console.log(formattedDateRange); // correct format
             processedData.push({month: formattedDateRange, rating: rating});
 

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Table, ScrollArea } from '@mantine/core';
 import classes from './InsightsOverview.module.css';
 
-export default function GetInsights() {
+export default function GetInsights(refreshFlag) {
     
     // const api = 'http://127.0.0.1:5001/reviews/insights'
     // const [insightsData, setInsightsData] = useState(null);
@@ -30,7 +30,7 @@ export default function GetInsights() {
     //         }
     //     };
     //     fetchData();
-    // },[])
+    // },[refreshFlag])
     // console.log(finalData);
 
     const data = {

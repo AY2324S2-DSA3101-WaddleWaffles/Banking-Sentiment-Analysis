@@ -6,13 +6,15 @@ h2 {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: auto;
-  grid-gap: 7px;
+  grid-gap: 15px;
+  color:white;
   /* overflow: auto; */ /* do this if needed */
   height: calc(100vh - 100px);
   grid-template-areas: "rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	count	count	count"
   "rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	count	count	count"
   "sentiment-banks	sentiment-banks	sentiment-banks	sentiment-banks	insights-banks	insights-banks	insights-banks	insights-banks"
-  "sentiment-banks	sentiment-banks	sentiment-banks	sentiment-banks	insights-banks	insights-banks	insights-banks	insights-banks";
+  "sentiment-banks	sentiment-banks	sentiment-banks	sentiment-banks	insights-banks	insights-banks	insights-banks	insights-banks"
+  ".	. . .	insights-banks	insights-banks	insights-banks	insights-banks";
 
 
 }
@@ -21,10 +23,12 @@ h2 {
   display: flex;
   /* size: 100%; */
   padding: 7px;
-  border: 2px solid black;
-  border-radius: 10px; 
+  /* border: 2px solid black; */
+  /* border-radius: 10px;  */
+  background-color: #2b3141;
   /* margin: 5px; */
   /* margin-bottom: 0; */
+  box-shadow: 5px -5px 7px 0px rgba(0, 0, 0, 0.5); 
 
 }
 
@@ -42,6 +46,8 @@ h2 {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: #024781;
+  color: white;
 }
 
 .sentiment-banks{
@@ -55,6 +61,8 @@ h2 {
 .insights-banks {
   grid-area: insights-banks;
   flex-direction: column;
+  color: white;
+  background-color: #fe6f6f;
 
 }
 

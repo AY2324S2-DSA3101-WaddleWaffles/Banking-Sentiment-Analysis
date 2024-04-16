@@ -1,7 +1,9 @@
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { styled } from '@mui/system';
 import React, { useState, useEffect, useRef} from 'react';
-import {Button} from '@mantine/core'
+import {Button, Checkbox} from '@mantine/core';
+import { IconFilter } from '@tabler/icons-react';
+// import { Filter } from 'tabler-icons-react';
 
 
 
@@ -14,8 +16,10 @@ const SelectTopics = ({handleFeaturesChange, selectedFeatures, features_list}) =
     return (
         <div>
             {features_list && features_list.map((feature)  => (
-                <Button
+                <Checkbox
+                    defaultChecked
                     key={feature}
+                    label = {feature}
                     onClick={() => handleFeaturesChange(feature) }
                     color={selectedFeatures.includes(feature) ? 'violet' : 'gray'} // Assuming you have selectedFeatures state to track selected features
                     variant="outline"
@@ -27,11 +31,12 @@ const SelectTopics = ({handleFeaturesChange, selectedFeatures, features_list}) =
                         marginLeft:'10px',
                         padding:'4px',
                         borderWidth: '2px',
-                        fontSize: '10px'
+                        fontSize: '10px',
+                        color: 'white'
                     }}
                 >
-                    {feature}
-                </Button>
+                   
+                </Checkbox>
             ))}
         </div>     
     )
@@ -84,15 +89,16 @@ export default function TopicFilter({handleFeaturesChange, selectedFeatures, fea
     };
     }, [])
 
-
+    const icon = <IconFilter size={20} />;
     return (
         <div >
-            <Button aria-describedby={id} type="button" onClick={handleClick}>
-                Filter
+            <Button aria-describedby={id} type="button" onClick={handleClick} variant="outline" style={{ color:"white", border: 'none'}}>
+                {/* Filter */}
+                {icon}
             </Button>
             <div >
                 <BasePopup id={id} open={open} anchor={anchor} ref={refOne}>
-                    <PopupBody>
+                    <PopupBody style={{backgroundColor: '#444557'}}>
                         <SelectTopics handleFeaturesChange={handleFeaturesChange} selectedFeatures={selectedFeatures} features_list = {features_list}/>
                     </PopupBody>
                 </BasePopup>
@@ -125,8 +131,8 @@ const blue = {
 
 const PopupBody = styled('div')(
     ({ theme }) => `
-    width: 500px;
-    height: 50px;
+    // width: 500px;
+    // height: 50px;
     padding: 10px 10px;
     margin: 4px;
     border-radius: 8px;
