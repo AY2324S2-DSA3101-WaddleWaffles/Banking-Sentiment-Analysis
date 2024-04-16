@@ -1,6 +1,6 @@
 import { Container, Group, Burger, UnstyledButton, rem } from '@mantine/core';
 import classes from './HeaderSimple.module.css';
-import gxslogo from './assets/gxs-bank-logo.png';
+import gxslogo from './assets/gxslogo_gradient.png';
 import DateFilter from './components/DateFilter.jsx';
 import Refresh from './components/RefreshButton.jsx';
 

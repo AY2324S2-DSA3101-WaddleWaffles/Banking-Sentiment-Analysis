@@ -5,7 +5,7 @@ import axios from 'axios';
 import TopicFilter from './TopicFilter'
 
 
-export default function SentimentByTopic({selectedDateRange}) {
+export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
     console.log(selectedDateRange);
 
     // save updated start and end dates into variable
@@ -82,13 +82,10 @@ export default function SentimentByTopic({selectedDateRange}) {
             setIsLoading(false);
           }
       };
-
+      console.log("Feteched data")
       fetchData();
-      
-
-      
-
-  }, [selectedDateRange]);
+      console.log("Refreshflag in barchart", refreshFlag)
+  }, [selectedDateRange, refreshFlag]);
   
   //default the selected features in the filter to all features
   // features_list.forEach(feature => {
