@@ -3,13 +3,8 @@ sys.path[0] = sys.path[0] + '\\..'
 
 
 from data_processor.data_processor import DataProcessor
-from models.text_generation_model import TextGenerationModel
 
 import pytest
-
-@pytest.fixture
-def text_generation_model():
-    return TextGenerationModel("MOCK_API_KEY")
 
 @pytest.fixture
 def data_manager():
