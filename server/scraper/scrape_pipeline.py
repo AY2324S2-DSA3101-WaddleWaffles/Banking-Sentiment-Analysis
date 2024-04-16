@@ -19,17 +19,15 @@ class ScrapePipeline:
         play_last_scraped (datetime): datetime of last called scrape on play store
     """
 
-    def __init__(self, username, password):
+    def __init__(self, database):
         """
         Initialise DataPipeline object
         On initialise, extract relevant data from database
 
         Args:
-            username (str): MongoDB username.
-            password (str): MongoDB password.
+            database (DataManager): Data manager for info retrieval.
         """
         
-        database = DataManager(username, password)
         self.playstore_apps = database.retrieve_miscellaneous("playstore", "apps")
         self.play_last_scraped = pd.to_datetime(database.retrieve_miscellaneous("playstore", "datetime")["latestdate"])
         self.appstore_app_ids = database.retrieve_miscellaneous("appstore", "app_ids")

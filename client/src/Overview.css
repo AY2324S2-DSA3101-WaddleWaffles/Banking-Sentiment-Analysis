@@ -96,7 +96,6 @@ h2 {
     flex-direction: column;
   }
 
-
   .insights{
     grid-area: insights;
     flex-direction: column;

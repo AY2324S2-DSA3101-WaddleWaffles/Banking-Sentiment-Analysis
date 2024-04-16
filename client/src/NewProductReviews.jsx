@@ -4,6 +4,7 @@ import "./NewProductReviews.css";
 
 import OriginalComments from "./components/OriginalComments";
 import TopWords from "./components/TopWords";
+import Suggestions from "./components/Suggestions";
 
 export default function NewProductReviews({ selectedDateRange, refreshFlag }) {
   console.log("reviews page date:", selectedDateRange);
@@ -21,9 +22,7 @@ export default function NewProductReviews({ selectedDateRange, refreshFlag }) {
       </div>
       
       <div className="grid-item suggestion"> 
-      <h2 style={{ fontSize: '20px', fontWeight: 'bold' }}>
-          Suggestions
-        </h2>
+        <Suggestions/>
       </div> 
     </Container>
   );
