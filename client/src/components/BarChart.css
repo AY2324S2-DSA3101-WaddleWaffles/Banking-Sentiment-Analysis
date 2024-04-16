@@ -1,0 +1,7 @@
+:root {
+    --chart-cursor-fill: transparent; /* Transparent fill color */
+  }
+  
+.chart-cursor {
+    fill: var(--chart-cursor-fill, rgba(255, 255, 255, 0.816));
+}

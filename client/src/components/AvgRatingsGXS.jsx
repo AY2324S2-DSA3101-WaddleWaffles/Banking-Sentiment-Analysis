@@ -66,24 +66,35 @@ export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
 
     return (
         // <div style = {{ marginTop: '20px', padding: '10px', position: 'relative'  }}> 
-        <div style = {{ width: '100%', height: '100%'  }}> 
-            <LineChart 
-                h = {280}// adjust margins after layout done!!!!!!
-                w = {780}
-                data = {processedData}
-                dataKey = "month" 
-                series={[{name: 'rating', color: 'indigo.6'}]}
-                // yAxisProps={{
-                //     domain: yAxisDomain
-                //     // padding: {top: 10}
-                // }}  
-                connectNulls
-                tooltipProps={{
-                    content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
-                }}
-            />
-            
-         </div>
+        // <div style = {{ height: '100%', display: 'flex'  }}> 
+        <div style = {{ display: 'flex', height: '100%'}}>
+            {isLoading ? (
+                <p style = {{ textAlign: 'center'}}>Loading...</p>
+            ) : (
+                <LineChart 
+                    // h = {280}// adjust margins after layout done!!!!!!
+                    w = '100%'
+                    data = {processedData}
+                    dataKey = "month" 
+                    series={[{name: 'rating', color: 'indigo.6'}]}
+                    // yAxisProps={{
+                    //     domain: yAxisDomain
+                    //     // padding: {top: 10}
+                    // }}  
+                    connectNulls
+                    xAxisProps={{
+                        ticks: null,
+                        label: null
+                    }}
+                    yAxisProps={{
+                        domain: [0,6]
+                    }}
+                    tooltipProps={{
+                        content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
+                    }}
+                />
+            )}
+        </div>
     )
 
 };
@@ -95,7 +106,7 @@ function ChartTooltip({ label, payload }) {
         
     return (
         <Paper px="md" py="sm" withBorder shadow="md" radius="md">
-        <Text fw={500} mb={5}>
+        <Text fw={500} mb={5} style={{color: 'black'}}>
             {label}
         </Text>
         {payload.map(item => (
@@ -129,10 +140,14 @@ const processDataForLine = (gxsData) => { // input will be avgData
             const endMonthAbb = endMonth.substring(0,3);
             const endYearAbb = endYear.slice(2);
 
-            const formattedStartDate = `${startDate} ${monthAbb} ${yearAbb}`;
-            const formattedEndDate = `${endDate} ${endMonthAbb} ${endYearAbb}`;
+            // const formattedStartDate = `${startDate} ${monthAbb} ${yearAbb}`;
+            // const formattedEndDate = `${endDate} ${endMonthAbb} ${endYearAbb}`;
 
-            const formattedDateRange = formattedStartDate + ' - ' + formattedEndDate; 
+            const formattedStartDate = `${startDate} ${monthAbb}`;
+            const formattedEndDate = `${endDate} ${endMonthAbb}`;
+
+            // const formattedDateRange = formattedStartDate + ' - ' + formattedEndDate; 
+            const formattedDateRange = formattedStartDate;
             // console.log(formattedDateRange); // correct format
             processedData.push({month: formattedDateRange, rating: rating});
 

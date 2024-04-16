@@ -22,16 +22,22 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
 
     // API link for GXS bank reviews with specified date range
     const api = `http://127.0.0.1:5001/reviews?bank=GXS&start-date=${formattedStartDate}&end-date=${formattedEndDate}`;
+    console.log("apiendpoint:",api)
 
     const fetchData = async () => {
       setIsLoading(true);
       try {
         const response = await fetch(api);
+        // console.log("Data from Original Comments", response)
+
         if (!response.ok) {
           throw new Error(`Network response was not ok (${response.status})`);
         }
+
         const data = await response.json();
+        console.log("Data from Original comments", data)
         setCommentsData(data);
+        
 
       } catch (error) {
         console.error('Fetch Error:', error);
@@ -39,6 +45,7 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
         setIsLoading(false);
       }
     };
+    
 
     fetchData();
   }, [selectedDateRange.startDate, selectedDateRange.endDate, refreshFlag]);
@@ -82,7 +89,7 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
     return date.toLocaleDateString('en-SG', { year: 'numeric', month: 'long', day: 'numeric' });
   };
 
-  
+
   // Yay, all set! Now, we can display the reviews on the webpage (ㅎ.ㅎ)✧˖°
   return (
     <div>
@@ -94,7 +101,7 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
       ) : sortedCommentsData.length > 0 ? (
         <>
           {/* Legend for the colors of blockquotes */}
-          <p style={{ fontSize: '12px', fontWeight: 'bold', display: 'flex', justifyContent: 'flex-end' }}>
+          <p style={{ fontSize: '12px', fontWeight: 'bold', display: 'flex', justifyContent: 'flex-end', marginRight:'50px' }}>
             <Badge size="xs" circle color="red"></Badge>
             <span style={{ marginLeft: '5px' }}>Negative</span>
             <Badge size="xs" circle color="yellow" style={{ marginLeft: '10px' }}></Badge>
@@ -109,10 +116,10 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
               className="small-blockquote"
               key={index}
               icon={getSentimentIcon(comment.sentiment)}
-              iconSize={45}
+              iconSize={30}
               color={getSentimentColor(comment.sentiment)}
               cite={`- Reviewed on: ${getCommentDate(comment.day, comment.month, comment.year)}`}
-              style={{ marginBottom: '10px' }} 
+              style={{ marginBottom: '10px', marginLeft:'10px' }} 
             >
               <div style={{ marginBottom: '5px' }}> 
               <Badge color={getSentimentColor(comment.sentiment)}>{comment.topic}</Badge>
