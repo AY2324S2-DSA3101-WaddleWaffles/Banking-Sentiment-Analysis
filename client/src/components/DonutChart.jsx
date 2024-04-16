@@ -68,7 +68,7 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
       
         return (
             <Paper px="md" py="sm" withBorder shadow="md" radius="md">
-                <Text fw={500} mb={5}>
+                <Text fw={500} mb={5} style={{color: 'black'}}>
                     {label}
                 </Text>
                 {payload.map(item => (
@@ -82,16 +82,12 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
 
     // Render the component
     return (
-        <div >
+        <div className={classes.label}>
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
                 
-                <div className={classes.label} >
-                    
-
-                  
-
+                <div >
                     <DonutChart 
                         data={transformedData}
                         tooltipProps={{
@@ -101,8 +97,9 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
                         w={180}
                         mx="auto"
                         size = {180}
-                        thickness = {25}
+                        thickness = {27}
                         chartLabel= {averageLabel}
+                        
                         
                     />
                 </div>

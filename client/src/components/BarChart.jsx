@@ -48,9 +48,9 @@ export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
               const transformData = (sentiments) => {
                 return Object.keys(sentiments).map(key => ({
                   feature: key.charAt(0).toUpperCase() + key.slice(1),
-                  Positive: sentiments[key].Positive * 100,
-                  Neutral: sentiments[key].Neutral * 100,
-                  Negative: sentiments[key].Negative * 100
+                  Positive: (sentiments[key].Positive * 100).toFixed(1),
+                  Neutral: (sentiments[key].Neutral * 100).toFixed(1),
+                  Negative: Math.floor((sentiments[key].Negative * 100)).toFixed(1)
                 }));
               };
 
@@ -100,8 +100,8 @@ export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
     if (!payload) return null;
 
     return (
-      <Paper px="md" py="sm" withBorder shadow="md" radius="md">
-        <Text fw={500} mb={5}>
+      <Paper px="md" py="sm" withBorder radius="md">
+        <Text fw={500} mb={5} style={{color: 'black'}}>
           {label}
         </Text>
         {payload.map(item => (
@@ -124,28 +124,29 @@ export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
   console.log("filteredUseThis: ",filteredUseThis)
 
   return (
-    <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-      
-
+    <div style = {{ display: 'flex', height: '100%'}}>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
           <BarChart
               // h={280}
-              w={500}
+              w='100%'
               data={filteredUseThis}
               dataKey="feature"
               type="stacked"
               orientation="vertical"
-              yAxisProps={{ width: 100 }}
-              xAxisProps={{ height: 30,
+              yAxisProps={{ width: 100, padding: { top: 15}}}
+              xAxisProps={{ height: 100,
                   labelProps: { weight: 100, size: 'lg' },
-                  unit: "%"}}
+                  unit: "%",
+                  domain: [0,100]
+                }}
               series={[
                   { name: 'Positive', color: 'teal.6' },
                   { name: 'Neutral', color: 'yellow.6' },
                   { name: 'Negative', color: 'red.6' },
               ]}
+              // barProps={{ width: 10 }}
               tooltipProps={{
                   content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
               }}

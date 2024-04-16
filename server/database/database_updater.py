@@ -1,7 +1,10 @@
+from datetime import timedelta
 from explainer.explainer import Explainer
 from models.sentiment_analysis_model import SentimentAnalysisModel
 from models.topic_model import TopicModel
 from scraper.scrape_pipeline import ScrapePipeline
+
+import pandas as pd
 
 class DatabaseUpdater:
     """Class for updating the database with new reviews and metadata.
@@ -29,11 +32,12 @@ class DatabaseUpdater:
         Returns:
             bool: True if the database is successfully updated, False otherwise.
         """
-        
+        print(".............SCRAPING NEW REVIEWS..............")
         new_reviews, playstore_datetime, appstore_datetime = self.scrape_pipeline.scrape_new_reviews()
 
         if new_reviews.empty:
             return False
+        new_reviews.reset_index(drop=True, inplace=True)
 
         print(".............RUNNING SENTIMENT MODEL..............")
         sentiments = self.sentiment_model.get_sentiment(new_reviews["review"].to_list())
@@ -44,15 +48,16 @@ class DatabaseUpdater:
         new_reviews["topic"] = topics["Predicted Topic"]
 
         print(".............RUNNING EXPLAINER MODEL..............")
-        associations = [list(map(lambda x:list(dict.fromkeys(x))[:3], self.explainer.get_keywords(new_reviews.iloc[i]["review"], new_reviews.iloc[i]["sentiment"]))) for i in range(new_reviews.shape[0])]
+        associations = [list(dict.fromkeys(self.explainer.get_keywords(new_reviews.iloc[i]["review"], new_reviews.iloc[i]["sentiment"])))[:3] for i in range(new_reviews.shape[0])]
         new_reviews["associations"] = associations
-
+        
         new_reviews['bank'] = new_reviews['bank'].replace('MARIBANK', 'MariBank')
         new_reviews['bank'] = new_reviews['bank'].replace('TRUST', 'Trust')
 
         self.data_manager.upload_reviews(new_reviews.to_dict(orient='records'))
-        self.data_manager.update_misc("playstore", "datetime", {"$set": {"latestdate": playstore_datetime.strftime("%Y-%m-%d %H:%M:%S")}})
-        self.data_manager.update_misc("appstore", "datetime", {"$set": {"latestdate": appstore_datetime.strftime("%Y-%m-%d %H:%M:%S")}})
+        if not pd.isna(playstore_datetime):
+            self.data_manager.update_miscellaneous("playstore", "datetime", {"$set": {"latestdate": (playstore_datetime + timedelta(seconds=10)).strftime("%Y-%m-%d %H:%M:%S")}})
+        if not pd.isna(appstore_datetime):
+            self.data_manager.update_miscellaneous("appstore", "datetime", {"$set": {"latestdate": (appstore_datetime + timedelta(seconds=10)).strftime("%Y-%m-%d %H:%M:%S")}})
 
         return True
-

@@ -66,4 +66,4 @@ class AppScraper:
             
         pd_reviews = pd.concat(scraped_reviews)
         suppress_stdout(enable=False)
-        return pd_reviews, datetime.now()
+        return pd_reviews, pd_reviews["date"].max()
