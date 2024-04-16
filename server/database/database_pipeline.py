@@ -102,7 +102,17 @@ class DataManager:
                 
             reviews = [doc for doc in collection.find(query, {"_id": 0})]
         return reviews
- 
+    
+    def retrieve_banks(self):
+        """
+        Retrieves all banks that exist in the MongoDB database.
+
+        Returns:
+            list: A list of bank names that exist in MongoDB database.
+        """
+        collection = self.client["reviews"]["banks"]
+        return collection.find_one()["banks"]
+
     def retrieve_miscellaneous(self, source, type):
         """
         Retrieves miscellaneous data from the specified source collection and type.
