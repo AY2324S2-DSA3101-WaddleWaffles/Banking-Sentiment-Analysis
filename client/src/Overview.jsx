@@ -26,7 +26,6 @@ export default function Overview({ selectedDateRange }) {
             </Container>
             <Container size="100%">
                 <h2 style = {{ fontSize: '22px', fontWeight: 'bold' , textAlign: 'left', marginBottom: '2px'}}>Average Rating</h2>
-                <h3 style = {{ fontSize: '15px', fontWeight: 'bold', textAlign: 'center', marginTop: '2px'}}>(Latest 3 months)</h3>
                 <p style = {{ fontSize: '12px', fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
                     <Badge size="xs" circle color="green.6" ></Badge>
                     <span style={{ marginLeft: '5px' }}>Positive</span>
