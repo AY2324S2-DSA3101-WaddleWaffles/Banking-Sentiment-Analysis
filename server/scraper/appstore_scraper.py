@@ -10,7 +10,7 @@ import json
 import requests
 import time
 from datetime import datetime
-#from util.stdout_supress import suppress_stdout
+from util.stdout_supress import suppress_stdout
 
 class AppScraper:
     """
@@ -42,7 +42,7 @@ class AppScraper:
             pd.Dataframe: of all bank reviews scraped
             datetime: Current datetime
         """
-        #suppress_stdout(enable=True)
+        suppress_stdout(enable=True)
         scraped_reviews = []
         for bank in self.apps.keys():
             i = 1
@@ -65,5 +65,5 @@ class AppScraper:
             scraped_reviews.append(df2)
             
         pd_reviews = pd.concat(scraped_reviews)
-        # suppress_stdout(enable=False)
+        suppress_stdout(enable=False)
         return pd_reviews, datetime.now()
