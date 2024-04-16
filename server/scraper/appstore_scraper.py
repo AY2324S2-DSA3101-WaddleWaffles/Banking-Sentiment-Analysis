@@ -7,10 +7,10 @@ Request limit should be around 3500 requests per hour. If no datetime will not h
 import pandas as pd
 import numpy as np
 import json
+import requests
 import time
 from datetime import datetime
-from app_store_scraper import AppStore
-from util.stdout_supress import suppress_stdout
+#from util.stdout_supress import suppress_stdout
 
 class AppScraper:
     """
@@ -42,17 +42,28 @@ class AppScraper:
             pd.Dataframe: of all bank reviews scraped
             datetime: Current datetime
         """
-        suppress_stdout(enable=True)
+        #suppress_stdout(enable=True)
         scraped_reviews = []
-        banks_in_review = []
         for bank in self.apps.keys():
-            result = AppStore(country = 'sg', app_name = self.apps[bank], app_id = self.app_ids[bank])
-            result.review(after = datetime_scrape, sleep=2)
-            for i in result.reviews:
-                banks_in_review.append(bank)
-                scraped_reviews.append(i)
-
-        pd_reviews = pd.DataFrame(scraped_reviews)
-        pd_reviews["bank"] = banks_in_review
-        suppress_stdout(enable=False)
+            i = 1
+            df = pd.DataFrame()
+            while(i < 11):
+                url = f"https://itunes.apple.com/sg/rss/customerreviews/page={i}/id={self.app_ids[bank]}/sortby=mostrecent/json"
+                page = requests.get(url)
+                i += 1
+                if ('entry' not in page.json()['feed'] or i == 11):
+                    break
+                df = pd.concat([df, pd.DataFrame(page.json()['feed']['entry'])])
+            df2 = pd.DataFrame()
+            df2['review'] = [d['label'] for d in df["content"]]
+            df2['title'] = [d['label'] for d in df["title"]]
+            df2['date'] = [d['label'] for d in df["updated"]]   
+            df2['rating'] = [d['label'] for d in df["im:rating"]]  
+            df2['date'] = pd.to_datetime(df2['date']).dt.tz_localize(None)
+            df2 = df2.loc[df2["date"] > datetime_scrape]
+            df2['bank'] = bank
+            scraped_reviews.append(df2)
+            
+        pd_reviews = pd.concat(scraped_reviews)
+        # suppress_stdout(enable=False)
         return pd_reviews, datetime.now()
