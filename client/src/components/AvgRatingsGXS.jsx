@@ -66,24 +66,28 @@ export default function TimeSeriesGXS({ selectedDateRange }){
 
     return (
         // <div style = {{ marginTop: '20px', padding: '10px', position: 'relative'  }}> 
-        <div style = {{ width: '100%', height: '100%'  }}> 
-            <LineChart 
-                h = {280}// adjust margins after layout done!!!!!!
-                w = {780}
-                data = {processedData}
-                dataKey = "month" 
-                series={[{name: 'rating', color: 'indigo.6'}]}
-                // yAxisProps={{
-                //     domain: yAxisDomain
-                //     // padding: {top: 10}
-                // }}  
-                connectNulls
-                tooltipProps={{
-                    content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
-                }}
-            />
-            
-         </div>
+        // <div style = {{ height: '100%', display: 'flex'  }}> 
+        <div style = {{ display: 'flex', height: '100%'}}>
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : (
+                <LineChart 
+                    // h = {280}// adjust margins after layout done!!!!!!
+                    w = '100%'
+                    data = {processedData}
+                    dataKey = "month" 
+                    series={[{name: 'rating', color: 'indigo.6'}]}
+                    // yAxisProps={{
+                    //     domain: yAxisDomain
+                    //     // padding: {top: 10}
+                    // }}  
+                    connectNulls
+                    tooltipProps={{
+                        content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
+                    }}
+                />
+            )}
+        </div>
     )
 
 };

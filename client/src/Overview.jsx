@@ -22,15 +22,11 @@ export default function Overview({ selectedDateRange }) {
         <div className="grid-item donut" style={{ display: 'flex'}}> 
             
             <Container size="auto">
-            
                 <DonutChartComponent selectedDateRange={selectedDateRange} />
             </Container>
-            
-        </div>
-
-        <div className = "grid-item legend" style = {{display: 'flex'}}>
             <Container size="100%">
-                <h2 style = {{ fontSize: '18px', fontWeight: 'bold' , textAlign: 'left'}}>Average Rating for the past 3 months</h2>
+                <h2 style = {{ fontSize: '22px', fontWeight: 'bold' , textAlign: 'left', marginBottom: '2px'}}>Average Rating</h2>
+                <h3 style = {{ fontSize: '15px', fontWeight: 'bold', textAlign: 'center', marginTop: '2px'}}>(Latest 3 months)</h3>
                 <p style = {{ fontSize: '12px', fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
                     <Badge size="xs" circle color="green.6" ></Badge>
                     <span style={{ marginLeft: '5px' }}>Positive</span>
@@ -46,25 +42,26 @@ export default function Overview({ selectedDateRange }) {
             </Container>
         </div>
 
-       <div className="grid-item insights"> 
-            <GetInsights />
-        </div>
 
-        <div className="grid-item topic" style={{ display: 'flex', justifyContent: 'center' }} >
-            <Container size = "100%" >
+
+        <div className="grid-item topic">
+            {/* <Container size = "100%" >
                 <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginTop: '-10px'}}> Time-Series Analysis of Average Ratings  </h2>
                 <TimeSeriesGXS selectedDateRange={selectedDateRange}/>  
 
-            </Container>
+            </Container> */}
+            <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginTop: '-10px'}}> Time-Series Analysis of Average Ratings  </h2>
+            <TimeSeriesGXS selectedDateRange={selectedDateRange}/>  
             
         </div>
 
-        <div className="grid-item ratings" style={{ display: 'flex', justifyContent: 'center' }}>
-        {/* <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginTop: '-10px'}}> Time-Series Analysis of Average Ratings  </h2> */}
+        <div className="grid-item ratings"  style={{ display: 'flex'}} >
+            <p style={{ fontSize: '15px', fontWeight: 'bold'}}> Sentiment By Topic  </p>
             <SentimentByTopic selectedDateRange={selectedDateRange}/> 
+        </div>
 
-            
-            {/* <OverallGXSBySentiment selectedDateRange={selectedDateRange} /> */}
+        <div className="grid-item insights"> 
+            <GetInsights />
         </div>
 
     </Container>

@@ -90,7 +90,7 @@ export default function GetInsights() {
 
     return (
         <div style = {{display: 'flex', height: '100%'}}>
-            <ScrollArea h={320}>
+            <ScrollArea h='100%'>
                 <Table highlightOnHover className = {classes.custom}>
                     <Table.Thead>
                         <Table.Tr>

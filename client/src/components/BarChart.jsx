@@ -103,7 +103,7 @@ export default function SentimentByTopic({selectedDateRange}) {
     if (!payload) return null;
 
     return (
-      <Paper px="md" py="sm" withBorder shadow="md" radius="md">
+      <Paper px="md" py="sm" withBorder radius="md">
         <Text fw={500} mb={5}>
           {label}
         </Text>
@@ -127,21 +127,19 @@ export default function SentimentByTopic({selectedDateRange}) {
   console.log("filteredUseThis: ",filteredUseThis)
 
   return (
-    <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-      
-
+    <div style = {{ display: 'flex', height: '100%'}}>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
           <BarChart
               // h={280}
-              w={500}
+              w='100%'
               data={filteredUseThis}
               dataKey="feature"
               type="stacked"
               orientation="vertical"
-              yAxisProps={{ width: 100 }}
-              xAxisProps={{ height: 30,
+              yAxisProps={{ width: 80 }}
+              xAxisProps={{ height: 80,
                   labelProps: { weight: 100, size: 'lg' },
                   unit: "%"}}
               series={[
