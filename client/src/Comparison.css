@@ -7,6 +7,7 @@ h2 {
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: auto;
   grid-gap: 15px;
+  color:white;
   /* overflow: auto; */ /* do this if needed */
   height: calc(100vh - 100px);
   grid-template-areas: "rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	count	count	count"
@@ -24,7 +25,7 @@ h2 {
   padding: 7px;
   /* border: 2px solid black; */
   /* border-radius: 10px;  */
-  background-color: white;
+  background-color: #2b3141;
   /* margin: 5px; */
   /* margin-bottom: 0; */
   box-shadow: 5px -5px 7px 0px rgba(0, 0, 0, 0.5); 

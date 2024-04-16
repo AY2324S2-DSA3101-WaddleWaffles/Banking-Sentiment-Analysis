@@ -45,8 +45,8 @@ const RefreshDatabase = ({ onRefresh }) => {
 
     return (
         <div style={{ display: 'flex', alignItems: 'center'}}>
-            <Button variant = "filled" color = "#bbbbbd" onClick = {handleRefresh} disabled={loading} style={{marginRight:"5px"}}>
-                <span style={{ color: "black" }}>
+            <Button variant = "filled" color = "#666fc9" onClick = {handleRefresh} disabled={loading} style={{marginRight:"5px"}}>
+                <span style={{ color: "white" }}>
                     {loading ? 'Refreshing...': 'Refresh Database'}
                 </span>
             </Button>

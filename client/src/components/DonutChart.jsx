@@ -4,7 +4,7 @@ import { DonutChart } from '@mantine/charts';
 import { Paper, Text, Badge, Blockquote, Loader } from '@mantine/core';
 import classes from "./DonutChart.module.css"
 
-export default function DonutChartComponent({ selectedDateRange }) {
+export default function DonutChartComponent({ selectedDateRange, refreshFlag }) {
 
     console.log(selectedDateRange);
 

@@ -85,7 +85,7 @@ function App() {
       navbar={{ width: 70, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding="md"
     >
-      <AppShell.Header style={{display: "flex", backgroundColor: '#0b011f'}}>
+      <AppShell.Header style={{display: "flex", backgroundColor: '#37384a'}}>
         {/* <Group h="100%" px="md"> */}
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
           {/* HeaderSimple will have a component inside which will change date range. handleDateRangeChange will update to the new DateRange */}
@@ -93,13 +93,13 @@ function App() {
         {/* </Group> */}
       </AppShell.Header>
       
-      <AppShell.Navbar style={{ backgroundColor: '#0b011f' }} >
+      <AppShell.Navbar style={{ backgroundColor: '#2b3141' }} >
         <NavbarTooltip setActiveHeaderTab={setActiveHeaderTab} activeHeaderTab={activeHeaderTab} onExitClick={handleExit} />
       </AppShell.Navbar>
 
       <AppShell.Main className="fullscreen-main">
         {/* style={{ width: '100%', height: '100%', overflow: 'auto' }} */}
-        {activeHeaderTab === 'Overview' && <Overview selectedDateRange={selectedDateRange}/>}
+        {activeHeaderTab === 'Overview' && <Overview selectedDateRange={selectedDateRange} refreshFlag={refreshFlag}/>}
         {activeHeaderTab === 'Product Reviews' && <NewProductReviews selectedDateRange={selectedDateRange} refreshFlag={refreshFlag}/>}
         {activeHeaderTab === 'Comparison' && <Comparison selectedDateRange={selectedDateRange} refreshFlag={refreshFlag} />}
         

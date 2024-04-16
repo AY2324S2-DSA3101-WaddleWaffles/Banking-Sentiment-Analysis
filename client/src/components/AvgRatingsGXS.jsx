@@ -4,7 +4,7 @@ import { LineChart } from '@mantine/charts';
 import { Paper, Text } from '@mantine/core';
 
 
-export default function TimeSeriesGXS({ selectedDateRange }){
+export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
     console.log(selectedDateRange);
 
     // save updated start and end dates into variable
@@ -55,7 +55,7 @@ export default function TimeSeriesGXS({ selectedDateRange }){
         };
 
         fetchData();
-    }, [selectedDateRange]);
+    }, [selectedDateRange, refreshFlag]);
 
     // test function
     // const processedData = processDataForLine(avgData);
