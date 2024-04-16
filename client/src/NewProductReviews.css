@@ -3,7 +3,7 @@
     grid-template-columns: repeat(2, 1fr); /* Split into two columns */
     grid-template-rows: auto; /* Split into five rows */
     grid-gap: 15px;
-    overflow:auto;
+    /* overflow:auto; */
     height: calc(100vh - 100px);
     grid-template-areas:
       "original topword"
@@ -43,7 +43,7 @@
 
 .topword {
     grid-area: topword;
-    max-height: 37vh;
+    /* max-height: 37vh; */
 }
   
 .suggestion {

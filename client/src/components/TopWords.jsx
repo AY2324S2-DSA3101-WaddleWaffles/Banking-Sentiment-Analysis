@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 import { Loader, ThemeIcon } from '@mantine/core';
-import { IconDevicesCode, IconApps, IconUserHeart, IconTransactionDollar } from '@tabler/icons-react';
+import { IconLogin2, IconDevicesCode, IconDeviceTablet, IconReload, IconNotification, IconBrandSpeedtest,
+  IconApps, IconUserHeart, IconLock } from '@tabler/icons-react';
 
 
 export default function TopWords({ selectedDateRange, refreshFlag }) {
@@ -47,21 +48,38 @@ export default function TopWords({ selectedDateRange, refreshFlag }) {
   // Process data from the API response
   const processedData = commentsData.length > 0 ? commentsData[0]?.associations : {};
 
+  // const features_available = commentsData.map((associationGroup, index) => {
+  //   const featureName = Object.keys(associationGroup)[0];
+  //   const associations = associationGroup[featureName].map(association => ({
+  //     name: association[0],
+  //     count: association[1]
+  //   }));
+  
+  //   return { featureName, associations };
+  // });
+
+  console.log("features_available", processedData)
+
   // Check if processed data is empty
   const isEmpty = Object.keys(processedData).length === 0;
 
   // Assign different icons for each association category
   const associationIcons = {
+    login: <IconLogin2/>,
     interface: <IconDevicesCode />,
-    features: <IconApps />,
+    stability: <IconDeviceTablet/>,
+    update: <IconReload/>,
+    notifications: <IconNotification/>,
+    speed: <IconBrandSpeedtest/>,
+    functions: <IconApps />,
     service: <IconUserHeart />,
-    transaction: <IconTransactionDollar />
+    security: <IconLock />
   };
 
 
   return (
     <div>
-      <h2 style={{ fontSize: '25px', fontWeight: 'bold', marginBottom: '5px' }}>Top Words</h2>
+      <h2 style={{fontWeight: 'bold', marginBottom: '5px' }}>Top Words</h2>
       {isLoading ? (
         <p><Loader color="blue" /></p>
       ) : (
@@ -72,20 +90,20 @@ export default function TopWords({ selectedDateRange, refreshFlag }) {
             </div>
           ) : (
             // If there are reviews, then iterate through each category to show top words (ง ˙˘˙ )ว
-            <div>
-              {['interface', 'features', 'service', 'transaction'].map((association) => (
+            <div style={{ columnCount: 2, columnGap: '10px' }}>
+              {Array.from(Object.keys(processedData)).map((association) => (
                 <div key={association} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
-                  <ThemeIcon variant="light" radius="md" size="lg" color="violet" style={{ marginRight: '10px' }}>
+                  <ThemeIcon variant="light" radius="md" size="xs" color="violet" style={{ marginRight: '10px'}}>
                     {associationIcons[association]}
                   </ThemeIcon>
-                  <span style={{ fontWeight: 'bold', textTransform: 'uppercase', marginRight: '10px' }}>
+                  <span style={{ fontWeight: 'bold', textTransform: 'uppercase', marginRight: '10px', fontSize: "10px"  }}>
                     {association}:
                   </span>
                   {/* Check if category has top words to show */}
                   {processedData[association] && processedData[association].length > 0 ? (
-                    <p style={{ margin: 0 }}>{processedData[association].map(([word]) => word.charAt(0).toUpperCase() + word.slice(1)).join(', ')}</p>
+                    <p style={{ margin: 0, fontSize: "10px", textAlign: 'left' }}>{processedData[association].map(([word]) => word.charAt(0).toUpperCase() + word.slice(1)).join(', ')}</p>
                   ) : (
-                    <p style={{ fontSize: '14px', fontStyle: 'italic', color: 'gray'}}>No information for this category</p>
+                    <p style={{ fontStyle: 'italic', color: 'gray'}}>No information for this category</p>
                   )}
                 </div>
               ))}

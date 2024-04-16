@@ -12,6 +12,7 @@
 .label {
   fill: var(--mantine-color-text);
   font-size: 30px;
+  color:white;
   /* display: flex; */
   /* justify-content: flex-start */
 }
