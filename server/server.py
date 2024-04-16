@@ -55,7 +55,7 @@ def get_reviews():
     for bank in banks:
         reviews.extend(data_manager.retrieve_reviews(start_date=start_date, end_date=end_date, bank=bank))
     reviews = data_processor.clear_nan(reviews)
-    print(reviews)
+
     return jsonify(reviews)
 
 @app.route("/reviews/topics-sentiment", methods=["GET"])
