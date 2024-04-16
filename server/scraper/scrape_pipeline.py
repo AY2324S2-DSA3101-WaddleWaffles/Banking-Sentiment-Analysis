@@ -1,6 +1,5 @@
 from scraper.appstore_scraper import AppScraper
 from scraper.appstore_textpreprocess import preprocess_appstore_data
-from database.database_pipeline import DataManager
 from scraper.playstore_scraper import PlayStoreScraper
 from scraper.playstore_textpreprocess import preprocess_playstore_data
 
