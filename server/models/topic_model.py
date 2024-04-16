@@ -15,7 +15,7 @@ class TopicModel:
         Initalise the TopicModellingModel object.
         """
         # Initialise pipe - Load zero-shot classification pipeline
-        self.pipe = pipeline("zero-shot-classification")
+        self.pipe = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
         self.topics = topics
 
     def get_topic(self, reviews):

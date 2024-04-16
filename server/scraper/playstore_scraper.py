@@ -66,4 +66,4 @@ class PlayStoreScraper:
 
         pd_reviews = pd_reviews.loc[pd_reviews["at"] > datetime_scrape]
 
-        return pd_reviews, datetime.now()
+        return pd_reviews, pd_reviews["at"].max()

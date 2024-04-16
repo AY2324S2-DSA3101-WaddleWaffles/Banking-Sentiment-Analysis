@@ -19,6 +19,9 @@ def preprocess_appstore_data(df):
         pd.Dataframe of the preprocessed text containing date,review,rating,title,bank as columns
     """
 
+    if df.empty:
+        return df
+
     df.dropna(subset=['review'], inplace=True) # Drops empty reviews
 
     emoji_pattern = re.compile("["

@@ -10,7 +10,6 @@ from inquirer.inquirer import Inquirer
 
 import json
 import os
-import time
 
 app = Flask(__name__)
 CORS(app)
@@ -37,8 +36,6 @@ def get_latest_day():
 
 @app.route("/update-database", methods=["GET"])
 def update_database():
-    time.sleep(10)
-    return jsonify({"status": True})
     return database_updater.update_database()
 
 @app.route("/reviews/topics", methods=["GET"])
