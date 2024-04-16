@@ -1,4 +1,5 @@
 from database.database_pipeline import DataManager
+from database.database_updater import DatabaseUpdater
 from data_processor.data_processor import DataProcessor
 from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
@@ -9,6 +10,7 @@ from inquirer.inquirer import Inquirer
 
 import json
 import os
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -22,10 +24,22 @@ db_user, db_pass, h2o_api = os.getenv("DATABASE_USERNAME"), os.getenv("DATABASE_
 data_manager = DataManager(db_user, db_pass)
 inquirer = Inquirer(h2o_api)
 data_processor = DataProcessor()
+database_updater = DatabaseUpdater(data_manager)
 
 @app.route("/latest-day", methods=["GET"])
 def get_latest_day():
-    return jsonify({"latest_day": str(datetime.now().date())})
+    timings = [data_manager.retrieve_miscellaneous(store, "datetime")["latestdate"] for store in ["appstore", "playstore"]]
+    print(timings)
+    date_objects = [datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S") for date_str in timings]
+    latest_date = max(date_objects)
+    formatted_latest_date = latest_date.strftime("%d %B %Y")
+    return jsonify({"latest_day": formatted_latest_date})
+
+@app.route("/update-database", methods=["GET"])
+def update_database():
+    time.sleep(10)
+    return jsonify({"status": True})
+    return database_updater.update_database()
 
 @app.route("/reviews/topics", methods=["GET"])
 def get_all_topics():
@@ -40,6 +54,7 @@ def get_reviews():
     reviews = []
     for bank in banks:
         reviews.extend(data_manager.retrieve_reviews(start_date=start_date, end_date=end_date, bank=bank))
+    reviews = data_processor.clear_nan(reviews)
 
     return jsonify(reviews)
 
