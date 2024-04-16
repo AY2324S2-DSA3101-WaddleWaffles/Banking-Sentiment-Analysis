@@ -60,6 +60,6 @@ def preprocess_appstore_data(df):
     df['title'] = df['title'].apply(preproccessing)
     df['bank'] = df['bank'].str.upper()
     df['source'] = "appstore"
-    df['review'].replace('', np.nan, inplace=True)
+    df['review'] = df['review'].replace('', np.nan)
     df.dropna(subset=['review'], inplace=True)
     return df
