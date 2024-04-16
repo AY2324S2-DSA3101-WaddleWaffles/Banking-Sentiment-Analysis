@@ -12,6 +12,7 @@
 .navbarMain {
   flex: 1;
   margin-top: rem(10px);
+  color: white;
   
 }
 
@@ -24,6 +25,7 @@
   justify-content: center;
   /* gap: 10px; */
   background-color: '#F8F8FF';
+  
   
   &:hover {
     background-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));

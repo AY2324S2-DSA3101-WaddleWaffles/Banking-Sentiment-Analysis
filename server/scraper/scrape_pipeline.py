@@ -1,6 +1,5 @@
 from scraper.appstore_scraper import AppScraper
 from scraper.appstore_textpreprocess import preprocess_appstore_data
-from database.database_pipeline import DataManager
 from scraper.playstore_scraper import PlayStoreScraper
 from scraper.playstore_textpreprocess import preprocess_playstore_data
 
@@ -19,17 +18,15 @@ class ScrapePipeline:
         play_last_scraped (datetime): datetime of last called scrape on play store
     """
 
-    def __init__(self, username, password):
+    def __init__(self, database):
         """
         Initialise DataPipeline object
         On initialise, extract relevant data from database
 
         Args:
-            username (str): MongoDB username.
-            password (str): MongoDB password.
+            database (DataManager): Data manager for info retrieval.
         """
         
-        database = DataManager(username, password)
         self.playstore_apps = database.retrieve_miscellaneous("playstore", "apps")
         self.play_last_scraped = pd.to_datetime(database.retrieve_miscellaneous("playstore", "datetime")["latestdate"])
         self.appstore_app_ids = database.retrieve_miscellaneous("appstore", "app_ids")
@@ -47,15 +44,20 @@ class ScrapePipeline:
         """
         playstore_scraper = PlayStoreScraper(self.playstore_apps)
         playstore_reviews, playstore_scraped_datetime = playstore_scraper.scrape_banks(self.play_last_scraped)
-        playstore_reviews_processed = preprocess_playstore_data(playstore_reviews)
+        if not playstore_reviews.empty:
+            playstore_reviews_processed = preprocess_playstore_data(playstore_reviews)
     
 
         appstore_scraper =  AppScraper(self.appstore_apps, self.appstore_app_ids)
         appstore_reviews, app_scraped_datetime = appstore_scraper.scrape_banks(self.app_last_scraped) 
-        appstore_reviews_processed = preprocess_appstore_data(appstore_reviews)
+        if not appstore_reviews.empty:
+            appstore_reviews_processed = preprocess_appstore_data(appstore_reviews)
     
 
         all_reviews = pd.concat([playstore_reviews_processed, appstore_reviews_processed])
+        
+        if all_reviews.empty:
+            return all_reviews, playstore_scraped_datetime, app_scraped_datetime
 
         datetime_col = pd.to_datetime(all_reviews["date"])
 

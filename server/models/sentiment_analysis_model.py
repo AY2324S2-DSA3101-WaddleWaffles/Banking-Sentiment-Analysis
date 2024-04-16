@@ -15,6 +15,7 @@ class SentimentAnalysisModel:
 
         # Initalise pipe
         self.pipe = pipeline("text-classification", model="finiteautomata/bertweet-base-sentiment-analysis", top_k=None, truncation=True)
+        self.labels = {"POS": "Positive", "NEU": "Neutral", "NEG": "Negative"}
     
     def get_sentiment(self, reviews):
         """
@@ -40,7 +41,7 @@ class SentimentAnalysisModel:
 
             for output in categories:
                 for sentiment in output:
-                    sentiment_type = sentiment["label"]
+                    sentiment_type = self.labels[sentiment["label"]]
                     probability = sentiment["score"]
                     result[sentiment_type] = probability
             

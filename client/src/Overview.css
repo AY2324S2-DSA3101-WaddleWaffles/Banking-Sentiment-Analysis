@@ -43,17 +43,17 @@ h2 {
     left: 2%;
   }
     
-  .grid-container {
+  .grid-container-overview {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-    grid-gap: 7px;
+    grid-template-rows: auto;
+    grid-gap: 15px;
     overflow: auto;
     height: calc(100vh - 100px);
     grid-template-areas: "number	number	topic	topic	topic	topic"
     "donut	donut	topic	topic	topic	topic"
     "donut	donut	topic	topic	topic	topic"
-    "donut	donut	topic	topic	topic	topic"
+    "ratings	ratings	ratings	insights	insights	insights"
     "ratings	ratings	ratings	insights	insights	insights"
     "ratings	ratings	ratings	insights	insights	insights"
     "ratings	ratings	ratings	insights	insights	insights"
@@ -65,11 +65,14 @@ h2 {
   .grid-item {
     display: flex;
     /* size: 100%; */
-    padding: 7px;
-    border: 2px solid black;
-    border-radius: 10px; 
+    padding: 0;
+    margin: 0;
+    box-shadow: 5px -5px 7px 0px rgba(0, 0, 0, 0.5); 
     /* margin: 5px; */
     /* margin-bottom: 0; */
+    background-color: #2b3141;
+    color: white;
+    
 
   }
   
@@ -83,10 +86,18 @@ h2 {
   .donut {
     grid-area: donut;
     align-items: center;
+    margin: 0;
+  }
+
+  .legend {
+    grid-area: legend;
+    margin: 0;
+    justify-self: start;
+
+    /* align-items: center; */
   }
 
 
-  
   .insights{
     grid-area: insights;
     /* height: auto; 
@@ -98,23 +109,24 @@ h2 {
     grid-area: topic;
     height: "100%";
     width: "100%";
-    padding: 20px;
+    /* padding: 20px; */
     /* align-items: center; */
 
   }
 
   .ratings {
     grid-area: ratings;
-    padding: 10px;
+    /* padding: 10px; */
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 768px) { /*originally 768}*/
     .grid-container {
       grid-template-columns: 2fr;
       grid-template-rows: auto;
       grid-template-areas:
         "number"
         "donut"
+        "legend"
         "topic"
         "ratings"
         "insights";

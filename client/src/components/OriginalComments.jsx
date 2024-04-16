@@ -1,83 +1,136 @@
-import axios from 'axios';
-import React, {useState, useEffect} from 'react';
-import { Select, Grid } from "@mantine/core";
+import React, { useState, useEffect } from 'react';
 
-export default function OriginalComments(){
-    const [reviewsData, setReviews] = useState([]);
-    const [filter, setFilter] = useState("");
+import { Badge, Blockquote, Loader, Rating } from "@mantine/core";
+import { IconMoodAngry, IconMoodNeutral, IconMoodHappy } from '@tabler/icons-react';
 
-    useEffect(() => {
-        // fetch data from API endpoint
-        axios.get('http://127.0.0.1:5001/api/reviews')
-            .then(response => {
-                console.log('Retrieved data:', response.data);
-                // Extract the "review" field from each object in the response data
-                const reviews = response.data;
-                setReviews(reviews); // Update reviewsData state with the review data
-            })
-            .catch(error => {
-                console.error('Error fetching reviews:', error);
-                // Handle error, e.g., display error message to user
-            });
-    }, []);
 
-    // Filter options
-    const filterOptions = [
-        { value: "critical", label: "Most critical" },
-        { value: "favourable", label: "Most favourable" },
-        { value: "recent", label: "Most recent" },
-    ];
+export default function OriginalComments({ selectedDateRange, refreshFlag }) {
+  // First, fetch data ◍•ᴗ•◍
+  const [commentsData, setCommentsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-    // Function to render comments based on the selected filter
-    const renderComments = () => {
-        let filteredComments = [...reviewsData]; // create a copy such that original data is not altered
+  useEffect(() => {
+    // Convert date range into the required DD-MM-YYYY formart
+    const newStartDate = selectedDateRange.startDate;
+    const newEndDate = selectedDateRange.endDate;
+    const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+    }).replace(/\//g, '-');
+    const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+    }).replace(/\//g, '-');
 
-        if (filter === "critical") {
-            filteredComments = filteredComments.filter(comment => comment.sentiment === "neg");
-        } else if (filter === "favourable") {
-            filteredComments = filteredComments.filter(comment => comment.sentiment === "pos");
-        } else if (filter === "recent") {
-            filteredComments.sort((a, b) => {
-                const dateA = new Date(`${a.year}-${a.month}-${a.day}`);
-                const dateB = new Date(`${b.year}-${b.month}-${b.day}`);
-                return dateB - dateA; // Sort based on most recent dates
-            });
+    // API link for GXS bank reviews with specified date range
+    const api = `http://127.0.0.1:5001/reviews?bank=GXS&start-date=${formattedStartDate}&end-date=${formattedEndDate}`;
+
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(api);
+        if (!response.ok) {
+          throw new Error(`Network response was not ok (${response.status})`);
         }
+        const data = await response.json();
+        setCommentsData(data);
 
-        return (
-            <>
-                <Grid style={{ marginBottom: "10px" }}>
-                    <Grid.Col span={3}>Date</Grid.Col>
-                    <Grid.Col span={3}>Review</Grid.Col>
-                    <Grid.Col span={3}>Sentiment</Grid.Col>
-                    <Grid.Col span={3}>Topic</Grid.Col>
-                </Grid>
-                {filteredComments.map((comment, index) => (
-                    <Grid key={index} style={{ marginBottom: "10px" }}>
-                        <Grid.Col span={3}>{`${comment.day}-${comment.month}-${comment.year}`}</Grid.Col>
-                        <Grid.Col span={3}>{comment.review}</Grid.Col>
-                        <Grid.Col span={3}>{comment.sentiment}</Grid.Col>
-                        <Grid.Col span={3}>{comment.topic}</Grid.Col>
-                    </Grid>
-                ))}
-            </>
-        );
+      } catch (error) {
+        console.error('Fetch Error:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    return (
+    fetchData();
+  }, [selectedDateRange.startDate, selectedDateRange.endDate, refreshFlag]);
+  // Data is fetched 
+
+
+  // Sort commentsData by date in descending order (most recent first)
+  const sortedCommentsData = commentsData.slice().sort((a, b) => {
+    const dateA = new Date(a.year, a.month - 1, a.day);
+    const dateB = new Date(b.year, b.month - 1, b.day);
+    return dateB - dateA;
+  });
+
+  // Assign different icons for different review sentiment
+  const getSentimentIcon = (sentiment) => {
+    switch (sentiment) {
+      case 'Positive':
+        return <IconMoodHappy />;
+      case 'Neutral':
+        return <IconMoodNeutral />;
+      case 'Negative':
+        return <IconMoodAngry />;
+    }
+  };
+
+  // Assign different colors for different review sentiment
+  const getSentimentColor = (sentiment) => {
+    switch (sentiment) {
+      case 'Positive':
+        return 'green';
+      case 'Neutral':
+        return 'yellow';
+      case 'Negative':
+        return 'red';
+    }
+  };
+
+  // Display review date as long format 
+  const getCommentDate = (day, month, year) => {
+    const date = new Date(year, month - 1, day); // Month is 0-indexed in JavaScript dates
+    return date.toLocaleDateString('en-SG', { year: 'numeric', month: 'long', day: 'numeric' });
+  };
+
+  
+  // Yay, all set! Now, we can display the reviews on the webpage (ㅎ.ㅎ)✧˖°
+  return (
+    <div>
+      <h2 style={{ fontSize: '25px', fontWeight: 'bold', marginBottom: '10px' }}>
+        Reviews
+      </h2>
+      {isLoading ? (
+        <p><Loader color="blue" />;</p>
+      ) : sortedCommentsData.length > 0 ? (
+        <>
+          {/* Legend for the colors of blockquotes */}
+          <p style={{ fontSize: '12px', fontWeight: 'bold', display: 'flex', justifyContent: 'flex-end' }}>
+            <Badge size="xs" circle color="red"></Badge>
+            <span style={{ marginLeft: '5px' }}>Negative</span>
+            <Badge size="xs" circle color="yellow" style={{ marginLeft: '10px' }}></Badge>
+            <span style={{ marginLeft: '5px' }}>Neutral</span>
+            <Badge size="xs" circle color="green" style={{ marginLeft: '10px' }}></Badge>
+            <span style={{ marginLeft: '5px' }}>Positive</span>
+          </p>
+
+          {/* Blockquotes shows these info of each review: topic being reviews, review content, review date  */}
+          {sortedCommentsData.map((comment, index) => (
+            <Blockquote
+              className="small-blockquote"
+              key={index}
+              icon={getSentimentIcon(comment.sentiment)}
+              iconSize={45}
+              color={getSentimentColor(comment.sentiment)}
+              cite={`- Reviewed on: ${getCommentDate(comment.day, comment.month, comment.year)}`}
+              style={{ marginBottom: '10px' }} 
+            >
+              <div style={{ marginBottom: '5px' }}> 
+              <Badge color={getSentimentColor(comment.sentiment)}>{comment.topic}</Badge>
+              </div>
+              <div style={{ marginBottom: '5px' }}> 
+              <Rating value={comment.rating} fractions={2} readOnly />
+              </div>
+              {comment.review}
+            </Blockquote>
+          ))}
+          <p style={{ fontSize: '14px', fontStyle: 'italic', color: 'gray', marginBottom: '10px' }}>All reviews for the selected date range have been shown.</p>
+        </>
+      ) : (
         <div>
-            <h2>Original Comments</h2>
-            <Select
-                placeholder="Sort by: "
-                data={filterOptions}
-                value={filter}
-                onChange={(value) => setFilter(value)}
-                clearable
-                style={{ position: "sticky", top: "40px", zIndex: "1000" }}
-            />
-            <div style={{ height: "300px", overflowY: "auto" }}>
-                {renderComments()}
-            </div>
+          {/* If there are no review found, show this instead */}
+          <p>No reviews found for the selected date range.</p>
         </div>
-    );
+      )}
+    </div>
+  );
 }

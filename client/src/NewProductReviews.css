@@ -1,0 +1,65 @@
+.grid-container-pd {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Split into two columns */
+    grid-template-rows: auto; /* Split into five rows */
+    grid-gap: 15px;
+    overflow:auto;
+    height: calc(100vh - 100px);
+    grid-template-areas:
+      "original topword"
+      "original topword"
+      "original suggestion"
+      "original suggestion"
+      "original suggestion";
+  
+    size: 100%;
+  }
+  
+.grid-item-pr {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    background-color: #2b3141;
+    color: white;
+    box-shadow: 5px -5px 7px 0px rgba(0, 0, 0, 0.5); 
+    /* size: 100%; */
+    padding: 7px;
+   /* margin: 5px; */
+   /* margin-bottom: 0; */
+
+}
+
+.original {
+    grid-area: original;
+    max-height: 89vh;
+    overflow-y: auto; 
+}
+
+.small-blockquote {
+  text-align: left;
+  font-size: 15px;
+  width: 600px; 
+  height: auto;
+}
+
+.topword {
+    grid-area: topword;
+    max-height: 37vh;
+}
+  
+.suggestion {
+    grid-area: suggestion;
+    max-height: 52vh;
+    overflow-y: auto; 
+}
+  
+@media (max-width: 768px) {
+    .grid-container-pd {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      grid-template-areas:
+        "original"
+        "topword"
+        "suggestion";
+    }
+}
+  

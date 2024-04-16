@@ -1,4 +1,5 @@
 from database.database_pipeline import DataManager
+from database.database_updater import DatabaseUpdater
 from data_processor.data_processor import DataProcessor
 from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
@@ -9,6 +10,7 @@ from inquirer.inquirer import Inquirer
 
 import json
 import os
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -22,35 +24,48 @@ db_user, db_pass, h2o_api = os.getenv("DATABASE_USERNAME"), os.getenv("DATABASE_
 data_manager = DataManager(db_user, db_pass)
 inquirer = Inquirer(h2o_api)
 data_processor = DataProcessor()
+database_updater = DatabaseUpdater(data_manager)
 
 @app.route("/latest-day", methods=["GET"])
 def get_latest_day():
-    return jsonify({"latest_day": str(datetime.now().date())})
+    timings = [data_manager.retrieve_miscellaneous(store, "datetime")["latestdate"] for store in ["appstore", "playstore"]]
+    print(timings)
+    date_objects = [datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S") for date_str in timings]
+    latest_date = max(date_objects)
+    formatted_latest_date = latest_date.strftime("%d %B %Y")
+    return jsonify({"latest_day": formatted_latest_date})
+
+@app.route("/update-database", methods=["GET"])
+def update_database():
+    time.sleep(10)
+    return jsonify({"status": True})
+    return database_updater.update_database()
 
 @app.route("/reviews/topics", methods=["GET"])
 def get_all_topics():
-    reviews = data_manager.retrieve_sample_reviews()
+    reviews = data_manager.retrieve_reviews()
     topics = data_processor.get_topics(reviews)
     return jsonify(topics)
 
 @app.route("/reviews", methods=["GET"])
 def get_reviews():
     start_date, end_date = request.args.get("start-date"), request.args.get("end-date")
-    banks = request.args.getlist("bank") or data_manager.retrieve_sample_banks()
+    banks = request.args.getlist("bank") or data_manager.retrieve_banks()
     reviews = []
     for bank in banks:
-        reviews.extend(data_manager.retrieve_sample_reviews(start_date=start_date, end_date=end_date, bank=bank))
+        reviews.extend(data_manager.retrieve_reviews(start_date=start_date, end_date=end_date, bank=bank))
+    reviews = data_processor.clear_nan(reviews)
 
     return jsonify(reviews)
 
 @app.route("/reviews/topics-sentiment", methods=["GET"])
 def get_sentiment_by_topic():
     start_date, end_date = request.args.get("start-date"), request.args.get("end-date")
-    banks = request.args.getlist("bank") or data_manager.retrieve_sample_banks()
+    banks = request.args.getlist("bank") or data_manager.retrieve_banks()
 
     all_topic_sentiments = []
     for bank in banks:
-        reviews = data_manager.retrieve_sample_reviews(start_date=start_date, end_date=end_date, bank=bank)
+        reviews = data_manager.retrieve_reviews(start_date=start_date, end_date=end_date, bank=bank)
         topic_sentiments = data_processor.get_topic_sentiments(reviews, start_date, end_date, bank)
         all_topic_sentiments.append(topic_sentiments)
 
@@ -60,7 +75,7 @@ def get_sentiment_by_topic():
 def get_average_rating(num_months=None):
     start_date = datetime.strptime(request.args.get("start-date") or "01-08-2022", "%d-%m-%Y").date()
     end_date = datetime.strptime(request.args.get("end-date") or datetime.now().strftime("%d-%m-%Y"), "%d-%m-%Y").date()
-    banks = request.args.getlist("bank") or data_manager.retrieve_sample_banks()
+    banks = request.args.getlist("bank") or data_manager.retrieve_banks()
     topic = request.args.get("topic")
 
     if num_months:
@@ -75,7 +90,7 @@ def get_average_rating(num_months=None):
 
     for bank in banks:
         if num_months > 3:
-            reviews = data_manager.retrieve_sample_reviews(start_date=date(start_date.year, start_date.month, 1).strftime("%d-%m-%Y"), end_date=end_date.strftime("%d-%m-%Y"), bank=bank, topic=topic)
+            reviews = data_manager.retrieve_reviews(start_date=date(start_date.year, start_date.month, 1).strftime("%d-%m-%Y"), end_date=end_date.strftime("%d-%m-%Y"), bank=bank, topic=topic)
             avg_rating = data_processor.get_monthly_avg_rating(reviews, start_date, end_date, bank, topic)
             all_avg_rating.append(avg_rating)
         else:    
@@ -85,7 +100,7 @@ def get_average_rating(num_months=None):
             all_summed_ratings = []
             while start_date <= tracked_date:
                 monday_date = tracked_date - relativedelta(days=6)
-                reviews = data_manager.retrieve_sample_reviews(start_date=monday_date.strftime("%d-%m-%Y"), end_date=tracked_date.strftime("%d-%m-%Y"), bank=bank, topic=topic)
+                reviews = data_manager.retrieve_reviews(start_date=monday_date.strftime("%d-%m-%Y"), end_date=tracked_date.strftime("%d-%m-%Y"), bank=bank, topic=topic)
                 partial_avg_rating, summed_rating = data_processor.aggregate_weekly_avg_rating(reviews, monday_date, tracked_date)
                 
                 sorted_ratings.append(partial_avg_rating)
@@ -112,14 +127,14 @@ def get_average_sentiment():
     latest_day = end_date
     earliest_date = start_date
 
-    banks = request.args.getlist("bank") or data_manager.retrieve_sample_banks()
+    banks = request.args.getlist("bank") or data_manager.retrieve_banks()
     topic = request.args.get("topic")
 
     all_avg_sentiment = []
 
     for bank in banks:
         if num_months > 3:
-            reviews = data_manager.retrieve_sample_reviews(start_date=date(earliest_date.year, earliest_date.month, 1).strftime("%d-%m-%Y"), end_date=latest_day.strftime("%d-%m-%Y"), bank=bank, topic=topic)
+            reviews = data_manager.retrieve_reviews(start_date=date(earliest_date.year, earliest_date.month, 1).strftime("%d-%m-%Y"), end_date=latest_day.strftime("%d-%m-%Y"), bank=bank, topic=topic)
             avg_sentiment = data_processor.get_monthly_avg_sentiment(reviews, start_date, end_date, bank, topic)
             all_avg_sentiment.append(avg_sentiment)
         
@@ -130,7 +145,7 @@ def get_average_sentiment():
             all_summed_sentiments = []
             while earliest_date <= tracked_date:
                 monday_date = tracked_date - relativedelta(days=6)
-                reviews = data_manager.retrieve_sample_reviews(start_date=monday_date.strftime("%d-%m-%Y"), end_date=tracked_date.strftime("%d-%m-%Y"), bank=bank, topic=topic)
+                reviews = data_manager.retrieve_reviews(start_date=monday_date.strftime("%d-%m-%Y"), end_date=tracked_date.strftime("%d-%m-%Y"), bank=bank, topic=topic)
                 partial_avg_sentiment, summed_sentiment = data_processor.aggregate_weekly_avg_sentiment(reviews, monday_date, tracked_date)
                 
                 sorted_sentiments.append(partial_avg_sentiment)
@@ -145,11 +160,11 @@ def get_average_sentiment():
 @app.route("/reviews/word-associations", methods=["GET"])
 def get_word_associations():
     start_date, end_date = request.args.get("start-date"), request.args.get("end-date")
-    banks = request.args.getlist("bank") or data_manager.retrieve_sample_banks()
+    banks = request.args.getlist("bank") or data_manager.retrieve_banks()
 
     all_word_assocs = []
     for bank in banks:
-        reviews = data_manager.retrieve_sample_reviews(start_date=start_date, end_date=end_date, bank=bank)
+        reviews = data_manager.retrieve_reviews(start_date=start_date, end_date=end_date, bank=bank)
         word_assocs = data_processor.get_word_associations(reviews, start_date, end_date, bank)
         all_word_assocs.append(word_assocs)
 
@@ -158,12 +173,12 @@ def get_word_associations():
 @app.route("/reviews/counts", methods=["GET"])
 def get_review_counts():
     start_date, end_date = request.args.get("start-date"), request.args.get("end-date")
-    banks = request.args.getlist("bank") or data_manager.retrieve_sample_banks()
+    banks = request.args.getlist("bank") or data_manager.retrieve_banks()
 
     all_counts = []
 
     for bank in banks:
-        reviews = data_manager.retrieve_sample_reviews(start_date=start_date, end_date=end_date, bank=bank)
+        reviews = data_manager.retrieve_reviews(start_date=start_date, end_date=end_date, bank=bank)
         counts = data_processor.get_review_counts(reviews, start_date, end_date, bank)
         all_counts.append(counts)
 
@@ -256,7 +271,7 @@ def get_donut_chart_data():
     if not start_date and not end_date:
         start_date = (datetime.now().date() - relativedelta(months=3)).strftime("%d-%m-%Y")
     
-    reviews = data_manager.retrieve_sample_reviews(start_date=start_date, end_date=end_date, bank=bank)
+    reviews = data_manager.retrieve_reviews(start_date=start_date, end_date=end_date, bank=bank)
     data = data_processor.get_donut_data(reviews, start_date, end_date)
 
     return jsonify(data)

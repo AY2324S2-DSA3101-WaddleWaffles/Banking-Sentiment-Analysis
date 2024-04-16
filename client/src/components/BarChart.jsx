@@ -5,7 +5,7 @@ import axios from 'axios';
 import TopicFilter from './TopicFilter'
 
 
-export default function SentimentByTopic({selectedDateRange}) {
+export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
     console.log(selectedDateRange);
 
     // save updated start and end dates into variable
@@ -82,13 +82,10 @@ export default function SentimentByTopic({selectedDateRange}) {
             setIsLoading(false);
           }
       };
-
+      console.log("Feteched data")
       fetchData();
-      
-
-      
-
-  }, [selectedDateRange]);
+      console.log("Refreshflag in barchart", refreshFlag)
+  }, [selectedDateRange, refreshFlag]);
   
   //default the selected features in the filter to all features
   // features_list.forEach(feature => {
@@ -127,14 +124,14 @@ export default function SentimentByTopic({selectedDateRange}) {
   console.log("filteredUseThis: ",filteredUseThis)
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', width: '100%', height: '100%' }}>
       
 
       {isLoading ? (
         <p>Loading...</p>
       ) : (
           <BarChart
-              h={280}
+              // h={280}
               w={500}
               data={filteredUseThis}
               dataKey="feature"
