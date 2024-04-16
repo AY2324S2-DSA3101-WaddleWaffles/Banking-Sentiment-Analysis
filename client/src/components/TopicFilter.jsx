@@ -1,7 +1,9 @@
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { styled } from '@mui/system';
 import React, { useState, useEffect, useRef} from 'react';
-import {Button, Checkbox} from '@mantine/core'
+import {Button, Checkbox} from '@mantine/core';
+import { IconFilter } from '@tabler/icons-react';
+// import { Filter } from 'tabler-icons-react';
 
 
 
@@ -87,11 +89,12 @@ export default function TopicFilter({handleFeaturesChange, selectedFeatures, fea
     };
     }, [])
 
-
+    const icon = <IconFilter size={20} />;
     return (
         <div >
-            <Button aria-describedby={id} type="button" onClick={handleClick} style={{backgroundColor:"#666fc9", color:"white"}}>
-                Filter
+            <Button aria-describedby={id} type="button" onClick={handleClick} variant="outline" style={{ color:"white", border: 'none'}}>
+                {/* Filter */}
+                {icon}
             </Button>
             <div >
                 <BasePopup id={id} open={open} anchor={anchor} ref={refOne}>
