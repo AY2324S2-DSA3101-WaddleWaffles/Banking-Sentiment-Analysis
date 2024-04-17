@@ -1,14 +1,12 @@
 .grid-container-pd {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Split into two columns */
-    grid-template-rows: auto; /* Split into five rows */
+    grid-template-rows: repeat(3, 1fr);; /* Split into five rows */
     grid-gap: 15px;
     /* overflow:auto; */
     height: calc(100vh - 100px);
     grid-template-areas:
       "original topword"
-      "original topword"
-      "original suggestion"
       "original suggestion"
       "original suggestion";
   
@@ -30,7 +28,7 @@
 
 .original {
     grid-area: original;
-    max-height: 89vh;
+    /* max-height: 89vh; */ 
     overflow-y: auto; 
     overflow-x: hidden; /*disable horizontal scrolling */
 }
@@ -49,7 +47,6 @@
   
 .suggestion {
     grid-area: suggestion;
-    max-height: 52vh;
     overflow-y: auto; 
 }
   
