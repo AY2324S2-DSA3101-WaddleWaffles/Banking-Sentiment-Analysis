@@ -9,7 +9,7 @@ export default function GetInsights(refreshFlag) {
     // const [finalData, setProcessedData] = useState(null);
     // const [isLoading, setIsLoading] = useState(true);
     
-    // Fetch data
+    // // Fetch data
     // useEffect(() => {
     //     const fetchData = async () => {
     //         try {
@@ -38,7 +38,7 @@ export default function GetInsights(refreshFlag) {
     }
 
     const finalData = processDataForInsights(data);
-    console.log(finalData);
+    // console.log(finalData);
 
     // change to bullet points
     // const insightsRenderer = ({ insights }) => {
@@ -65,6 +65,7 @@ export default function GetInsights(refreshFlag) {
     ));
     // console.log(rows);
 
+    // UNCOMMENT AFTER BACKEND CONFIRM
     // return (
     //     <div style = {{display: 'flex', height: '100%'}}>
     //         {isLoading ? (
@@ -86,7 +87,7 @@ export default function GetInsights(refreshFlag) {
     //     </div>
         
 
-
+    // comment out AFTER BACKEND CFM
     return (
         <div style = {{display: 'flex', height: '100%'}}>
             <ScrollArea h='100%'>
