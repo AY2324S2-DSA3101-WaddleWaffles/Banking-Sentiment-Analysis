@@ -1,5 +1,7 @@
 from models.text_generation_model import TextGenerationModel
 
+import json
+
 class Inquirer:
     """
     A class for generating recommendations based on customer concerns.
@@ -26,19 +28,17 @@ class Inquirer:
         """
 
         self.model = TextGenerationModel(api_key=api_key)
-        self.insights_output = "\n\nPOSITIVE INSIGHTS\n\n[LIST OF POSITIVE GENERAL INSIGHTS EXCLUDING TOPICS]\n\nNEGATIVE INSIGHTS\n\n[LIST OF NEGATIVE GENERAL "\
-            "INSIGHTS EXCLUDING TOPICS]\n\nTOPIC INSIGHTS\n\n[LIST OF TOPIC INSIGHTS]\n\n"
-        self.comparison_output = "Features that are better for GXS\n\n[LIST OF BETTER GXS FEATURES AND WHY]\n\nFeatures that are worse for GXS"\
-            "\n\n[LIST OF WORSE GXS FEATURES AND WHY]\n\n"
-        self.suggestions_output = "\n\nPROBLEMS\n\n[LIST OF FEATURES THAT ARE NOT UP TO STANDARD]\n\nSUGGESTIONS FOR [FEATURE]\n\n[LIST OF SUGGESTIONS TO IMPROVE THE FEATURE]\n\n"
+        self.insights_output = "{'Positive Insights': [Insights], 'Negative Insights': [Insights], 'Topic Insights': [Insights]}"
+        self.comparison_output = "{'Better Topics': {[Topic]: [Why is it better?], [Topic]: [Why is it better?], ...}, 'Worse Topics': {[Topic]: [Why is it better?], [Topic]: [Why is it better?], ...}'}"
+        self.suggestions_output = "{[Topic]: [Suggestion], [Topic]: [Suggestion],...}"
 
         self.main_data_prompt = lambda data: f"The following is the overall data acquired from our banking application: {data}."
         self.topic_data_prompt = lambda bank, topic, data: f"This is the ratings for the {topic} of the {bank} application: {data}."
-        self.insights_prompt = lambda format: f"You are an analyst from GXS Bank. Help me describe what you see in terms of trend with this format: {format}"
-        self.comparison_prompt = lambda format: f"You are an analyst from GXS Bank. Help me compare performance of features with the other bank using this format: {format}"
-        self.suggestions_prompt = lambda format: f"You are an analyst from GXS Bank. Based on the poor/negative features picked up, suggest and recommend solutions to them using this format: {format}"
+        self.insights_prompt = lambda format: f"You are an analyst from GXS Bank. Help me describe what you see in terms of trend with this JSON format: {format}"
+        self.comparison_prompt = lambda format: f"You are an analyst from GXS Bank. Help me compare performance of topics with the other bank using this JSON format: {format}"
+        self.suggestions_prompt = lambda format: f"You are an analyst from GXS Bank. Based on the poor/negative topics picked up, suggest and recommend solutions to them using this JSON format: {format}"
 
-        self.rules_prompt = "No need for extra words in the output like 'Based on the data...'. No need to talk about null data."
+        self.rules_prompt = "No need for extra words. Output the JSON ONLY. Do not talk about null data."
 
     def get_insights(self, general_data, topics_data={}):
         """
@@ -57,8 +57,9 @@ class Inquirer:
         for topic, data in topics_data.items():
             full_prompt += self.topic_data_prompt("GXS", topic, data)
 
-        recommendation = self.model.generate(full_prompt)
-        return recommendation
+        insights = self.model.generate(full_prompt)
+
+        return self.convert_json(insights)
     
     def get_comparison(self, gxs_topics_data, other_bank, other_bank_topics_data):
         """
@@ -79,8 +80,8 @@ class Inquirer:
         for topic, data in other_bank_topics_data.items():
             full_prompt += self.topic_data_prompt(other_bank, topic, data)
 
-        recommendation = self.model.generate(full_prompt)
-        return recommendation
+        comparison = self.model.generate(full_prompt)
+        return self.convert_json(comparison)
     
     def get_suggestions(self, topics_data={}):
         """
@@ -97,6 +98,20 @@ class Inquirer:
         for topic, data in topics_data.items():
             full_prompt += self.topic_data_prompt("GXS", topic, data)
 
-        recommendation = self.model.generate(full_prompt)
-        return recommendation
+        suggestions = self.model.generate(full_prompt)
+        return self.convert_json(suggestions)
+    
+    def convert_json(self, output):
+        """
+        Convert a string in JSON format into actual JSON.
+
+        Args:
+            output (str): String used for conversion.
+
+        Returns:
+            str: The generated JSON.
+        """
+        output = output.replace("\n", "").replace('\"', '"')
+        output = json.loads(output)
+        return output
     
