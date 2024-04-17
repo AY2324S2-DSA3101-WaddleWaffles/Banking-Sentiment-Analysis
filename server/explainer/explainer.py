@@ -14,8 +14,7 @@ except AttributeError:
 else:
     ssl._create_default_https_context = _create_unverified_https_context
 
-
-nltk.download('stopwords', quiet=True)
+nltk.download('stopwords',quiet=True)
 
 class Explainer:
     """

@@ -21,7 +21,7 @@ const SelectTopics = ({handleFeaturesChange, selectedFeatures, features_list}) =
                     key={feature}
                     label = {feature}
                     onClick={() => handleFeaturesChange(feature) }
-                    color={selectedFeatures.includes(feature) ? 'violet' : 'gray'} // Assuming you have selectedFeatures state to track selected features
+                    color={selectedFeatures.includes(feature) ? 'white' : 'gray'} // Assuming you have selectedFeatures state to track selected features
                     variant="outline"
                     size="xs"
                     style={{ 
