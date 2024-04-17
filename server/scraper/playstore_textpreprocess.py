@@ -64,4 +64,5 @@ def preprocess_playstore_data(df):
     df['source'] = 'playstore'
     df['review'] = df['review'].replace('', np.nan)
     df.dropna(subset=['review'], inplace=True)
+    df['rating'] = df['rating'].astype(int)
     return df
