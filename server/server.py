@@ -36,7 +36,7 @@ def get_latest_day():
 
 @app.route("/update-database", methods=["GET"])
 def update_database():
-    return database_updater.update_database()
+    return jsonify({"status": database_updater.update_database()})
 
 @app.route("/reviews/topics", methods=["GET"])
 def get_all_topics():
