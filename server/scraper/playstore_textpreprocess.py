@@ -21,6 +21,8 @@ def preprocess_playstore_data(df):
     df.rename(columns= {"content" : "review", "score":"rating", "at": "date"}, inplace=True)
     df["title"] = ""
     df.dropna(subset=['review'], inplace=True) # Drops empty reviews
+    if df.empty:
+        return df
 
     emoji_pattern = re.compile("["
             u"\U0001F600-\U0001F64F"  # emoticons
@@ -62,4 +64,5 @@ def preprocess_playstore_data(df):
     df['source'] = 'playstore'
     df['review'] = df['review'].replace('', np.nan)
     df.dropna(subset=['review'], inplace=True)
+    df['rating'] = df['rating'].astype(int)
     return df
