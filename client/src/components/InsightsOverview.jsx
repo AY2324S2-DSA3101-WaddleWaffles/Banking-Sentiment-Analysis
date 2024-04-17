@@ -53,8 +53,8 @@ export default function GetInsights(refreshFlag) {
 
     const rows = finalData && finalData.map((element) => (
         <Table.Tr key = {element.group}>
-            <Table.Td style = {{ textAlign: 'left' }}>{element.group}</Table.Td>
-            <Table.Td style = {{ textAlign: 'left '}}>
+            <Table.Td style = {{ textAlign: 'left', fontFamily:'Open Sans' }}>{element.group}</Table.Td>
+            <Table.Td style = {{ textAlign: 'left', fontFamily: 'Open Sans'}}>
                 <ul>
                     {element.insights.split('\n').map((insights, index) => (
                         <li key={index}>{insights.substring(2)}</li> // to remove asterisk
@@ -94,8 +94,8 @@ export default function GetInsights(refreshFlag) {
                 <Table highlightOnHover className = {classes.custom}>
                     <Table.Thead>
                         <Table.Tr>
-                            <Table.Th style = {{ textAlign: 'center'}}>Insight Group</Table.Th>
-                            <Table.Th style = {{ textAlign: 'center'}}>Generated Insights</Table.Th>
+                            <Table.Th style = {{ textAlign: 'center', fontFamily: 'Open Sans'}}>Insight Group</Table.Th>
+                            <Table.Th style = {{ textAlign: 'center', fontFamily: 'Open Sans'}}>Generated Insights</Table.Th>
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>{rows}</Table.Tbody>

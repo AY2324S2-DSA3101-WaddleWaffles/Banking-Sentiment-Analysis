@@ -69,7 +69,7 @@ export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
         // <div style = {{ height: '100%', display: 'flex'  }}> 
         <div style = {{ display: 'flex', height: '100%'}}>
             {isLoading ? (
-                <p style = {{ textAlign: 'center'}}>Loading...</p>
+                <p style = {{ textAlign: 'center', fontFamily: 'Open Sans'}}>Loading...</p>
             ) : (
                 <LineChart 
                     // h = {280}// adjust margins after layout done!!!!!!

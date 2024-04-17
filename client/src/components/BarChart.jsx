@@ -136,7 +136,7 @@ export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
               type="stacked"
               orientation="vertical"
               yAxisProps={{ width: 100, padding: { top: 15}}}
-              xAxisProps={{ height: 100,
+              xAxisProps={{ height: 300,
                   labelProps: { weight: 100, size: 'lg' },
                   unit: "%",
                   domain: [0,100]
