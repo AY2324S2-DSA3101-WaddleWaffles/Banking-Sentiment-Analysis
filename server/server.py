@@ -30,7 +30,6 @@ cache = CacheClient()
 @app.route("/latest-day", methods=["GET"])
 def get_latest_day():
     timings = [data_manager.retrieve_miscellaneous(store, "datetime")["latestdate"] for store in ["appstore", "playstore"]]
-    print(timings)
     date_objects = [datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S") for date_str in timings]
     latest_date = max(date_objects)
     formatted_latest_date = latest_date.strftime("%d %B %Y")
@@ -54,7 +53,7 @@ def get_reviews():
     cache_key = cache.generate_key("reviews", [start_date, end_date, banks])
     reviews = cache.retrieve(cache_key)
     if reviews:
-        return reviews
+        return jsonify(reviews)
 
     reviews = []
     for bank in banks:
@@ -72,7 +71,7 @@ def get_sentiment_by_topic():
     cache_key = cache.generate_key("reviews/topics-sentiment", [start_date, end_date, banks])
     all_topic_sentiments = cache.retrieve(cache_key)
     if all_topic_sentiments:
-        return all_topic_sentiments
+        return jsonify(all_topic_sentiments)
 
     all_topic_sentiments = []
     for bank in banks:
@@ -93,7 +92,7 @@ def get_average_rating(num_months=None):
     cache_key = cache.generate_key("reviews/average-rating", [start_date, end_date, banks, topic, num_months])
     all_avg_rating = cache.retrieve(cache_key)
     if all_avg_rating:
-        return all_avg_rating
+        return jsonify(all_avg_rating)
     
     if num_months:
         end_date = datetime.now().date()
@@ -140,8 +139,9 @@ def get_latest_average_rating():
     if output:
         return output
     
+    output = get_average_rating(num_months)
     cache.update(cache_key, output)
-    return get_average_rating(num_months)
+    return output
 
 @app.route("/reviews/average-sentiment", methods=["GET"])
 def get_average_sentiment():
@@ -158,7 +158,7 @@ def get_average_sentiment():
     cache_key = cache.generate_key("reviews/average-sentiment", [start_date, end_date, banks, topic, num_months])
     all_avg_sentiment = cache.retrieve(cache_key)
     if all_avg_sentiment:
-        return all_avg_sentiment
+        return jsonify(all_avg_sentiment)
 
     all_avg_sentiment = []
 
@@ -196,7 +196,7 @@ def get_word_associations():
     cache_key = cache.generate_key("reviews/word-associations", [start_date, end_date, banks])
     all_word_assocs = cache.retrieve(cache_key)
     if all_word_assocs:
-        return all_word_assocs
+        return jsonify(all_word_assocs)
 
     all_word_assocs = []
     for bank in banks:
@@ -215,7 +215,7 @@ def get_review_counts():
     cache_key = cache.generate_key("reviews/counts", [start_date, end_date, banks])
     all_counts = cache.retrieve(cache_key)
     if all_counts:
-        return all_counts
+        return jsonify(all_counts)
 
     all_counts = []
 
@@ -225,7 +225,7 @@ def get_review_counts():
         all_counts.append(counts)
 
     cache.update(cache_key, all_counts)
-    return all_counts
+    return jsonify(all_counts)
 
 @app.route("/reviews/insights", methods=["GET"])
 def generate_insights():
@@ -241,17 +241,17 @@ def generate_insights():
     cache_key = cache.generate_key("reviews/insights", [start_date, end_date])
     insights = cache.retrieve(cache_key)
     if insights:
-        return insights
+        return jsonify({"insights": insights})
 
     topics = get_all_topics().get_json()["topics"]
     topics_data = {}
     with app.test_request_context('/reviews/average-rating', query_string=request_args):
-        general_data = json.dumps(get_average_rating().get_json())
+        general_data = get_average_rating().get_json()
 
     for topic in topics:
         request_args["topic"] = topic
         with app.test_request_context('/reviews/average-rating', query_string=request_args):
-            topic_data = json.dumps(get_average_rating().get_json())
+            topic_data = get_average_rating().get_json()
             topics_data[topic] = topic_data
     
     insights = inquirer.get_insights(general_data=general_data, topics_data=topics_data)
@@ -273,14 +273,14 @@ def generate_comparison():
     cache_key = cache.generate_key("reviews/comparison", [start_date, end_date, compared_bank])
     comparison = cache.retrieve(cache_key)
     if comparison:
-        return comparison
+        return jsonify({"comparison": comparison})
 
     topics = get_all_topics().get_json()["topics"]
     gxs_topics_data = {}
     for topic in topics:
         request_args["topic"] = topic
         with app.test_request_context('/reviews/average-rating', query_string=request_args):
-            topic_data = json.dumps(get_average_rating().get_json())
+            topic_data = get_average_rating().get_json()
             gxs_topics_data[topic] = topic_data
 
     request_args["bank"] = compared_bank
@@ -288,7 +288,7 @@ def generate_comparison():
     for topic in topics:
         request_args["topic"] = topic
         with app.test_request_context('/reviews/average-rating', query_string=request_args):
-            topic_data = json.dumps(get_average_rating().get_json())
+            topic_data = get_average_rating().get_json()
             other_bank_topics_data[topic] = topic_data
         
     comparison = inquirer.get_comparison(gxs_topics_data=gxs_topics_data, other_bank=compared_bank, other_bank_topics_data=other_bank_topics_data)
@@ -309,7 +309,7 @@ def generate_suggestions():
     cache_key = cache.generate_key("reviews/suggestions", [start_date, end_date])
     suggestions = cache.retrieve(cache_key)
     if suggestions:
-        return suggestions
+        return jsonify({"suggestions": suggestions})
 
     topics = get_all_topics().get_json()["topics"]
     topics_data = {}
@@ -317,7 +317,7 @@ def generate_suggestions():
     for topic in topics:
         request_args["topic"] = topic
         with app.test_request_context('/reviews/average-rating', query_string=request_args):
-            topic_data = json.dumps(get_average_rating().get_json())
+            topic_data = get_average_rating().get_json()
             topics_data[topic] = topic_data
     
     suggestions = inquirer.get_suggestions(topics_data=topics_data)
@@ -335,7 +335,7 @@ def get_donut_chart_data():
     cache_key = cache.generate_key("reviews/donut-chart-data", [start_date, end_date])
     data = cache.retrieve(cache_key)
     if data:
-        return data
+        return jsonify(data)
 
     reviews = data_manager.retrieve_reviews(start_date=start_date, end_date=end_date, bank=bank)
     data = data_processor.get_donut_data(reviews, start_date, end_date)
