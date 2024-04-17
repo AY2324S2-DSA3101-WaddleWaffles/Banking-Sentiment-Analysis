@@ -79,7 +79,7 @@ export default function TopWords({ selectedDateRange, refreshFlag }) {
 
   return (
     <div>
-      <h2 style={{fontWeight: 'bold', marginBottom: '5px' }}>Top Words</h2>
+      <h2 style={{fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>Top Words</h2>
       {isLoading ? (
         <p><Loader color="blue" /></p>
       ) : (
@@ -96,12 +96,12 @@ export default function TopWords({ selectedDateRange, refreshFlag }) {
                   <ThemeIcon variant="light" radius="md" size="xs" color="violet" style={{ marginRight: '10px'}}>
                     {associationIcons[association]}
                   </ThemeIcon>
-                  <span style={{ fontWeight: 'bold', textTransform: 'uppercase', marginRight: '10px', fontSize: "10px"  }}>
+                  <span style={{ fontWeight: 'bold', textTransform: 'uppercase', marginRight: '10px', fontSize: "11px"  }}>
                     {association}:
                   </span>
                   {/* Check if category has top words to show */}
                   {processedData[association] && processedData[association].length > 0 ? (
-                    <p style={{ margin: 0, fontSize: "10px", textAlign: 'left' }}>{processedData[association].map(([word]) => word.charAt(0).toUpperCase() + word.slice(1)).join(', ')}</p>
+                    <p style={{ margin: 0, fontSize: "11px", textAlign: 'left' }}>{processedData[association].map(([word]) => word.charAt(0).toUpperCase() + word.slice(1)).join(', ')}</p>
                   ) : (
                     <p style={{ fontStyle: 'italic', color: 'gray'}}>No information for this category</p>
                   )}
