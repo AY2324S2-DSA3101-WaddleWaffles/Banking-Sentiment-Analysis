@@ -28,7 +28,7 @@ class Inquirer:
         """
 
         self.model = TextGenerationModel(api_key=api_key)
-        self.insights_output = "{'Positive Insights': [Insights], 'Negative Insights': [Insights], 'Topic Insights': [Insights]}"
+        self.insights_output = "{'Positive Insights': [General Insights], 'Negative Insights': [General Insights], 'Topic Insights': [Topic-specific Insights]}"
         self.comparison_output = "{'Better Topics': {[Topic]: [Why is it better?], [Topic]: [Why is it better?], ...}, 'Worse Topics': {[Topic]: [Why is it better?], [Topic]: [Why is it better?], ...}'}"
         self.suggestions_output = "{[Topic]: [Suggestion], [Topic]: [Suggestion],...}"
 
