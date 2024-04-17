@@ -90,7 +90,9 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
                 data={processedData}
                 dataKey="date"
                 xAxisProps={{padding:{ left: 30, right: 30 }}}
-                yAxisProps={{padding:{ top: 15}, domain: [0, 6] }}
+                yAxisProps={{padding:{ top: 15}, 
+                              domain: [0, 5],
+                            ticks: [0,1,2,3,4,5] }}
                 //yAxisLabel="Rating"
                 series={selectedBanks.map((bank) => ({
                   name: bank,
@@ -232,15 +234,14 @@ const processDataForLineChart = (banksData) => {
 
 const getRandomColor = (index) => {
   const colors = [
-    '#6b6b6b', // 
-    '#a8a8a8', // Light Grey
-    '#999999', // Medium Grey
-    '#bdbdbd', // Silver
-    '#e0e0e0', // Light Silver
-    //'#757575', // Slate Grey
-    '#c0c0c0', // Grey Silver
-    '#f0f0f0', // White Smoke
+    '#6b6b6b', // Dark Grey
+    '#00bcd4', // Cyan
+    '#4caf50', // Green
+    '#ff9800', // Orange
+    '#9c27b0', // Purple
+    '#009688', // Teal
+    '#607d8b', // Blue Grey
   ];
   return colors[index % colors.length];
-
 };
+

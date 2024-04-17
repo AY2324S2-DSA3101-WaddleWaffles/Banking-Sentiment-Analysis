@@ -38,7 +38,7 @@ class TextGenerationModel:
         while not response:
             try:
                 with self.client.connect(session_id) as session:
-                    response = session.query(prompt, timeout=40, rag_config={"rag_type": "llm_only"})
+                    response = session.query(prompt, timeout=70, rag_config={"rag_type": "llm_only"})
             except Exception as e:
                 self.client.delete_chat_sessions([session_id])
                 session_id = self.client.create_chat_session()

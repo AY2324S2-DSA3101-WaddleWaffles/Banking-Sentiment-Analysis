@@ -79,7 +79,7 @@ function ChartTooltip({ label, payload, unit }) {
 
   return (
     <Paper px="md" py="sm" withBorder shadow="lg" radius="md">
-      <Text fw={500} mb={5}>
+      <Text fw={500} mb={5} style={{color: 'black'}}>
         {label}
       </Text>
       {payload.map((item) => (
