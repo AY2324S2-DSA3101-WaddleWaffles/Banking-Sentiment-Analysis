@@ -10,11 +10,10 @@ h2 {
   color:white;
   /* overflow: auto; do this if needed */
   height: calc(100vh - 100px);
-  grid-template-areas: "rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	count	count	count"
-  "rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	count	count	count"
-  "sentiment-banks	sentiment-banks	sentiment-banks	sentiment-banks	insights-banks	insights-banks	insights-banks	insights-banks"
-  "sentiment-banks	sentiment-banks	sentiment-banks	sentiment-banks	insights-banks	insights-banks	insights-banks	insights-banks"
-  ".	. . .	insights-banks	insights-banks	insights-banks	insights-banks";
+  grid-template-areas: "rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	count	count"
+  "rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	count	count"
+  "sentiment-banks	sentiment-banks	sentiment-banks	insights-banks	insights-banks	insights-banks	insights-banks	insights-banks"
+  "sentiment-banks	sentiment-banks	sentiment-banks	insights-banks	insights-banks	insights-banks	insights-banks	insights-banks";
 
 
 }
@@ -62,8 +61,8 @@ h2 {
   grid-area: insights-banks;
   flex-direction: column;
   color: white;
-  background-color: #fe6f6f;
-
+  background-color: #3c448b;
+  /*#666fc9*/
 }
 
 
