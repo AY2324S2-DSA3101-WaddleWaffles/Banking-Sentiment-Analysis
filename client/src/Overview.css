@@ -58,8 +58,6 @@ h2 {
     "ratings	ratings	ratings	insights	insights	insights"
     "ratings	ratings	ratings	insights	insights	insights"
     "ratings	ratings	ratings	insights	insights	insights";
-
-
   }
   
   .grid-item {
@@ -120,6 +118,7 @@ h2 {
     grid-area: ratings;
     flex-direction: column;
     /* padding: 10px; */
+    
   }
   
   @media (max-width: 768px) { /*originally 768}*/

@@ -48,18 +48,21 @@ function TableBanksCount({selectedDateRange, refreshFlag, setAvailableBanks }) {
   // Map over the fetched data to generate table rows
   const rows = countData.map(item => (
     <Table.Tr key={item.bank}>
-      <Table.Td>{item.bank}</Table.Td>
+      <Table.Td >{item.bank}</Table.Td>
       <Table.Td>{item.count}</Table.Td>
     </Table.Tr>
   ));
 
   return (
-    <Table highlightOnHover>
+    <Table highlightOnHover  style={{
+      "--mantine-highlighted-row-background-color": "darkblue",
+      "--mantine-highlighted-row-hover-background-color": "darkblue",
+    }}>
       <Table.Thead>
         <Table.Tr>
           {/* need to fix alignment of header */}
-          <Table.Th>Bank</Table.Th>
-          <Table.Th>Count</Table.Th>
+          <Table.Th  style={{ textAlign: 'center' }}>Bank</Table.Th>
+          <Table.Th  style={{ textAlign: 'center' }}>Count</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>{rows}</Table.Tbody>

@@ -54,6 +54,7 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
                 console.log(gxsData);
                 const averageLabel = (gxsData[0].total_rating).toFixed(1);
                 setAverageLabel(averageLabel);
+                // setAverageLabel(`${averageLabel}/5`);
             } catch (error) {
                 console.error('Error fetching label data:', error);
             }
@@ -99,6 +100,7 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
                         size = {180}
                         thickness = {27}
                         chartLabel= {averageLabel}
+                        
                         
                         
                     />

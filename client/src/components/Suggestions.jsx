@@ -136,8 +136,9 @@ const Suggestions = () => {
           throw new Error(`Network response was not ok (${response.status})`);
         }
         const apiData = await response.json();
-        const processedData = processSuggestions(apiData.suggestions);
-        setData(processedData);
+        setData(apiData);
+
+        console.log("data from suggestions:", data)
       } catch (error) {
         console.error('Fetch Error:', error);
       } finally {
@@ -154,7 +155,7 @@ const Suggestions = () => {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <div style={{ display: 'inline-block', verticalAlign: 'middle', marginBottom: '10px' }}>
           <ThemeIcon variant="light" radius="xl" size="lg" color="violet" style={{ marginRight: '5px', verticalAlign: 'middle' }}>
             <IconZoomQuestion style={{ width: '70%', height: '70%' }} />
@@ -178,7 +179,7 @@ const Suggestions = () => {
             </Accordion.Item>
           ))}
         </Accordion>
-      </div>
+      </div> */}
 
       <div style={{ display: 'inline-block', verticalAlign: 'middle', marginTop: '20px', marginBottom: '10px' }}>
         <ThemeIcon variant="light" radius="xl" size="lg" color="violet" style={{ marginRight: '5px', verticalAlign: 'middle' }}>
@@ -190,25 +191,22 @@ const Suggestions = () => {
       </div>
 
       <div>
-        <Accordion variant="contained" transitionDuration={500} style={{ textAlign: 'left' }}>
-          {Object.entries(data.suggestions).map(([category, subCategories], idx) => (
-            <Accordion.Item key={idx} value={category}>
-              <Accordion.Control style={{color: "white", backgroundColor:"#666fc9", borderRadius:"0px"}}>
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </Accordion.Control>
-              <Accordion.Panel style={{backgroundColor:"#37384a"}}>
-                {Object.entries(subCategories).map(([subCategory, content], index) => (
-                  <p key={index}><b>{subCategory}:</b> {content.split('\n').map((item, itemIndex) => <span key={itemIndex}>{item}<br/></span>)}</p>
-                ))}
-              </Accordion.Panel>
-            </Accordion.Item>
-          ))}
-        </Accordion>
+      <Accordion variant="contained" transitionDuration={500} style={{ textAlign: 'left' }}>
+        {Object.entries(data.suggestions).map(([category, content], idx) => (
+          <Accordion.Item key={idx} value={category}>
+            <Accordion.Control style={{ color: "white", backgroundColor: "#666fc9", borderRadius: "0px" }}>
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </Accordion.Control>
+            <Accordion.Panel style={{ backgroundColor: "#37384a" }}>
+              <p><b>{category}:</b> {content}</p>
+            </Accordion.Panel>
+          </Accordion.Item>
+        ))}
+      </Accordion>
+
       </div>
     </div>
   );
 };
 
 export default Suggestions;
-
-
