@@ -129,7 +129,7 @@ export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
         <p>Loading...</p>
       ) : (
           <BarChart
-              // h={280}
+              h={780}
               w='100%'
               data={filteredUseThis}
               dataKey="feature"
