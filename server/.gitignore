@@ -4,4 +4,5 @@ venv/
 *.csv
 .DS_Store
 .pytest_cache
+pytest.ini
 test.ipynb
