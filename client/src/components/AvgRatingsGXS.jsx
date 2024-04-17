@@ -87,7 +87,8 @@ export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
                         label: null
                     }}
                     yAxisProps={{
-                        domain: [0,6]
+                        domain: [0,5],
+                        ticks: [1, 2, 3, 4, 5],
                     }}
                     tooltipProps={{
                         content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
