@@ -84,7 +84,7 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
 
         <Grid gutter="md" style={{ width: '100%', height: '100%'}}>
           <Grid.Col span={10}>
-            <div style={{ padding: '0 15px', }}> {/* Add padding to the sides */}
+            <div style={{ padding: '0 15px' }}> {/* Add padding to the sides */}
               <LineChart
                 h={200}
                 data={processedData}

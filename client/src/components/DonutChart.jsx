@@ -83,12 +83,12 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
 
     // Render the component
     return (
-        <div className={classes.label}>
+        <div className={classes.label} style = {{display: 'flex', height: '100%', justifyContent: 'center'}}>
             {isLoading ? (
                 <h2>Loading...</h2>
             ) : (
                 
-                <div >
+                <div style = {{display: 'flex'}} >
                     <DonutChart 
                         data={transformedData}
                         tooltipProps={{

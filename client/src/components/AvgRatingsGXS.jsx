@@ -88,7 +88,7 @@ export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
                     xAxisProps={{
                         ticks: null,
                         label: null,
-                        padding: {right: 30, top: 30}
+                        padding: {right: 30}
                     }}
                     yAxisProps={{
                         domain: [0,5],

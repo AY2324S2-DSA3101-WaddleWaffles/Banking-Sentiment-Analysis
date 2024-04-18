@@ -76,7 +76,7 @@ h2 {
     grid-area: donut;
     align-items: center;
     margin: 0;
-    /* flex-direction: column; */
+    /* flex-direction: row; */
   }
 
   .legend {
@@ -84,6 +84,7 @@ h2 {
     margin: 0;
     justify-self: start;
     flex-direction: column;
+    display: 'flex';
   }
 
   .insights{

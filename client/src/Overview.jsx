@@ -23,9 +23,9 @@ export default function Overview({ selectedDateRange, refreshFlag}) {
             <GetNumReviews selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag }/>&nbsp;reviews
         </div> 
 
-        <div className="grid-item donut" style={{ display: 'flex'}}> 
+        <div className="grid-item donut" style={{ display: 'flex', justifyContent: 'center'}}> 
             
-            <Container size="auto">
+            <Container >
                 <DonutChartComponent selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag } />
             </Container>
             <Container size="100%">
