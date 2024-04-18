@@ -13,7 +13,7 @@ import { addDays } from 'date-fns'
 
 function App() {
   //const [activeTab, setActiveTab] = useState(0); // Set the default tab to 'Overview'
-  const [activeHeaderTab, setActiveHeaderTab] = useState('Overview'); //change this to 'Overview' when Overview is done! 
+  const [activeHeaderTab, setActiveHeaderTab] = useState('Overview'); 
   const [opened, { toggle }] = useDisclosure();
 
   //TODO decide if needed later
