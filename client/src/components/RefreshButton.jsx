@@ -6,6 +6,7 @@ const RefreshDatabase = ({ onRefresh }) => {
     const [loading, setLoading] = useState(false);
     const [lastUpdatedTime, setLastUpdatedTime] = useState(null);
     const [alreadyUpdated, setAlreadyUpdated] = useState(false);
+    const [latestDay, setlatestDay] = useState(null);
 
     
     const handleRefresh = async() => {
@@ -17,6 +18,16 @@ const RefreshDatabase = ({ onRefresh }) => {
             const data = response.data;
             const updateStatus = data.status;
             
+            const api_date = "http://127.0.0.1:5001/latest-day"
+            const response_date = await axios.get(api_date);
+            const data_date = response_date.data;
+            const latest_day = data_date.latest_day;
+            setlatestDay(latest_day);
+
+            console.log("latest_day", latest_day)
+            
+
+
             console.log(updateStatus);
 
             if (updateStatus == true){
@@ -56,6 +67,8 @@ const RefreshDatabase = ({ onRefresh }) => {
         return dateTime.toLocaleString(undefined, options)
     };
 
+    console.log("latestDay", latestDay)
+
     return (
         <div style={{ display: 'flex', alignItems: 'center'}}>
             <Button variant = "filled" color = "#666fc9" onClick = {handleRefresh} disabled={loading} style={{marginRight:"5px"}}>
@@ -64,10 +77,16 @@ const RefreshDatabase = ({ onRefresh }) => {
                 </span>
             </Button>
             {alreadyUpdated ? (
-                <p style={{ fontSize: "12px", margin: "0", color:"white", marginLeft:"10px" }}> Database is already up-to-date. </p>
+                <div>
+                    <p style={{ fontSize: "12px", margin: "0", color:"white", marginLeft:"10px" }}> Database is already up-to-date. </p>
+                    <p style={{ fontSize: "12px", margin: "0", color:"white", marginLeft:"10px"  }}>Last review as of: {latestDay}</p>
+                </div>
             ) : (
                 lastUpdatedTime && (
-                    <p style={{ fontSize: "12px", margin: "0", color:"white", marginLeft:"10px"  }}>Last updated: {formatDateTime(lastUpdatedTime)}</p>
+                    <div>
+                        <p style={{ fontSize: "12px", margin: "0", color:"white", marginLeft:"10px"  }}>Last updated: {formatDateTime(lastUpdatedTime)}</p>
+                        <p style={{ fontSize: "12px", margin: "0", color:"white", marginLeft:"10px"  }}>Last review as of: {latestDay}</p>
+                    </div>
                 )
             )}
         </div>
