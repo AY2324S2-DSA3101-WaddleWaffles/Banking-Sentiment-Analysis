@@ -69,7 +69,7 @@ export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
         // <div style = {{ height: '100%', display: 'flex'  }}> 
         <div style = {{ display: 'flex', height: '100%'}}>
             {isLoading ? (
-                <p style = {{ textAlign: 'center', fontFamily: 'Open Sans'}}>Loading...</p>
+                <p style = {{ textAlign: 'center'}}>Loading...</p>
             ) : (
                 <LineChart 
                     // h = {280}// adjust margins after layout done!!!!!!
@@ -87,8 +87,7 @@ export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
                         label: null
                     }}
                     yAxisProps={{
-                        domain: [0,5],
-                        ticks: [1, 2, 3, 4, 5],
+                        domain: [0,6]
                     }}
                     tooltipProps={{
                         content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,

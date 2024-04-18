@@ -4,7 +4,6 @@ import "./Overview.css";
 // IMPORT CHART COMPONENTS
 import TimeSeriesGXS from "./components/AvgRatingsGXS";
 import GetNumReviews from "./components/NumberOfReviews";
-import OverallGXSBySentiment from "./components/OverallGXS";
 import DonutChartComponent from "./components/DonutChart";
 import RefreshDatabase from "./components/RefreshButton";
 import SentimentByTopic from "./components/BarChart";

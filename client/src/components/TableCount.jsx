@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table } from '@mantine/core';
+import classes from './insightsComparison.module.css';
+
 
 function TableBanksCount({selectedDateRange, refreshFlag, setAvailableBanks }) {
   const [countData, setCountData] = useState(null);
@@ -15,7 +17,7 @@ function TableBanksCount({selectedDateRange, refreshFlag, setAvailableBanks }) {
   const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
 
   const api = `http://127.0.0.1:5001/reviews/counts?start-date=${formattedStartDate}&end-date=${formattedEndDate}`
-  console.log(api);
+  console.log("table api:" , api);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,10 +56,7 @@ function TableBanksCount({selectedDateRange, refreshFlag, setAvailableBanks }) {
   ));
 
   return (
-    <Table highlightOnHover  style={{
-      "--mantine-highlighted-row-background-color": "darkblue",
-      "--mantine-highlighted-row-hover-background-color": "darkblue",
-    }}>
+    <Table highlightOnHover className = {classes.custom}>
       <Table.Thead>
         <Table.Tr>
           {/* need to fix alignment of header */}
