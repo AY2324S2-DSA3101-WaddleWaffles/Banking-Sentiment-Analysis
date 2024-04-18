@@ -41,7 +41,7 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
         };
 
         fetchData();
-    }, [selectedDateRange]);
+    }, [selectedDateRange, refreshFlag]);
     console.log(transformedData);
 
     useEffect(() => {
@@ -85,7 +85,7 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
     return (
         <div className={classes.label}>
             {isLoading ? (
-                <p>Loading...</p>
+                <h2>Loading...</h2>
             ) : (
                 
                 <div >
@@ -101,13 +101,8 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
                         thickness = {27}
                         chartLabel= {averageLabel}
                         
-                        
-                        
                     />
                 </div>
-
-
-
                 
             )}
         </div>
