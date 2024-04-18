@@ -46,6 +46,7 @@ class DatabaseUpdater:
         print(".............RUNNING TOPIC MODEL..............")
         topics = self.topic_model.get_topic(new_reviews["review"].to_list())
         new_reviews["topic"] = topics["Predicted Topic"]
+        new_reviews = new_reviews[new_reviews["topic"] != "Not Applicable"]
 
         print(".............RUNNING EXPLAINER MODEL..............")
         associations = [list(dict.fromkeys(self.explainer.get_keywords(new_reviews.iloc[i]["review"], new_reviews.iloc[i]["sentiment"])))[:3] for i in range(new_reviews.shape[0])]
