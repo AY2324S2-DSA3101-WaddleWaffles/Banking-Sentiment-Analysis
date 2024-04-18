@@ -1,3 +1,4 @@
 .custom tbody tr:hover {
     background-color: rgba(251, 251, 251, 0.165);
+    overflow: auto;
 }

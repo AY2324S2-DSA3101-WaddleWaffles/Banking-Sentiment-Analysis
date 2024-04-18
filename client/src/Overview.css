@@ -32,23 +32,13 @@ h2 {
     color: black;
     font-size: 10px;
   }
-  
-  .yAxesLabels{
-    /*position: absolute;*/
-    top: 10%; /* Position at the vertical center */
-    left: 0; /* Position at the left edge */
-    transform-origin: top left; /* Rotate around top-left corner */
-    transform: rotate(-90deg) translateX(-30%); /* Rotate 90 degrees to the left and shift to the left */
-    white-space: nowrap; /* Prevent text from wrapping */
-    left: 2%;
-  }
     
   .grid-container-overview {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: auto;
     grid-gap: 15px;
-    overflow: auto;
+    /* overflow: auto; */
     height: calc(100vh - 100px);
     grid-template-areas: "number	number	topic	topic	topic	topic"
     "donut	donut	topic	topic	topic	topic"
@@ -86,7 +76,7 @@ h2 {
     grid-area: donut;
     align-items: center;
     margin: 0;
-    /* flex-direction: column; */
+    /* flex-direction: row; */
   }
 
   .legend {
@@ -94,13 +84,15 @@ h2 {
     margin: 0;
     justify-self: start;
     flex-direction: column;
+    display: 'flex';
   }
 
   .insights{
     grid-area: insights;
-    flex-direction: column;
-    /* height: auto; 
-    width: auto; */
+    /* flex-direction: column; */
+    height: auto; 
+    /*width: auto; */
+    overflow: hidden;
 
   }
   
@@ -118,6 +110,7 @@ h2 {
     grid-area: ratings;
     flex-direction: column;
     /* padding: 10px; */
+    overflow: hidden;
     
   }
   

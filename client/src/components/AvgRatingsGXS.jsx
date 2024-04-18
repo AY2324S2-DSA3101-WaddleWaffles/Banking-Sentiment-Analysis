@@ -56,6 +56,9 @@ export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
 
         fetchData();
     }, [selectedDateRange, refreshFlag]);
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     // test function
     // const processedData = processDataForLine(avgData);
@@ -67,10 +70,10 @@ export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
     return (
         // <div style = {{ marginTop: '20px', padding: '10px', position: 'relative'  }}> 
         // <div style = {{ height: '100%', display: 'flex'  }}> 
-        <div style = {{ display: 'flex', height: '100%'}}>
-            {isLoading ? (
-                <p style = {{ textAlign: 'center'}}>Loading...</p>
-            ) : (
+        <div style = {{ display: 'flex', height: '100%', justifyContent: 'center'}}>
+            {/* {isLoading ? (
+                <p style = {{ marginLeft: '550px' }}>Loading...</p>
+            ) : ( */}
                 <LineChart 
                     // h = {280}// adjust margins after layout done!!!!!!
                     w = '100%'
@@ -84,16 +87,18 @@ export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
                     connectNulls
                     xAxisProps={{
                         ticks: null,
-                        label: null
+                        label: null,
+                        padding: {right: 30}
                     }}
                     yAxisProps={{
-                        domain: [0,6]
+                        domain: [0,5],
+                        ticks: [0, 1, 2, 3, 4, 5],
                     }}
                     tooltipProps={{
                         content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
                     }}
                 />
-            )}
+            
         </div>
     )
 
