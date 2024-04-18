@@ -2,12 +2,24 @@ import React, { useState, useEffect } from 'react';
 
 import { Badge, Blockquote, Loader, Rating } from "@mantine/core";
 import { IconMoodAngry, IconMoodNeutral, IconMoodHappy } from '@tabler/icons-react';
+import TopicFilterPR from './TopicFilterPR'
 
 
 export default function OriginalComments({ selectedDateRange, refreshFlag }) {
   // First, fetch data ◍•ᴗ•◍
   const [commentsData, setCommentsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [features_listPR, setFeaturesListPR] = useState([]); //features_list from data
+  const [ selectedFeaturesPR, setselectedFeaturesPR] = useState([]); //selected features from TopicFilter
+
+  //this is used in filtering
+  const handleFeaturesChangePR = (ftrPR) => {
+    if (selectedFeaturesPR.includes(ftrPR)) {
+      setselectedFeaturesPR(selectedFeaturesPR.filter((selectedFeaturesPR) => selectedFeaturesPR !== ftrPR));
+    } else {
+      setselectedFeaturesPR([...selectedFeaturesPR, ftrPR]);
+    }
+  };
 
   useEffect(() => {
     // Convert date range into the required DD-MM-YYYY formart
@@ -35,9 +47,19 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
         }
 
         const data = await response.json();
-        console.log("Data from Original comments", data)
+        //console.log("Data from Original comments", data)
         setCommentsData(data);
         
+        //extracting list of topics in the time period
+        const topics = [...new Set(data.flatMap(item => item.topic))];
+        setFeaturesListPR(topics);
+        topics.forEach(featurePR => {
+          if (!selectedFeaturesPR.includes(featurePR)) {
+            setselectedFeaturesPR(selectedFeaturesPR => [...selectedFeaturesPR, featurePR]);
+          }
+         });
+
+         //console.log("topics:", topics)
 
       } catch (error) {
         console.error('Fetch Error:', error);
@@ -53,11 +75,14 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
 
 
   // Sort commentsData by date in descending order (most recent first)
-  const sortedCommentsData = commentsData.slice().sort((a, b) => {
+  const sortedCommentsDataDate = commentsData.slice().sort((a, b) => {
     const dateA = new Date(a.year, a.month - 1, a.day);
     const dateB = new Date(b.year, b.month - 1, b.day);
     return dateB - dateA;
   });
+
+  const sortedCommentsData = sortedCommentsDataDate.filter(item => selectedFeaturesPR.includes(item.topic));
+
 
   // Assign different icons for different review sentiment
   const getSentimentIcon = (sentiment) => {
@@ -101,13 +126,15 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
       ) : sortedCommentsData.length > 0 ? (
         <>
           {/* Legend for the colors of blockquotes */}
-          <p style={{ fontSize: '12px', fontWeight: 'bold', display: 'flex', justifyContent: 'flex-end', marginRight:'50px' }}>
+          <p style={{ fontSize: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight:'50px' }}>
+            
             <Badge size="xs" circle color="red"></Badge>
             <span style={{ marginLeft: '5px' }}>Negative</span>
             <Badge size="xs" circle color="yellow" style={{ marginLeft: '10px' }}></Badge>
             <span style={{ marginLeft: '5px' }}>Neutral</span>
             <Badge size="xs" circle color="green" style={{ marginLeft: '10px' }}></Badge>
             <span style={{ marginLeft: '5px' }}>Positive</span>
+            <TopicFilterPR  handleFeaturesChangePR={handleFeaturesChangePR} selectedFeaturesPR={selectedFeaturesPR} features_listPR = {features_listPR}/>
           </p>
 
           {/* Blockquotes shows these info of each review: topic being reviews, review content, review date  */}

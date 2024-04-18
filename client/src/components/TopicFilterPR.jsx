@@ -8,20 +8,20 @@ import { IconFilter } from '@tabler/icons-react';
 
 
 
-const SelectTopics = ({handleFeaturesChange, selectedFeatures, features_list}) => {
-    // console.log("Features_list in SelectTopics:", features_list)    
-    // console.log("selectedFeatures in SelectTopics:", selectedFeatures)
-    // console.log("Type of handleFC in SelectTopics:", typeof handleFeaturesChange)
+const SelectTopicsPR = ({handleFeaturesChangePR, selectedFeaturesPR, features_listPR}) => {
+    // console.log("Features_list in SelectTopics:", features_listPR)    
+    // console.log("selectedFeatures in SelectTopics:", selectedFeaturesPR)
+    // console.log("Type of handleFC in SelectTopics:", typeof handleFeaturesChangePR)
     
     return (
         <div>
-            {features_list && features_list.map((feature)  => (
+            {features_listPR && features_listPR.map((featurePR)  => (
                 <Checkbox
                     defaultChecked
-                    key={feature}
-                    label = {feature}
-                    onClick={() => handleFeaturesChange(feature) }
-                    color={selectedFeatures.includes(feature) ? 'white' : 'gray'} // Assuming you have selectedFeatures state to track selected features
+                    key={featurePR}
+                    label = {featurePR}
+                    onClick={() => handleFeaturesChangePR(featurePR) }
+                    color={selectedFeaturesPR.includes(featurePR) ? 'white' : 'gray'} // Assuming you have selectedFeatures state to track selected features
                     variant="outline"
                     size="xs"
                     style={{ 
@@ -44,8 +44,8 @@ const SelectTopics = ({handleFeaturesChange, selectedFeatures, features_list}) =
 };
 
 
-export default function TopicFilter({handleFeaturesChange, selectedFeatures, features_list}) {
-    console.log("Type of features_list in SimgplePopup: ",typeof features_list)
+export default function TopicFilterPR({handleFeaturesChangePR, selectedFeaturesPR, features_listPR}) {
+    //console.log("Type of features_list in SimgplePopup: ",typeof features_listPR)
     
     // Set state for opening and closing of popup
     const [anchor, setAnchor] = React.useState(null);
@@ -89,18 +89,18 @@ export default function TopicFilter({handleFeaturesChange, selectedFeatures, fea
     };
     }, [])
 
-    const icon = <IconFilter size={20} />;
+    const icon = <IconFilter size={25} />;
     return (
-        <div >
-            <Button aria-describedby={id} type="button" onClick={handleClick} variant="outline" style={{ color:"white", border: 'none'}}>
+        <div style={{marginLeft: '10px'}}>
+            <Button aria-describedby={id} type="button" onClick={handleClick} variant="outline" style={{ color:"white", border: 'none', padding: '1px'}}>
                 {/* Filter */}
                 {icon}
             </Button>
             <div >
                 <BasePopup id={id} open={open} anchor={anchor} ref={refOne}>
-                    <PopupBody style={{backgroundColor: '#444557'}}>
-                        <SelectTopics handleFeaturesChange={handleFeaturesChange} selectedFeatures={selectedFeatures} features_list = {features_list}/>
-                    </PopupBody>
+                    <PopupBodyPR style={{backgroundColor: '#444557'}}>
+                        <SelectTopicsPR handleFeaturesChangePR={handleFeaturesChangePR} selectedFeaturesPR={selectedFeaturesPR} features_listPR = {features_listPR}/>
+                    </PopupBodyPR>
                 </BasePopup>
             </div>
         </div>
@@ -129,7 +129,7 @@ const blue = {
     700: '#0066CC',
 };
 
-const PopupBody = styled('div')(
+const PopupBodyPR = styled('div')(
     ({ theme }) => `
     // width: 500px;
     // height: 50px;
