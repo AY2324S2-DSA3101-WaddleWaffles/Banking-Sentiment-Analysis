@@ -53,75 +53,82 @@ export default function GetInsights(refreshFlag) {
     //     )
     // };
 
-    // const rows = finalData && finalData.map((element) => (
-    //     <Table.Tr key = {element.group}>
-    //         <Table.Td style = {{ textAlign: 'left', fontFamily:'Open Sans' }}>{element.group}</Table.Td>
-    //         <Table.Td style = {{ textAlign: 'left', fontFamily: 'Open Sans'}}>
-    //             <ul>
-    //                 {element.insights.split('\n').map((insights, index) => (
-    //                     <li key={index}>{insights.substring(2)}</li> // to remove asterisk
-    //                 ))}
-    //             </ul>
-    //         </Table.Td>
-    //     </Table.Tr>
-    // ));
-    // console.log(rows);
+    const rows = finalData && finalData.map((element) => (
+        <Table.Tr key = {element.group}>
+            <Table.Td style = {{ textAlign: 'left', fontFamily:'Open Sans' }}>{element.group}</Table.Td>
+            <Table.Td style = {{ textAlign: 'left', fontFamily: 'Open Sans'}}>
+                {/* <ul>
+                    {element.insight.split('•').filter(line => line.trim() !== "").map((line, index) => (
+                        <li key={index}>{line.trim()}</li>
+                    ))}
+                </ul> */}
+                <ul>
+                    {element.insight.split('\n').map((bulletPoint, index) => (
+                    <li key={index}>
+                        {bulletPoint.trim().endsWith('.') ? bulletPoint.trim() : `${bulletPoint.trim()}.`}
+                    </li>
+                    ))}
+                </ul>
+            </Table.Td>
+        </Table.Tr>
+    ));
+    console.log(rows);
 
     // UNCOMMENT AFTER BACKEND CONFIRM
-    // return (
-    //     <div style = {{display: 'flex', height: '100%'}}>
-    //         {isLoading ? (
-    //             <p> Generating insights... It might take a while...</p> // placeholder
-    //         ) : (
-    //             <ScrollArea h={300}>
-    //                 <Table highlightOnHover className = {classes.custom}>
-    //                     <Table.Thead>
-    //                         <Table.Tr>
-    //                             <Table.Th style = {{textAlign: 'center', fontFamily: 'Open Sans'}}>Insight Group</Table.Th>
-    //                             <Table.Th style = {{textAlign: 'center', fontFamily: 'Open Sans'}}>Generated Insights</Table.Th>
-    //                         </Table.Tr>
-    //                     </Table.Thead>
-    //                     <Table.Tbody>{rows}</Table.Tbody>
-    //                 </Table>
-    //             </ScrollArea>
+    return (
+        <div style = {{display: 'flex', height: '100%'}}>
+            {/* {isLoading ? (
+                <p> Generating insights... It might take a while...</p> // placeholder
+            ) : ( */}
+                <ScrollArea h='100%'>
+                    <Table highlightOnHover className = {classes.custom}>
+                        <Table.Thead>
+                            <Table.Tr>
+                                <Table.Th style = {{textAlign: 'center', fontFamily: 'Open Sans'}}>Insight Group</Table.Th>
+                                <Table.Th style = {{textAlign: 'center', fontFamily: 'Open Sans'}}>Generated Insights</Table.Th>
+                            </Table.Tr>
+                        </Table.Thead>
+                        <Table.Tbody>{rows}</Table.Tbody>
+                    </Table>
+                </ScrollArea>
                     
-    //     )}
-    //     </div>
+        {/* )} */}
+        </div>
     
     // declare icons
-    const sadIcon = <IconMoodSad size={22} />;
-    const happyIcon = <IconMoodSmileBeam size = {22} />;
+    // const sadIcon = <IconMoodSad size={22} />;
+    // const happyIcon = <IconMoodSmileBeam size = {22} />;
 
-    // comment out AFTER BACKEND CFM
-    return (
-        <div>
-            <ScrollArea h = '100%'>
-                <h2 style = {{fontSize: '22px', textAlign: 'left', fontWeight: 'bold', marginLeft:'20px'}}> {sadIcon}&nbsp;Negative Insights</h2>
-                <Table highlightOnHover className = {classes.custom}>
-                    <Table.Thead>
-                        <Table.Tr>
-                            <Table.Th style = {{ textAlign: 'center', fontFamily: 'Open Sans'}}>Topic</Table.Th>
-                            <Table.Th style = {{ textAlign: 'center', fontFamily: 'Open Sans'}}>Generated Insights</Table.Th>
-                        </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>{negativeRows}</Table.Tbody>
-                </Table>
+    // // comment out AFTER BACKEND CFM
+    // return (
+    //     <div>
+    //         <ScrollArea h = '100%'>
+    //             <h2 style = {{fontSize: '22px', textAlign: 'left', fontWeight: 'bold', marginLeft:'20px'}}> {sadIcon}&nbsp;Negative Insights</h2>
+    //             <Table highlightOnHover className = {classes.custom}>
+    //                 <Table.Thead>
+    //                     <Table.Tr>
+    //                         <Table.Th style = {{ textAlign: 'center', fontFamily: 'Open Sans'}}>Topic</Table.Th>
+    //                         <Table.Th style = {{ textAlign: 'center', fontFamily: 'Open Sans'}}>Generated Insights</Table.Th>
+    //                     </Table.Tr>
+    //                 </Table.Thead>
+    //                 <Table.Tbody>{negativeRows}</Table.Tbody>
+    //             </Table>
             
-                <h2 style = {{fontSize: '22px', textAlign: 'left', fontWeight: 'bold', marginLeft:'20px'}}> {happyIcon}&nbsp;Positive Insights</h2>
-                <Table highlightOnHover className = {classes.custom}>
-                    <Table.Thead>
-                        <Table.Tr>
-                            <Table.Th style = {{ textAlign: 'center', fontFamily: 'Open Sans'}}>Topic</Table.Th>
-                            <Table.Th style = {{ textAlign: 'center', fontFamily: 'Open Sans'}}>Generated Insights</Table.Th>
-                        </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>{positiveRows}</Table.Tbody>
-                </Table>
-            </ScrollArea>
-        </div>
-    );
+    //             <h2 style = {{fontSize: '22px', textAlign: 'left', fontWeight: 'bold', marginLeft:'20px'}}> {happyIcon}&nbsp;Positive Insights</h2>
+    //             <Table highlightOnHover className = {classes.custom}>
+    //                 <Table.Thead>
+    //                     <Table.Tr>
+    //                         <Table.Th style = {{ textAlign: 'center', fontFamily: 'Open Sans'}}>Topic</Table.Th>
+    //                         <Table.Th style = {{ textAlign: 'center', fontFamily: 'Open Sans'}}>Generated Insights</Table.Th>
+    //                     </Table.Tr>
+    //                 </Table.Thead>
+    //                 <Table.Tbody>{positiveRows}</Table.Tbody>
+    //             </Table>
+    //         </ScrollArea>
+    //     </div>
+    // );
 
-}; // END OF MAIN FUNCTION
+)}; // END OF MAIN FUNCTION
 
 
 // BEFORE API DATA FORMAT WAS CHANGED
@@ -169,114 +176,28 @@ export default function GetInsights(refreshFlag) {
 //   }; // END OF FUNCTION
 
 
-
 const newData = {
     "insights": {
-      "Negative Insights": [
-        {
-          "insight": "The overall rating dropped significantly from 5.0 in November 2022 to 2.0 in January 2023, then partially recovered to 3.0 in January 2024.",
-          "topic": "overall"
-        },
-        {
-          "insight": "Login ratings started at 3.0 in May 2023, then dropped to 1.0 in April 2024, indicating customer dissatisfaction.",
-          "topic": "login"
-        },
-        {
-          "insight": "Functions ratings have been low, with only a few peaks, such as 5.0 in October 2022 and December 2023, and 4.5 in January 2024.",
-          "topic": "functions"
-        },
-        {
-          "insight": "Stability ratings have been inconsistent, with a drop to 1.0 in August and September 2023, followed by an increase to 5.0 in November 2023.",
-          "topic": "stability"
-        },
-        {
-          "insight": "Security ratings had a considerable drop in January 2023 (1.333), recovering gradually to 3.0 in January 2024.",
-          "topic": "security"
-        }
-      ],
-      "Positive Insights": [
-        {
-          "insight": "The overall rating has slightly decreased from 2.864 in December 2022 to 2.8 in April 2024.",
-          "topic": "overall"
-        },
-        {
-          "insight": "The interface ratings have been consistently high, with a peak of 5.0 in November 2022 and December 2022, and a slight decrease to 1.5 in September 2023.",
-          "topic": "interface"
-        },
-        {
-          "insight": "Service ratings have shown improvement, with a significant increase from 1.0 in April 2023 to 4.5 in April 2024.",
-          "topic": "service"
-        },
-        {
-          "insight": "Speed ratings have improved significantly, with a peak of 5.0 in June, October, and November 2023, and March 2024.",
-          "topic": "speed"
-        },
-        {
-          "insight": "Security ratings have had some positive periods, such as 5.0 in October 2022 and 4.333 in December 2022, but also experienced a drop in January 2023 (1.333) and July 2023 (3.0). However, they have recovered and reached 3.0 in January 2024.",
-          "topic": "security"
-        },
-        {
-          "insight": "Notifications ratings were 1.0 in May, July, and August 2023, and March 2024, indicating customer satisfaction.",
-          "topic": "notifications"
-        },
-        {
-          "insight": "Update ratings have been generally good, with a peak of 5.0 in October 2022 and June 2023, and a slight decrease to 3.0 in February 2024.",
-          "topic": "update"
-        }
-      ]
+      "Negative Insights": "The bank's overall rating has seen a significant decline since January 2023, with an average rating of 2.864 out of 5. This drop is primarily due to the decrease in ratings for security, speed, and service. The security ratings have been particularly low, with an average rating of 2.033 out of 5. The speed of the application has also been inconsistent, with an average rating of 3.714 out of 5.",
+      "Positive Insights": "The bank's interface has received high ratings, with an average rating of 3.965 out of 5. The application's stability and update ratings have been consistently high, with averages of 3.5 and 3.083 respectively. The functions of the application have also shown improvement towards the end of the period, with an average rating of 5.0 in December 2023 and January 2024.",
+      "Topic Insights": "The bank's notification system has the lowest average rating of 1.0 out of 5, indicating a need for improvement. The login ratings have also been relatively low, with an average rating of 1.429 out of 5. However, there has been a slight improvement towards the end of the period. The service ratings have seen a significant drop in April 2024, with a rating of 4.5, but have been generally low throughout the period."
     }
-  };
+  }
 
-function capitalizeKeys(obj) { // input will be jsonData.insights
-if (typeof obj !== 'object' || obj === null) {
-    return obj;
+
+const processDataForInsights = (inputData) => {
+    const formattedInsights = Object.entries(inputData.insights).map(([key, value]) => ({
+        group: key.split(' ')[0],
+        insight: value
+    }));
+
+    const bulletPoints = formattedInsights.map(insight => ({
+        group: insight.group,
+        insight: insight.insight.split('. ').map(sentence => `${sentence.trim()}`).join('\n')
+    }))
+
+    return bulletPoints;
 }
 
-const finalData = Array.isArray(obj) ? [] : {};
-
-for (let key in obj) {
-    const newKey = key.charAt(0).toUpperCase() + key.slice(1);
-    let topic = obj[key];
-    if (typeof topic === 'string') {
-    topic = topic.charAt(0).toUpperCase() + topic.slice(1);
-    }
-    finalData[newKey] = capitalizeKeys(topic);
-}
-
-return finalData;
-}
-
-// testing
-newData.insights = capitalizeKeys(newData.insights); // modify in place
-console.log(newData); // CORRECT
-
-// put upstairs
-// save negative insights into object
-let capitalizedInsights = newData.insights;
-let negativeInsights = capitalizedInsights["Negative Insights"]
-console.log(negativeInsights);
-
-// save positive insights into object
-let positiveInsights = capitalizedInsights["Positive Insights"];
-console.log(positiveInsights);
-
-
-// NEW ROWS
-const negativeRows = negativeInsights && negativeInsights.map((element) => (
-    <Table.Tr key = {element.Topic}>
-        <Table.Td style = {{ textAlign: 'left', fontFamily:'Open Sans' }}>{element.Topic}</Table.Td>
-        <Table.Td style = {{ textAlign: 'left', fontFamily: 'Open Sans'}}>{element.Insight}
-        </Table.Td>
-    </Table.Tr>
-));
-console.log(negativeRows);
-
-
-const positiveRows = positiveInsights && positiveInsights.map((element) => (
-    <Table.Tr key = {element.Topic}>
-        <Table.Td style = {{ textAlign: 'left', fontFamily:'Open Sans' }}>{element.Topic}</Table.Td>
-        <Table.Td style = {{ textAlign: 'left', fontFamily: 'Open Sans'}}>{element.Insight}
-        </Table.Td>
-    </Table.Tr>
-));
-console.log(positiveRows);
+const finalData = processDataForInsights(newData);
+console.log(finalData);
