@@ -197,8 +197,7 @@ const processDataForLineChart = (banksData) => {
         const [startDateString, _] = period.split(' - ');
         const [startDay, startMonth, startYear] = startDateString.split(' ');
         const monthAbbreviated =  startMonth.substring(0, 3);
-        const yearShortened = startYear.substring(2,4);
-        dateString = `${startDay} ${monthAbbreviated} ${yearShortened}`;
+        dateString = `${startDay} ${monthAbbreviated}`;
       } else { 
         const [month, year] = period.split(' ');
         const monthAbb = month.substring(0,3);

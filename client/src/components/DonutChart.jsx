@@ -30,7 +30,7 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
                 const jsonData = await response.json();
                 const transformedData = jsonData.map(item => ({
                     ...item,
-                    value: item.value * 100
+                    value: Math.round((item.value * 100)*10)/10
                 }));
                 setTransformedData(transformedData);
             } catch (error) {

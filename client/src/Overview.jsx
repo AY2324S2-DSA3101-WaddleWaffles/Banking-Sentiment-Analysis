@@ -52,7 +52,7 @@ export default function Overview({ selectedDateRange, refreshFlag}) {
         </div>
 
 
-        <div className="grid-item topic">
+        <div className="grid-item topic" style = {{ display: 'flex', justifyContent: 'center'}}>
             {/* <Container size = "100%" >
                 <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginTop: '-10px'}}> Time-Series Analysis of Average Ratings  </h2>
                 <TimeSeriesGXS selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag }/>  
