@@ -202,7 +202,7 @@ const processDataForLineChart = (banksData) => {
       } else { 
         const [month, year] = period.split(' ');
         const monthAbb = month.substring(0,3);
-        dateString = `${monthAbb} ${year}`;
+        dateString = `${monthAbb}`;
       }
 
       // Parse the date from the period

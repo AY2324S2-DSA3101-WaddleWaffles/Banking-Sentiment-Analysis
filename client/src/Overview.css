@@ -98,9 +98,9 @@ h2 {
 
   .insights{
     grid-area: insights;
-    flex-direction: column;
-    /* height: auto; 
-    width: auto; */
+    /* flex-direction: column; */
+    height: auto; 
+    /*width: auto; */
 
   }
   
