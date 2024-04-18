@@ -10,7 +10,7 @@ export default function NewProductReviews({ selectedDateRange, refreshFlag }) {
   console.log("reviews page date:", selectedDateRange);
   
   return (
-    <Container size="100%" className="grid-container-pd">
+    <Container size="100%" className="grid-container-pd" >
       
       <div className ="grid-item-pr original"> 
           <OriginalComments selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag}/>

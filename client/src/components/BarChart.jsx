@@ -129,14 +129,14 @@ export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
         <p>Loading...</p>
       ) : (
           <BarChart
-              h={780}
+              // h={780}
               w='100%'
               data={filteredUseThis}
               dataKey="feature"
               type="stacked"
               orientation="vertical"
-              yAxisProps={{ width: 100, padding: { top: 15}}}
-              xAxisProps={{ height: 300,
+              yAxisProps={{ width: 100, padding: { top: 5 }}}
+              xAxisProps={{
                   labelProps: { weight: 100, size: 'lg' },
                   unit: "%",
                   domain: [0,100]
