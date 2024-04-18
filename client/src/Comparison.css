@@ -45,7 +45,7 @@ h2 {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #024781;
+  background-color: #102c6562;
   color: white;
 }
 
@@ -61,7 +61,7 @@ h2 {
   grid-area: insights-banks;
   flex-direction: column;
   color: white;
-  background-color: #3c448b;
+  background-color: #3c448baf;
   /*#666fc9*/
 }
 

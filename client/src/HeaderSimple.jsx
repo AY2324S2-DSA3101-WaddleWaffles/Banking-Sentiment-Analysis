@@ -11,7 +11,7 @@ export function HeaderSimple({ onDateRangeChange, onRefresh}) {
         
 
         {/* for the logo and heading */}
-        <Container style={{ display: "flex", justifyContent: "center", alignItems: "center", marginRight: "50px"}}>
+        <Container style={{ display: "flex", justifyContent: "center", alignItems: "center", marginRight: "50px", fontFamily: 'Roboto'}}>
           <div>
               <img src={gxslogo} alt="GXS Bank logo" style={{width: "50px", height: "auto"}}/>
           </div>
@@ -22,7 +22,7 @@ export function HeaderSimple({ onDateRangeChange, onRefresh}) {
         </Container>
 
         {/* for the tabs */}
-        <div style={{marginRight: "100px"}}>
+        <div style={{marginRight: "100px", fontFamily: 'Roboto'}}>
             Filter by Date:  <DateFilter onDateRangeChange={onDateRangeChange}  />
         </div>
 

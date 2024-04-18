@@ -30,7 +30,7 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
                 const jsonData = await response.json();
                 const transformedData = jsonData.map(item => ({
                     ...item,
-                    value: item.value * 100
+                    value: Math.round((item.value * 100)*10)/10
                 }));
                 setTransformedData(transformedData);
             } catch (error) {
@@ -41,7 +41,7 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
         };
 
         fetchData();
-    }, [selectedDateRange]);
+    }, [selectedDateRange, refreshFlag]);
     console.log(transformedData);
 
     useEffect(() => {
@@ -83,12 +83,12 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
 
     // Render the component
     return (
-        <div className={classes.label}>
+        <div className={classes.label} style = {{display: 'flex', height: '100%', justifyContent: 'center'}}>
             {isLoading ? (
-                <p>Loading...</p>
+                <h2>Loading...</h2>
             ) : (
                 
-                <div >
+                <div style = {{display: 'flex'}} >
                     <DonutChart 
                         data={transformedData}
                         tooltipProps={{
@@ -101,13 +101,8 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
                         thickness = {27}
                         chartLabel= {averageLabel}
                         
-                        
-                        
                     />
                 </div>
-
-
-
                 
             )}
         </div>
