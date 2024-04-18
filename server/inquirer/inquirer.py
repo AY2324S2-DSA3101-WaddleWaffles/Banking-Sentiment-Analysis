@@ -59,7 +59,12 @@ class Inquirer:
 
         insights = self.model.generate(full_prompt)
 
-        return self.convert_json(insights)
+        json_insights = self.convert_json(insights)
+
+        if type(json_insights["Topic Insights"]) == dict:
+            json_insights["Topic Insights"] = " ".join([value for value in json_insights["Topic Insights"].values()])
+
+        return json_insights
     
     def get_comparison(self, gxs_topics_data, other_bank, other_bank_topics_data):
         """
