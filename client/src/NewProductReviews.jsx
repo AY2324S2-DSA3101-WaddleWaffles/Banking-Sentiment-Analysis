@@ -22,7 +22,7 @@ export default function NewProductReviews({ selectedDateRange, refreshFlag }) {
       </div>
       
       <div className="grid-item-pr suggestion"> 
-        <Suggestions/>
+        <Suggestions selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag}/>
       </div> 
     </Container>
   );

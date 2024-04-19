@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 import { Badge, Blockquote, Loader, Rating } from "@mantine/core";
 import { IconMoodAngry, IconMoodNeutral, IconMoodHappy } from '@tabler/icons-react';
-import TopicFilterPR from './TopicFilterPR'
-
+import TopicFilterPR from './TopicFilterPR';
 
 export default function OriginalComments({ selectedDateRange, refreshFlag }) {
   // First, fetch data ◍•ᴗ•◍
@@ -52,12 +50,9 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
         
         //extracting list of topics in the time period
         const topics = [...new Set(data.flatMap(item => item.topic))];
-        setFeaturesListPR(topics);
-        topics.forEach(featurePR => {
-          if (!selectedFeaturesPR.includes(featurePR)) {
-            setselectedFeaturesPR(selectedFeaturesPR => [...selectedFeaturesPR, featurePR]);
-          }
-         });
+        const sortedTopics = topics.sort((a, b) => a.localeCompare(b)); // Sort topics alphabetically
+        setFeaturesListPR(sortedTopics);
+        setselectedFeaturesPR(sortedTopics); // Set selected features to all features initially
 
          //console.log("topics:", topics)
 
@@ -121,23 +116,22 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
       <h2 style={{ fontSize: '25px', fontWeight: 'bold', marginBottom: '10px' }}>
         Reviews
       </h2>
+      {/* Render badges and filter outside of loading and data display sections */}
+      <p style={{ fontSize: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight:'10px' }}>
+        <Badge size="xs" circle color="red"></Badge>
+        <span style={{ marginLeft: '5px' }}>Negative</span>
+        <Badge size="xs" circle color="yellow" style={{ marginLeft: '10px' }}></Badge>
+        <span style={{ marginLeft: '5px' }}>Neutral</span>
+        <Badge size="xs" circle color="green" style={{ marginLeft: '10px' }}></Badge>
+        <span style={{ marginLeft: '5px' }}>Positive</span>
+        <TopicFilterPR handleFeaturesChangePR={handleFeaturesChangePR} selectedFeaturesPR={selectedFeaturesPR} features_listPR={features_listPR} />
+      </p>
+
       {isLoading ? (
-        <p><Loader color="blue" />;</p>
+        <p><Loader color="blue" /></p>
       ) : sortedCommentsData.length > 0 ? (
         <>
-          {/* Legend for the colors of blockquotes */}
-          <p style={{ fontSize: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight:'50px' }}>
-            
-            <Badge size="xs" circle color="red"></Badge>
-            <span style={{ marginLeft: '5px' }}>Negative</span>
-            <Badge size="xs" circle color="yellow" style={{ marginLeft: '10px' }}></Badge>
-            <span style={{ marginLeft: '5px' }}>Neutral</span>
-            <Badge size="xs" circle color="green" style={{ marginLeft: '10px' }}></Badge>
-            <span style={{ marginLeft: '5px' }}>Positive</span>
-            <TopicFilterPR  handleFeaturesChangePR={handleFeaturesChangePR} selectedFeaturesPR={selectedFeaturesPR} features_listPR = {features_listPR}/>
-          </p>
-
-          {/* Blockquotes shows these info of each review: topic being reviews, review content, review date  */}
+          {/* Data display section */}
           {sortedCommentsData.map((comment, index) => (
             <Blockquote
               className="small-blockquote"
@@ -149,10 +143,10 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
               style={{ marginBottom: '10px', marginLeft:'10px' }} 
             >
               <div style={{ marginBottom: '5px' }}> 
-              <Badge color={getSentimentColor(comment.sentiment)}>{comment.topic}</Badge>
+                <Badge color={getSentimentColor(comment.sentiment)}>{comment.topic}</Badge>
               </div>
               <div style={{ marginBottom: '5px' }}> 
-              <Rating value={comment.rating} fractions={2} readOnly />
+                <Rating value={comment.rating} fractions={2} readOnly />
               </div>
               {comment.review}
             </Blockquote>
@@ -161,7 +155,6 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
         </>
       ) : (
         <div>
-          {/* If there are no review found, show this instead */}
           <p>No reviews found for the selected date range.</p>
         </div>
       )}
