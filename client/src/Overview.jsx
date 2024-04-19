@@ -1,5 +1,7 @@
-import { Container, Badge } from "@mantine/core";
+import { Container, Badge, Popover, Button, Text} from "@mantine/core";
 import "./Overview.css";
+import { useDisclosure } from '@mantine/hooks';
+import {IconInfoSquareRounded} from '@tabler/icons-react';
 
 // IMPORT CHART COMPONENTS
 import TimeSeriesGXS from "./components/AvgRatingsGXS";
@@ -16,6 +18,8 @@ export default function Overview({ selectedDateRange, refreshFlag}) {
 
     // declare star icon as a variable
     const starIcon = <IconStar size = {13} />;
+    const [opened, { close, open }] = useDisclosure(false); //for info popup
+    const icon = <IconInfoSquareRounded size={20} />;
 
   return (
     <Container size="100%" height="100%" className="grid-container-overview">
@@ -58,8 +62,30 @@ export default function Overview({ selectedDateRange, refreshFlag}) {
                 <TimeSeriesGXS selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag }/>  
 
             </Container> */}
-            <h2 style={{ fontSize: '15px', fontWeight: 'bold'}}> Time-Series Analysis of Average Ratings</h2>
-            <h3 style = {{ fontSize: '11px', marginTop: '-9px'}}>(Aggregated weekly if filtered for 3 months or less, else monthly)</h3>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems:'center'}}>
+                <div style={{marginRight: '80px'}}>
+                    <h2 style={{ fontSize: '15px', fontWeight: 'bold'}}> Time-Series Analysis of Average Ratings</h2>
+                    <h3 style = {{ fontSize: '11px', marginTop: '-9px'}}>(Aggregated weekly if filtered for 3 months or less, else monthly)</h3>
+                </div>
+
+                {/* Info button */}
+                <div >
+                    <Popover width={200} position="bottom" withArrow shadow="md" opened={opened}>
+                    <Popover.Target>
+                        <Button onMouseEnter={open} onMouseLeave={close} style={{ color:"white", backgroundColor: 'transparent', border: 'none', padding: '1px'}}>
+                        {icon}
+                        </Button>
+                    </Popover.Target>
+                    <Popover.Dropdown style={{ pointerEvents: 'none', backgroundColor: '#444557', color:'white'}}>
+                        <Text size="sm">
+                        <p> If date filtered is &le; 3 months, ratings are aggregated <b>weekly</b>. The x-axis labels are the first day of each week.</p>
+                        <p> Else, ratings are aggregated <b>monthly</b>. </p>
+                        </Text>
+                    </Popover.Dropdown>
+                    </Popover>
+                </div>
+            </div>
+
             <TimeSeriesGXS selectedDateRange={selectedDateRange} refreshFlag={refreshFlag}/>  
             
         </div>

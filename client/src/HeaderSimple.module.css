@@ -5,6 +5,7 @@
     align-items: center; /* Align items vertically in the center */
     display:flex;
     color: white;
+    font-family: 'Tebuchet MS','Arial';
     
 }
   
@@ -13,6 +14,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Tebuchet MS','Arial';
 }
 
 
@@ -22,4 +24,5 @@
   margin-right: 20px; /* Adjust as needed */
   margin-left: 5px;
   font-size: 15px;
+  font-family: 'Tebuchet MS','Arial';
 }

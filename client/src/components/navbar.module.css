@@ -6,6 +6,7 @@
   justify-content: center; /* Center vertically */
   align-items: center; /* Center horizontally */
   border-right: rem(1px) solid light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+  font-family: 'Tebuchet MS','Arial';
 }
 
 
