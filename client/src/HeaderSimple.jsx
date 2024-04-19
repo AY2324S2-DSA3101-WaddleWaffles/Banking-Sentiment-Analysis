@@ -22,7 +22,7 @@ export function HeaderSimple({ onDateRangeChange, onRefresh}) {
         </Container>
 
         {/* for the tabs */}
-        <div style={{marginRight: "100px", fontFamily: 'Roboto'}}>
+        <div style={{marginRight: "100px"}}>
             Filter by Date:  <DateFilter onDateRangeChange={onDateRangeChange}  />
         </div>
 
