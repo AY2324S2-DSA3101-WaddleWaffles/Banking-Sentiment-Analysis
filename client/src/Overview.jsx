@@ -47,7 +47,7 @@ export default function Overview({ selectedDateRange, refreshFlag}) {
         </div>
 
 
-        <div className="grid-item insights"> 
+        <div className="grid-item insights" style={{display: 'flex', justifyContent: 'center'}}> 
             <GetInsights selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag }/>
         </div>
 
@@ -67,10 +67,6 @@ export default function Overview({ selectedDateRange, refreshFlag}) {
         <div className="grid-item ratings" style={{ display: 'flex', justifyContent: 'center'}}>
         {/* <h2 style={{ fontSize: '15px', fontWeight: 'bold', marginTop: '-10px'}}> Time-Series Analysis of Average Ratings  </h2> */}
             <SentimentByTopic selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag }/> 
-        </div>
-
-        <div className="grid-item insights"> 
-            <GetInsights />
         </div>
 
     </Container>
