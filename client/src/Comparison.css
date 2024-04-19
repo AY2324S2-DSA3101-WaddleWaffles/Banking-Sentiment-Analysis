@@ -21,7 +21,7 @@ h2 {
 .grid-item-comparison {
   display: flex;
   /* size: 100%; */
-  padding: 7px;
+  padding: 4px;
   /* border: 2px solid black; */
   /* border-radius: 10px;  */
   background-color: #2b3141;
@@ -78,34 +78,27 @@ h2 {
   }
 
 }
-/* Define font size for legend */
-.legend-item span {
-  white-space: nowrap;
-  font-size: 0.8rem;
-   /* Use relative font size */
-}
-
-/* Adjust layout for legend items */
 .legend-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;  /* Allow items to wrap to the next line */
   flex-direction: column;
-  align-items: flex-start;
+}
+
+.legend-item-container {
+  padding: 5px; /* Adjust padding as needed */
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  margin-right: 10px; 
-  margin-bottom: 5px;
 }
 
 .legend-color {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   margin-right: 5px;
 }
+
+/* Additional styles */
 
 /* Media query for smaller screens */
 @media (max-width: 768px) {

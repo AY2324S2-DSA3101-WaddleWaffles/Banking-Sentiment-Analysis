@@ -36,18 +36,26 @@
 .small-blockquote {
   text-align: left;
   font-size: 15px;
-  /* width: 600px;  */
+  width: 600px;
   height: auto;
 }
 
 .topword {
     grid-area: topword;
+    font-size: 14px;
     /* max-height: 37vh; */
 }
   
 .suggestion {
     grid-area: suggestion;
     overflow-y: auto; 
+}
+
+.small-accordion {
+  text-align: left;
+  font-size: 15px;
+  width: 600px;
+  height: auto;
 }
   
 @media (max-width: 768px) {
