@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Container } from "@mantine/core";
 import { DonutChart } from '@mantine/charts';
-import { Paper, Text, Badge, Blockquote, Loader } from '@mantine/core';
+import { Paper, Text} from '@mantine/core';
 import classes from "./DonutChart.module.css"
 
 export default function DonutChartComponent({ selectedDateRange, refreshFlag }) {
 
-    console.log(selectedDateRange);
-
-    // save updated start and end dates into variable
+    // Save updated start and end dates into variable
     const newStartDate = selectedDateRange.startDate;
     const newEndDate = selectedDateRange.endDate;
 
-    // change format of start and end date to dd-mm-yyyy
+    // Change format of start and end date to dd-mm-yyyy
     const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
     const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
     
-    // State variables
     const [transformedData, setTransformedData] = useState([]);
     const [averageLabel, setAverageLabel] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -39,10 +35,8 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
                 setIsLoading(false);
             }
         };
-
         fetchData();
     }, [selectedDateRange, refreshFlag]);
-    console.log(transformedData);
 
     useEffect(() => {
         const fetchLabelData = async () => {
@@ -51,15 +45,12 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
                 const response = await fetch(api2.toString());
                 const jsonData = await response.json();
                 const gxsData = jsonData.filter(item => item.bank === 'GXS');
-                console.log(gxsData);
                 const averageLabel = (gxsData[0].total_rating).toFixed(1);
                 setAverageLabel(averageLabel);
-                // setAverageLabel(`${averageLabel}/5`);
             } catch (error) {
                 console.error('Error fetching label data:', error);
             }
         };
-
         fetchLabelData();
     }, [selectedDateRange]);
 
@@ -87,7 +78,6 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
             {isLoading ? (
                 <h2>Loading...</h2>
             ) : (
-                
                 <div style = {{display: 'flex'}} >
                     <DonutChart 
                         data={transformedData}
@@ -100,10 +90,8 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
                         size = {180}
                         thickness = {27}
                         chartLabel= {averageLabel}
-                        
                     />
                 </div>
-                
             )}
         </div>
     );
