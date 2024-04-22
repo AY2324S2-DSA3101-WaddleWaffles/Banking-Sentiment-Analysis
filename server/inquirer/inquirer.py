@@ -30,7 +30,7 @@ class Inquirer:
         self.model = TextGenerationModel(api_key=api_key)
         self.insights_output = "{\"Positive Insights\": <Paragraph>, \"Negative Insights\": <Paragraph>, \"Topic Insights\": <Paragraph>}. "
         self.comparison_output = "{\"Better Topics\": {<Topic>: <Paragraph on why>, <Topic>: <Paragraph on why>, ...}, \"Worse Topics\": {<Topic>: <Paragraph on why>, <Topic>: <Paragraph on why>, ...}}. "
-        self.suggestions_output = "{<Topic>: <Suggestion>, <Topic>: <Suggestion>,...}. "
+        self.suggestions_output = "{\"<Topic>\": \"<Suggestion>\", \"<Topic>\": \"<Suggestion>\",...}. "
 
         self.main_data_prompt = lambda data: f"The following is the overall data acquired from our banking application: {data}."
         self.topic_data_prompt = lambda bank, topic, data: f"This is the ratings for the {topic} of the {bank} application: {data}."
