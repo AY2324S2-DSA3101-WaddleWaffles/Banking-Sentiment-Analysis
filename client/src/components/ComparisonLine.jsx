@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart} from '@mantine/charts';
 import Legend from './Legend';
-import { Paper, Text, Button, Grid } from '@mantine/core';
+import { Popover, Paper, Text, Button, Grid } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import {IconInfoSquareRounded} from '@tabler/icons-react';
 
 export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
   
@@ -10,6 +12,7 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
   const [selectedBanks, setSelectedBanks] = useState([]);
   const [lineColors, setLineColors] = useState({});
   const [processedData, setProcessedData] = useState([]);
+  const [opened, { close, open }] = useDisclosure(false); //for info popup
 
   const newStartDate = selectedDateRange.startDate;
   const newEndDate = selectedDateRange.endDate;
@@ -63,7 +66,7 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
       setSelectedBanks([...selectedBanks, bank]);
     }
   };
-
+  const icon = <IconInfoSquareRounded size={20} />;
   return (
     <div>
       <Grid gutter="md" style={{ width: '100%', height: '100%'}}>
@@ -96,8 +99,26 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
             />
           </div>
         </Grid.Col>
-        <Grid.Col span={0.5} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ flex: 1, marginLeft: '5vw', marginTop: '10px', padding: '5px', background: 'black', borderRadius: '8px', fontFamily: 'Inter, sans serif' }}>
+        <Grid.Col span={0.5} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent:'center'}}>
+          
+          {/* Information button */}
+          <div >
+            <Popover width={200} position="bottom" withArrow shadow="md" opened={opened}>
+              <Popover.Target>
+                <Button onMouseEnter={open} onMouseLeave={close} style={{ color:"white", backgroundColor: 'transparent', border: 'none', padding: '1px', marginLeft: '50px'}}>
+                  {icon}
+                </Button>
+              </Popover.Target>
+              <Popover.Dropdown style={{ pointerEvents: 'none', backgroundColor: '#444557', color:'white'}}>
+                <Text size="sm">
+                  <p> If date filtered is &le; 3 months, ratings are aggregated <b>weekly</b>. The x-axis labels are the first day of each week.</p>
+                  <p> Else, ratings are aggregated <b>monthly</b>. </p>
+                </Text>
+              </Popover.Dropdown>
+            </Popover>
+          </div>
+
+          <div style={{ flex: 1, marginLeft: '5vw', marginTop: '10px', padding: '5px', background: 'black', borderRadius: '8px'}}>
             <Legend
               series={selectedBanks.map((bank) => ({
                 name: bank,
@@ -107,6 +128,8 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} 
             />
           </div>
+
+
         </Grid.Col>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' , marginLeft: '50px',marginTop: '1%', marginBottom:'1%'}}>
           <Text>Select banks for comparison:</Text>

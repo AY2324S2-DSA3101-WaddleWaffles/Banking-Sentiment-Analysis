@@ -19,7 +19,7 @@ class TextGenerationModel:
 
         self.client = H2OGPTE(
             address='https://h2ogpte.genai.h2o.ai',
-            api_key=api_key,
+            api_key=api_key
         )
 
     def generate(self, prompt):

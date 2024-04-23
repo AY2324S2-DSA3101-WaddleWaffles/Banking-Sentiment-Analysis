@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { LineChart } from '@mantine/charts';
 import { Paper, Text } from '@mantine/core';
+
 
 
 export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
@@ -22,6 +22,7 @@ export default function TimeSeriesGXS({ selectedDateRange, refreshFlag }){
     const [gxsData, setGxsData] = useState(null); // for GXS bank data only
     const [avgData, setAvgData] = useState(null); // for average_ratings object
     const [processedData, setProcessedData] = useState(null);
+    
 
     // const [processedData, setProcessedData] = useState({});
     const [isLoading, setIsLoading] = useState(true);

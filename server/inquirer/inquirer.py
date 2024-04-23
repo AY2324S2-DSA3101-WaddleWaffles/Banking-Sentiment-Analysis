@@ -106,16 +106,33 @@ class Inquirer:
         suggestions = self.model.generate(full_prompt)
         return self.convert_json(suggestions)
     
+    def strip_output(self, output):
+        """
+        Strip excess words from the output string that is formatted as JSON.
+
+        Args:
+            output (str): String of output.
+
+        Returns:
+            str: The stripped output.
+        """
+        while output[0] != "{":
+            output = output[1:]
+        while output[-1] != "}":
+            output = output[:-1]   
+        return output
+
     def convert_json(self, output):
         """
         Convert a string in JSON format into actual JSON.
 
         Args:
-            output (str): String used for conversion.
+            output (str): String of output.
 
         Returns:
             str: The generated JSON.
         """
+        ouput = self.strip_output(output)
         output = output.replace("\n", "").replace('\"', '"')
         output = json.loads(output)
         return output

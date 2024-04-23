@@ -60,5 +60,5 @@ class DatabaseUpdater:
             self.data_manager.update_miscellaneous("playstore", "datetime", {"$set": {"latestdate": (playstore_datetime + timedelta(seconds=10)).strftime("%Y-%m-%d %H:%M:%S")}})
         if not pd.isna(appstore_datetime):
             self.data_manager.update_miscellaneous("appstore", "datetime", {"$set": {"latestdate": (appstore_datetime + timedelta(seconds=10)).strftime("%Y-%m-%d %H:%M:%S")}})
-
+        print(f"...Number of new reviews uploaded: {new_reviews.shape[0]}...")
         return True
