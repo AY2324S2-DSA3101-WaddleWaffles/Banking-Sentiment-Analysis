@@ -115,7 +115,7 @@ Before proceeding, you will need to obtain the necessary API key for the databas
    cd Banking-Sentiment-Analysis
    ```
 
-3. With the `.env` file received, place it in the server directory right after the root directory
+3. With the `.env` file received, place it in the server directory
     ```sh
    mv /path/to/.env server/.env
    ```
