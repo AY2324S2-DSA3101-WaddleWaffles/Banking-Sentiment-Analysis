@@ -3,9 +3,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://gcdnb.pbrd.co/images/lrxYvjKU6Sev.png?o=1">
-    <img src="https://gcdnb.pbrd.co/images/lrxYvjKU6Sev.png?o=1" alt="Logo" width="140" height="140">
-  </a>
+  <img src="https://gcdnb.pbrd.co/images/lrxYvjKU6Sev.png?o=1" alt="Logo" width="140" height="140">
 
   <h3 align="center">WaddleWaffles: GXS Sentiment Analysis</h3>
 
@@ -14,14 +12,14 @@
     <br />
     <i>Developed for DSA3101 Data Science in Practice @ NUS</i>
     <br />
-    <a href="#"><strong>Explore the technical document »</strong></a>
+    <a href="#" target="_blank"><strong>Explore the technical document »</strong></a>
     <br />
     <br />
-    <a href="https://drive.google.com/file/d/1YK8oLCGTkMyjDOb5-7S4vYogRJZNr-A-/view">View Video</a>
+    <a href="https://drive.google.com/file/d/1YK8oLCGTkMyjDOb5-7S4vYogRJZNr-A-/view" target="_blank">View Video</a>
     ·
-    <a href="#">Wiki</a>
+    <a href="#" target="_blank">Wiki</a>
     ·
-    <a href="https://drive.google.com/file/d/1i5UWJOJTjjajt6A0oaUqOz8mKhsvj0dZ/view?usp=sharing">Business Requirements Document</a>
+    <a href="https://drive.google.com/file/d/1i5UWJOJTjjajt6A0oaUqOz8mKhsvj0dZ/view?usp=sharing" target="_blank">Business Requirements Document</a>
   </p>
 </div>
 
