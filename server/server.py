@@ -9,7 +9,6 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from inquirer.inquirer import Inquirer
 
-import json
 import os
 
 app = Flask(__name__)
