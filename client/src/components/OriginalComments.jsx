@@ -96,7 +96,7 @@ export default function OriginalComments({ selectedDateRange, refreshFlag }) {
   return (
     <div>
       <h2 style={{ fontSize: '25px', fontWeight: 'bold', marginBottom: '10px' }}>
-        Reviews
+        GXS Bank Reviews
       </h2>
 
       {/* Render badges and filter outside of loading and data display sections */}
