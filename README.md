@@ -53,10 +53,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Screen Shot][product-screenshot]](https://gcdnb.pbrd.co/images/ew3TEUOXxQkN.png?o=1)
+![Product Screen Shot][product-screenshot]
 
-
-In a world filled with analytics projects and dull dashboards, analysts often struggle with the data retrieval and modelling process for insightful analysis. Our product, tailored for GXS, aims to revolutionise GXS' customer understanding, conduct competitive analysis, and drive data-driven improvements. We believe it is relevant, convenient, and reliable. Here's why:
+In the realm of analytics projects and uninspiring dashboards, analysts often face challenges when it comes to retrieving and modelling data for insightful analysis. Our product, tailored for GXS, aims to revolutionise GXS' customer understanding, conduct competitive analysis, and drive data-driven improvements. We believe it is relevant, convenient, and reliable. Here's why:
 
 * **Near Real-time Analysis**: Our product saves you the trouble of uploading your own data, and retrieves latest GXS banking application reviews with a click of a button.
 * **Streamlined Analysis Process**: Every analysis process is automated. Scraping of latest reviews, aligned with the execution of modelling process under a single pipeline, makes your life much more easier in conducting analysis.
@@ -93,17 +92,17 @@ Database:
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get the project running in your machine, follow these steps:
+To get the project running on your machine, follow these steps:
 
 ### Prerequisites
 
 Ensure you have Docker installed on your machine. You can download and install Docker from [https://www.docker.com/get-started](https://www.docker.com/get-started).
 
-Before proceeding, you will need to obtain the necessary API key for the database and the text generation model. Please <a href="#developers">contact the project developers</a> to request for the API keys.
+Before proceeding, you will need to obtain the necessary API key for the database and the text generation model. Please <a href="#developers">contact the project developers</a> to request the API keys.
 
 ### Installation
 
-1. Clone the repo
+1. Clone the repository
    ```sh
    git clone https://github.com/AY2324S2-DSA3101-WaddleWaffles/Banking-Sentiment-Analysis.git
    ```
@@ -145,7 +144,11 @@ The project should now be running locally. You can access it in your web browser
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-EXAMPLES OF HOW THE PROJECT IS USED WILL BE SHOWN HERE
+Our project dashboard features three main tabs aimed to tackle each of our primary objectives:
+
+### Enhancing Customer Understanding
+<img src="https://gcdnb.pbrd.co/images/lrxYvjKU6Sev.png?o=1" alt="Logo" width="140" height="140">
+
 
 _For more details, please refer to the [technical document](#)._
 
