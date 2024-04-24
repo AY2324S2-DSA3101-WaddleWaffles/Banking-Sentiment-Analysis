@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
 import { Loader, ThemeIcon } from '@mantine/core';
-import { IconLogin2, IconDevicesCode, IconDeviceTablet, IconReload, IconNotification, IconBrandSpeedtest,
+import { IconLogin2, IconDevicesCode, IconDeviceTablet, 
+  IconReload, IconNotification, IconBrandSpeedtest,
   IconApps, IconUserHeart, IconLock } from '@tabler/icons-react';
 
-
 export default function TopWords({ selectedDateRange, refreshFlag }) {
-  // First, fetch data ◍•ᴗ•◍
   const [commentsData, setCommentsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -21,7 +19,7 @@ export default function TopWords({ selectedDateRange, refreshFlag }) {
       day: '2-digit', month: '2-digit', year: 'numeric',
     }).replace(/\//g, '-');
 
-    // API link for specified date range
+    // API link for LLM generated suggestions regarding GXS bank reviews with specified date range
     const api = `http://127.0.0.1:5001/reviews/word-associations?bank=GXS&start-date=${formattedStartDate}&end-date=${formattedEndDate}`;
 
     const fetchData = async () => {
@@ -39,26 +37,11 @@ export default function TopWords({ selectedDateRange, refreshFlag }) {
         setIsLoading(false);
       }
     };
-
     fetchData();
   }, [selectedDateRange.startDate, selectedDateRange.endDate, refreshFlag]);
-  // Data is fetched
-
 
   // Process data from the API response
   const processedData = commentsData.length > 0 ? commentsData[0]?.associations : {};
-
-  // const features_available = commentsData.map((associationGroup, index) => {
-  //   const featureName = Object.keys(associationGroup)[0];
-  //   const associations = associationGroup[featureName].map(association => ({
-  //     name: association[0],
-  //     count: association[1]
-  //   }));
-  
-  //   return { featureName, associations };
-  // });
-
-
 
   // Check if processed data is empty
   const isEmpty = Object.keys(processedData).length === 0;
@@ -76,34 +59,48 @@ export default function TopWords({ selectedDateRange, refreshFlag }) {
     security: <IconLock />
   };
 
-
+  // Rendering to display fetched data
   return (
     <div>
-      <h2 style={{fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>Top Words</h2>
+      <h2 style={{fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>
+        Top Words
+      </h2>
+
       {isLoading ? (
-        <p><Loader color="blue" /></p>
+        <p><Loader color='blue' /></p>
       ) : (
         <>
           {isEmpty ? (
             <div>
-              <p>No reviews found for the selected date range.</p>
+              <p>
+                No reviews found for the selected date range.
+              </p>
             </div>
+
           ) : (
-            // If there are reviews, then iterate through each category to show top words (ง ˙˘˙ )ว
+            // If there are reviews, then iterate through each category to show top words
             <div style={{ columnCount: 2, columnGap: '10px' }}>
               {Array.from(Object.keys(processedData)).map((association) => (
                 <div key={association} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
-                  <ThemeIcon variant="light" radius="md" size="xs" color="violet" style={{ marginRight: '10px'}}>
+                  <ThemeIcon variant='light' radius='md' size='xs' color='violet' style={{ marginRight: '10px'}}>
                     {associationIcons[association]}
                   </ThemeIcon>
-                  <span style={{ fontWeight: 'bold', textTransform: 'uppercase', marginRight: '10px', fontSize: "11px"  }}>
+
+                  <span style={{ fontWeight: 'bold', textTransform: 'uppercase', marginRight: '10px', fontSize: '11px'  }}>
                     {association}:
                   </span>
+
                   {/* Check if category has top words to show */}
                   {processedData[association] && processedData[association].length > 0 ? (
-                    <p style={{ margin: 0, fontSize: "11px", textAlign: 'left' }}>{processedData[association].map(([word]) => word.charAt(0).toUpperCase() + word.slice(1)).join(', ')}</p>
+                    <p style={{ margin: 0, fontSize: '11px', textAlign: 'left' }}>
+                      {processedData[association].map(([word]) => word.charAt(0).toUpperCase() + word.slice(1)).join(', ')}
+                    </p>
+
                   ) : (
-                    <p style={{ fontStyle: 'italic', color: 'gray'}}>No information for this category</p>
+                    <p style={{ fontStyle: 'italic', color: 'gray'}}>
+                      No information for this category
+                    </p>
+
                   )}
                 </div>
               ))}

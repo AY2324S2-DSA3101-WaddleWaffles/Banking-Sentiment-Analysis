@@ -3,13 +3,11 @@
     grid-template-columns: repeat(2, 1fr); /* Split into two columns */
     grid-template-rows: repeat(3, 1fr);; /* Split into five rows */
     grid-gap: 15px;
-    /* overflow:auto; */
     height: calc(100vh - 100px);
     grid-template-areas:
-      "original topword"
-      "original suggestion"
-      "original suggestion";
-  
+      'original topword'
+      'original suggestion'
+      'original suggestion';
     size: 100%;
   }
   
@@ -19,16 +17,11 @@
     background-color: #2b3141;
     color: white;
     box-shadow: 5px -5px 7px 0px rgba(0, 0, 0, 0.5); 
-    /* size: 100%; */
     padding: 7px;
-   /* margin: 5px; */
-   /* margin-bottom: 0; */
-
 }
 
 .original {
     grid-area: original;
-    /* max-height: 89vh; */ 
     overflow-y: auto; 
     overflow-x: hidden; /*disable horizontal scrolling */
 }
@@ -43,7 +36,6 @@
 .topword {
     grid-area: topword;
     font-size: 14px;
-    /* max-height: 37vh; */
 }
   
 .suggestion {
@@ -63,9 +55,9 @@
       grid-template-columns: 1fr;
       grid-template-rows: auto;
       grid-template-areas:
-        "original"
-        "topword"
-        "suggestion";
+        'original'
+        'topword'
+        'suggestion';
     }
 }
   
