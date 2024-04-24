@@ -16,7 +16,7 @@
     <br />
     <a href="https://drive.google.com/file/d/1YK8oLCGTkMyjDOb5-7S4vYogRJZNr-A-/view" target="_blank">View Video</a>
     ·
-    <a href="#" target="_blank">Wiki</a>
+    <a href="https://github.com/AY2324S2-DSA3101-WaddleWaffles/Banking-Sentiment-Analysis/wiki" target="_blank">Wiki</a>
     ·
     <a href="https://drive.google.com/file/d/1i5UWJOJTjjajt6A0oaUqOz8mKhsvj0dZ/view?usp=sharing" target="_blank">Business Requirements Document</a>
   </p>
