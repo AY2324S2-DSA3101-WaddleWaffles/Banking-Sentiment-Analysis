@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 function Legend({ series, fontSize }) {
   return (
     <div className="legend-container" style={{ fontSize: fontSize, display: 'flex' }}>

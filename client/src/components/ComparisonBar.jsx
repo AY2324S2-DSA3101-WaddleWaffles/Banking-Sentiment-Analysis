@@ -1,31 +1,25 @@
 import { BarChart } from '@mantine/charts';
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Paper, Text } from '@mantine/core';
 
 function ComparisonBar({ selectedDateRange, refreshFlag  }) {
   const [sentimentData, setSentiments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
   const newStartDate = selectedDateRange.startDate;
   const newEndDate = selectedDateRange.endDate;
-
   // change format of start and end date to dd-mm-yyyy
   const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
   const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
 
   const api = `http://127.0.0.1:5001/reviews/average-sentiment?start-date=${formattedStartDate}&end-date=${formattedEndDate}`
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-
         const response = await fetch(api.toString());
         const jsonData = await response.json();
-        setSentiments(jsonData); // Update reviewsData state
-        console.log("retrieved bar data:", jsonData);
-        console.log("setIsLoading:", isLoading)
-
+        setSentiments(jsonData);
       } catch (error) {
         console.error('Error fetching bar graph data:', error);
       } finally {
@@ -33,15 +27,10 @@ function ComparisonBar({ selectedDateRange, refreshFlag  }) {
       }
     };
     
-    fetchData(); // Call the fetchData function to fetch data when the component mounts
-  }, [selectedDateRange, refreshFlag ]); // Empty dependency array means this effect runs only once after the component mounts
-
-  console.log('Retrieved bar data:', sentimentData);
-  // Function to process JSON data
+    fetchData();
+  }, [selectedDateRange, refreshFlag ]); 
+ 
   const processedSentData = processData(sentimentData);
-
-  // Log the processed data
-  console.log('Processed bar data:', processedSentData);
 
   return (
     <div  style={{ height: '350px', width: '100%' }}>
@@ -92,7 +81,6 @@ function ChartTooltip({ label, payload, unit }) {
   );
 }
 
-// Function to process JSON data
 const processData = (reviewsData) => {
   if (!reviewsData) {
     return [];

@@ -2,9 +2,7 @@ import { Select } from '@mantine/core';
 import React from 'react';
 
 function ChooseBank({ availableBanks, onSelectBank }) {
-  console.log('Available Banks:', availableBanks);
   const banksWithoutGXS = availableBanks.filter(bank => bank !== "GXS");
-
   const handleBankSelect = (value) => {
     onSelectBank(value);
   };

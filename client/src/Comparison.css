@@ -8,36 +8,22 @@ h2 {
   grid-template-rows: auto;
   grid-gap: 15px;
   color:white;
-  /* overflow: auto; do this if needed */
   height: calc(100vh - 100px);
   grid-template-areas: "rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	count	count"
   "rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	rating-banks	count	count"
   "sentiment-banks	sentiment-banks	sentiment-banks	insights-banks	insights-banks	insights-banks	insights-banks	insights-banks"
   "sentiment-banks	sentiment-banks	sentiment-banks	insights-banks	insights-banks	insights-banks	insights-banks	insights-banks";
-
-
 }
 
 .grid-item-comparison {
-  display: flex;
-  /* size: 100%; */
   padding: 4px;
-  /* border: 2px solid black; */
-  /* border-radius: 10px;  */
-  background-color: #2b3141;
-  /* margin: 5px; */
-  /* margin-bottom: 0; */
   box-shadow: 5px -5px 7px 0px rgba(0, 0, 0, 0.5); 
-
 }
 
 .rating-banks {
   grid-area: rating-banks;
-  /* font-size: 50px; */
   display: flex;
   flex-direction: column;
-  /*align-items: flex-start;*/
-
 }
 
 .count {
@@ -53,8 +39,6 @@ h2 {
   grid-area: sentiment-banks;
   display: flex;
   flex-direction: column;
-  /*align-items: flex-start;*/
-
 }
 
 .insights-banks {
@@ -62,9 +46,7 @@ h2 {
   flex-direction: column;
   color: white;
   background-color: #3c448baf;
-  /*#666fc9*/
 }
-
 
 @media (max-width: 768px) {
   .grid-container-comparison {
@@ -76,15 +58,15 @@ h2 {
       "sentiment-banks"
       "insights-banks";
   }
-
 }
+
 .legend-container {
   display: flex;
   flex-direction: column;
 }
 
 .legend-item-container {
-  padding: 5px; /* Adjust padding as needed */
+  padding: 5px;
 }
 
 .legend-item {
@@ -98,11 +80,8 @@ h2 {
   margin-right: 5px;
 }
 
-/* Additional styles */
-
-/* Media query for smaller screens */
 @media (max-width: 768px) {
   .legend-item {
-    margin-right: 5px; /* Adjust spacing for smaller screens */
+    margin-right: 5px; 
   }
 }
