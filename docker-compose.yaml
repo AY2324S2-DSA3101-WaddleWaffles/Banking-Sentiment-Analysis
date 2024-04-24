@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  client:
+    build: ./client
+    container_name: client_container
+    ports:
+      - '5173:5173'
+    stdin_open: true
+    tty: true
+  server:
+    build: ./server
+    container_name: server_container
+    ports:
+      - '5001:5001'

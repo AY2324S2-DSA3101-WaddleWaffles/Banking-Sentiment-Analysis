@@ -63,8 +63,8 @@ export default function Overview({ selectedDateRange, refreshFlag}) {
                     </Popover.Target>
                     <Popover.Dropdown style={{ pointerEvents: 'none', backgroundColor: '#444557', color:'white'}}>
                         <Text size='sm'>
-                        <p> If date filtered is &le; 3 months, ratings are aggregated <b>weekly</b>. The x-axis labels are the first day of each week.</p>
-                        <p> Else, ratings are aggregated <b>monthly</b>. </p>
+                        <p> If date filtered is &le; 3 months, ratings are aggregated <b>weekly</b>. Each x-axis label is the Monday of each week.</p>
+                        <p> Otherwise, ratings are aggregated <b>monthly</b>. </p>
                         </Text>
                     </Popover.Dropdown>
                     </Popover>

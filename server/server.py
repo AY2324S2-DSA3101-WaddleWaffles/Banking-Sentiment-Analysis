@@ -9,7 +9,6 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from inquirer.inquirer import Inquirer
 
-import json
 import os
 
 app = Flask(__name__)
@@ -346,4 +345,4 @@ def get_donut_chart_data():
     return jsonify(data)
 
 if __name__ == "__main__":
-    app.run(port=5001)
+    app.run(host="0.0.0.0", port=5001)

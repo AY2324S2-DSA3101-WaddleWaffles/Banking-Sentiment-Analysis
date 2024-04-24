@@ -64,5 +64,8 @@ class ScrapePipeline:
         all_reviews["day"] = datetime_col.dt.day
         all_reviews.drop(columns = ["date"], inplace = True)
         
+        self.play_last_scraped = self.play_last_scraped if pd.isna(playstore_scraped_datetime) else playstore_scraped_datetime
+        self.app_last_scraped = self.app_last_scraped if pd.isna(app_scraped_datetime) else app_scraped_datetime
+
         return all_reviews, playstore_scraped_datetime, app_scraped_datetime
  
