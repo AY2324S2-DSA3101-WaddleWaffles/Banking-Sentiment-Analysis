@@ -4,15 +4,6 @@ import { Paper, Text } from '@mantine/core';
 import TopicFilter from './TopicFilter'
 
 export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
-
-    // Save updated start and end dates into variable
-    const newStartDate = selectedDateRange.startDate;
-    const newEndDate = selectedDateRange.endDate;
-
-    // Change format of start and end date to dd-mm-yyyy
-    const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
-    const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
-
     const [filteredData, setFilteredData] = useState([]);
     const [gxsData, setGxsData] = useState(null);
     const [useThis, setUseThis] = useState(null);
@@ -21,6 +12,14 @@ export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
     // For topic filter
     const [features_list, setFeaturesList] = useState([]); // features_list from data
     const [selectedFeatures, setselectedFeatures] = useState([]); // selected features from TopicFilter
+
+    // Save updated start and end dates into variable
+    const newStartDate = selectedDateRange.startDate;
+    const newEndDate = selectedDateRange.endDate;
+
+    // Change format of start and end date to dd-mm-yyyy
+    const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
+    const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
 
     const handleFeaturesChange = (ftr) => {
       if (selectedFeatures.includes(ftr)) {
@@ -61,7 +60,6 @@ export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
                   setselectedFeatures(selectedFeatures => [...selectedFeatures, feature]);
                 }
                });
-
           } catch (error) {
               console.error('Error fetching data:', error);
               setIsLoading(false);
@@ -82,13 +80,13 @@ export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
           <BarChart
               w='100%'
               data={filteredUseThis}
-              dataKey="feature"
-              type="stacked"
-              orientation="vertical"
+              dataKey='feature'
+              type='stacked'
+              orientation='vertical'
               yAxisProps={{ width: 100, padding: { top: 5 }}}
               xAxisProps={{
                   labelProps: { weight: 100, size: 'lg' },
-                  unit: "%",
+                  unit: '%',
                   domain: [0,100]
                 }}
               series={[
@@ -111,12 +109,12 @@ function ChartTooltip({ label, payload }) {
   if (!payload) return null;
 
   return (
-    <Paper px="md" py="sm" withBorder radius="md">
+    <Paper px='md' py='sm' withBorder radius='md'>
       <Text fw={500} mb={5} style={{color: 'black'}}>
         {label}
       </Text>
       {payload.map(item => (
-        <Text key={item.name} c={item.color} fz="sm">
+        <Text key={item.name} c={item.color} fz='sm'>
           {item.name}: {item.value}
         </Text>
       ))}

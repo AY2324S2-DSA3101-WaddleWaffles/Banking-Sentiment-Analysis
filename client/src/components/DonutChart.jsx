@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { DonutChart } from '@mantine/charts';
 import { Paper, Text} from '@mantine/core';
-import classes from "./DonutChart.module.css"
+import classes from "./DonutChart.module.css";
 
 export default function DonutChartComponent({ selectedDateRange, refreshFlag }) {
+    const [transformedData, setTransformedData] = useState([]);
+    const [averageLabel, setAverageLabel] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     // Save updated start and end dates into variable
     const newStartDate = selectedDateRange.startDate;
@@ -13,10 +16,6 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
     const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
     const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
     
-    const [transformedData, setTransformedData] = useState([]);
-    const [averageLabel, setAverageLabel] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-
     // Fetch data
     useEffect(() => {
         const fetchData = async () => {
@@ -54,25 +53,6 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
         fetchLabelData();
     }, [selectedDateRange]);
 
-    // Function for tooltip
-    function ChartTooltip({ label, payload }) {
-        if (!payload) return null;
-      
-        return (
-            <Paper px="md" py="sm" withBorder shadow="md" radius="md">
-                <Text fw={500} mb={5} style={{color: 'black'}}>
-                    {label}
-                </Text>
-                {payload.map(item => (
-                    <Text key={item.name} c={item.color} fz="sm">
-                        {item.name}: {item.value}
-                    </Text>
-                ))}
-            </Paper>
-        );
-    };
-
-    // Render the component
     return (
         <div className={classes.label} style = {{display: 'flex', height: '100%', justifyContent: 'center'}}>
             {isLoading ? (
@@ -86,7 +66,7 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
                         }}
                         h={200}
                         w={180}
-                        mx="auto"
+                        mx='auto'
                         size = {180}
                         thickness = {27}
                         chartLabel= {averageLabel}
@@ -95,5 +75,23 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
             )}
         </div>
     );
-}
+};
+
+// Function for tooltip
+function ChartTooltip({ label, payload }) {
+    if (!payload) return null;
+  
+    return (
+        <Paper px='md' py='sm' withBorder shadow='md' radius='md'>
+            <Text fw={500} mb={5} style={{color: 'black'}}>
+                {label}
+            </Text>
+            {payload.map(item => (
+                <Text key={item.name} c={item.color} fz='sm'>
+                    {item.name}: {item.value}
+                </Text>
+            ))}
+        </Paper>
+    );
+};
 

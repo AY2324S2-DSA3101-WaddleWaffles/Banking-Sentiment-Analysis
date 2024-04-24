@@ -4,6 +4,9 @@ import classes from './InsightsOverview.module.css';
 import { IconBulb } from '@tabler/icons-react';
 
 export default function GetInsights({selectedDateRange, refreshFlag }) {
+    const [insightsData, setInsightsData] = useState(null);
+    const [finalData, setProcessedData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     // Save updated start and end dates into variable
     const newStartDate = selectedDateRange.startDate;
@@ -15,10 +18,6 @@ export default function GetInsights({selectedDateRange, refreshFlag }) {
     
     const api = `http://127.0.0.1:5001/reviews/insights?start-date=${formattedStartDate}&end-date=${formattedEndDate}`
 
-    const [insightsData, setInsightsData] = useState(null);
-    const [finalData, setProcessedData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    
     // Fetch data
     useEffect(() => {
         const fetchData = async () => {
@@ -39,7 +38,6 @@ export default function GetInsights({selectedDateRange, refreshFlag }) {
         };
         fetchData();
     },[selectedDateRange, refreshFlag]);
-
     if (isLoading) {
         return (
             <div style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -81,7 +79,6 @@ export default function GetInsights({selectedDateRange, refreshFlag }) {
                 </Table>
             </ScrollArea>
         </div>
-
 )};
 
 // Function to preprocess data
