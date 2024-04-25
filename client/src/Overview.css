@@ -1,132 +1,69 @@
+.grid-container-overview {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 15px;
+  overflow: auto;
+  height: calc(100vh - 100px);
+  grid-template-areas: 'number	number	topic	topic	topic	topic'
+  'donut	donut	topic	topic	topic	topic'
+  'donut	donut	topic	topic	topic	topic'
+  'ratings	ratings	ratings	insights	insights	insights'
+  'ratings	ratings	ratings	insights	insights	insights'
+  'ratings	ratings	ratings	insights	insights	insights'
+  'ratings	ratings	ratings	insights	insights	insights'
+  'ratings	ratings	ratings	insights	insights	insights';
+}
+  
+.grid-item {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  box-shadow: 5px -5px 7px 0px rgba(0, 0, 0, 0.5); 
+  background-color: #2b3141;
+  color: white;
 
-h2 {
-    font-size: 10px;
-  }
+}
+
+.number {
+  grid-area: number;
+  align-items: center;
+  font-size: 35px; 
+  font-weight: bold;
+}
   
-  .heading-reviews {
-    font-size: 45px;
-    margin: 0; /* Remove any default margins */
-    padding: 0; /* Remove any default padding */
-    /* text-align: center; */
-  }
-  
-  .heading-percentage {
-    font-size: 7px;
-    text-align: center;
-    margin:0;
-  }
-  
-  .plotHeading-percentage{ 
-    font-size: 10px;
-    text-align: center;
-  
-  }
-  
-  .fixedWidthCol{
-    width: 100px;
-  }
-  
-  .xAxesLabels{
-    text-align: center;
-    margin-top: -5px;
-    color: black;
-    font-size: 10px;
-  }
-    
-  .grid-container-overview {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+.donut {
+  grid-area: donut;
+  align-items: center;
+}
+
+.insights{
+  grid-area: insights;
+  height: auto; 
+  overflow: hidden;
+}
+
+.topic {
+  grid-area: topic;
+  flex-direction: column;
+}
+
+.ratings {
+  grid-area: ratings;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) { 
+  .grid-container {
+    grid-template-columns: 2fr;
     grid-template-rows: auto;
-    grid-gap: 15px;
-    /* overflow: auto; */
-    height: calc(100vh - 100px);
-    grid-template-areas: "number	number	topic	topic	topic	topic"
-    "donut	donut	topic	topic	topic	topic"
-    "donut	donut	topic	topic	topic	topic"
-    "ratings	ratings	ratings	insights	insights	insights"
-    "ratings	ratings	ratings	insights	insights	insights"
-    "ratings	ratings	ratings	insights	insights	insights"
-    "ratings	ratings	ratings	insights	insights	insights"
-    "ratings	ratings	ratings	insights	insights	insights";
+    grid-template-areas:
+      'number'
+      'donut'
+      'topic'
+      'ratings'
+      'insights';
   }
-  
-  .grid-item {
-    display: flex;
-    /* size: 100%; */
-    padding: 0;
-    margin: 0;
-    box-shadow: 5px -5px 7px 0px rgba(0, 0, 0, 0.5); 
-    /* margin: 5px; */
-    /* margin-bottom: 0; */
-    background-color: #2b3141;
-    color: white;
-
-  }
-  
-  .number {
-    grid-area: number;
-    align-items: center;
-    font-size: 45px; 
-    font-weight: bold;
-    /* flex-direction: column; */
-
-  }
-  
-  .donut {
-    grid-area: donut;
-    align-items: center;
-    margin: 0;
-    /* flex-direction: row; */
-  }
-
-  .legend {
-    grid-area: legend;
-    margin: 0;
-    justify-self: start;
-    flex-direction: column;
-    display: 'flex';
-  }
-
-  .insights{
-    grid-area: insights;
-    /* flex-direction: column; */
-    height: auto; 
-    /*width: auto; */
-    overflow: hidden;
-
-  }
-  
-  .topic {
-    grid-area: topic;
-    /* height: "100%";
-    width: "100%"; */
-    flex-direction: column;
-    /* padding: 20px; */
-    /* align-items: center; */
-
-  }
-
-  .ratings {
-    grid-area: ratings;
-    flex-direction: column;
-    /* padding: 10px; */
-    overflow: hidden;
-    
-  }
-  
-  @media (max-width: 768px) { /*originally 768}*/
-    .grid-container {
-      grid-template-columns: 2fr;
-      grid-template-rows: auto;
-      grid-template-areas:
-        "number"
-        "donut"
-        "legend"
-        "topic"
-        "ratings"
-        "insights";
-    }
-  
-  }
+}
   
   
