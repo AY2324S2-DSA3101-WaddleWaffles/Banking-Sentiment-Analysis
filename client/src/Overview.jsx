@@ -30,15 +30,15 @@ export default function Overview({ selectedDateRange, refreshFlag}) {
                 <h3 style = {{ fontWeight: 'bold' , textAlign: 'left', marginBottom: '2px'}}>Average Rating</h3>
                 <h4 style = {{ textAlign: 'left' , marginTop: '2px'}}>(out of 5{starIcon})</h4>
                 <h5 style = {{  fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
-                    <Badge size="xs" circle color="green.6" ></Badge>
+                    <Badge size='xs' circle color='green.6' ></Badge>
                     <span style={{ marginLeft: '5px' }}>Positive</span>
                 </h5>
                 <h5 style = {{fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
-                    <Badge size="xs" circle color="yellow.6" ></Badge>
+                    <Badge size='xs' circle color='yellow.6' ></Badge>
                     <span style={{ marginLeft: '5px' }}>Neutral</span>
                 </h5>
                 <h5 style={{ fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
-                    <Badge size="xs" circle color="red.6"></Badge>
+                    <Badge size='xs' circle color='red.6'></Badge>
                     <span style={{ marginLeft: '5px' }}>Negative</span>
                 </h5>    
             </Container>
