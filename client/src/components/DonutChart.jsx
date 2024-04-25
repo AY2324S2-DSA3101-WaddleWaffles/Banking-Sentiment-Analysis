@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { DonutChart } from '@mantine/charts';
-import { Paper, Text} from '@mantine/core';
-import classes from "./DonutChart.module.css";
+import { Paper, Text } from '@mantine/core';
+import classes from "./DonutChart.module.css"
 
 export default function DonutChartComponent({ selectedDateRange, refreshFlag }) {
+    // State variables
     const [transformedData, setTransformedData] = useState([]);
     const [averageLabel, setAverageLabel] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Save updated start and end dates into variable
+    // save updated start and end dates into variable
     const newStartDate = selectedDateRange.startDate;
     const newEndDate = selectedDateRange.endDate;
 
-    // Change format of start and end date to dd-mm-yyyy
+    // change format of start and end date to dd-mm-yyyy
     const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
     const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
     
@@ -36,6 +37,7 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
         };
         fetchData();
     }, [selectedDateRange, refreshFlag]);
+    console.log(transformedData);
 
     useEffect(() => {
         const fetchLabelData = async () => {
@@ -44,30 +46,51 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
                 const response = await fetch(api2.toString());
                 const jsonData = await response.json();
                 const gxsData = jsonData.filter(item => item.bank === 'GXS');
+                console.log(gxsData);
                 const averageLabel = (gxsData[0].total_rating).toFixed(1);
                 setAverageLabel(averageLabel);
+                // setAverageLabel(`${averageLabel}/5`);
             } catch (error) {
                 console.error('Error fetching label data:', error);
             }
         };
+
         fetchLabelData();
     }, [selectedDateRange]);
 
+    // Function for tooltip
+    function ChartTooltip({ label, payload }) {
+        if (!payload) return null;
+      
+        return (
+            <Paper px='md' py='sm' withBorder shadow='md' radius='md'>
+                <Text fw={500} mb={5} style={{color: 'black'}}>
+                    {label}
+                </Text>
+                {payload.map(item => (
+                    <Text key={item.name} c={item.color} fz='sm'>
+                        {item.name}: {item.value}
+                    </Text>
+                ))}
+            </Paper>
+        );
+    };
+
+    // Render the component
     return (
-        <div className={classes.label} style = {{display: 'flex', height: '100%', justifyContent: 'center'}}>
+        <div className={classes.label} style = {{display: 'flex', height: '100%'}}>
             {isLoading ? (
                 <h2>Loading...</h2>
             ) : (
-                <div style = {{display: 'flex'}} >
+                <div >
                     <DonutChart 
                         data={transformedData}
                         tooltipProps={{
                             content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
                         }}
-                        h={200}
-                        w={180}
+                        h={180}
+                        w={160}
                         mx='auto'
-                        size = {180}
                         thickness = {27}
                         chartLabel= {averageLabel}
                     />
@@ -75,23 +98,5 @@ export default function DonutChartComponent({ selectedDateRange, refreshFlag }) 
             )}
         </div>
     );
-};
-
-// Function for tooltip
-function ChartTooltip({ label, payload }) {
-    if (!payload) return null;
-  
-    return (
-        <Paper px='md' py='sm' withBorder shadow='md' radius='md'>
-            <Text fw={500} mb={5} style={{color: 'black'}}>
-                {label}
-            </Text>
-            {payload.map(item => (
-                <Text key={item.name} c={item.color} fz='sm'>
-                    {item.name}: {item.value}
-                </Text>
-            ))}
-        </Paper>
-    );
-};
+}
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart } from '@mantine/charts'; 
-import { Paper, Text } from '@mantine/core';
+import { Paper, ScrollArea, Text } from '@mantine/core';
 import TopicFilter from './TopicFilter'
 
 export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
@@ -73,34 +73,34 @@ export default function SentimentByTopic({selectedDateRange, refreshFlag}) {
   const filteredUseThis = useThis?.filter(item => selectedFeatures.includes(item.feature)) || [];
 
   return (
-    <div style = {{ display: 'flex', height: '100%'}}>
+    <div style={{ display: 'flex', height: '100%' }}>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
           <BarChart
-              w='100%'
-              data={filteredUseThis}
-              dataKey='feature'
-              type='stacked'
-              orientation='vertical'
-              yAxisProps={{ width: 100, padding: { top: 5 }}}
-              xAxisProps={{
-                  labelProps: { weight: 100, size: 'lg' },
-                  unit: '%',
-                  domain: [0,100]
-                }}
-              series={[
-                  { name: 'Positive', color: 'teal.6' },
-                  { name: 'Neutral', color: 'yellow.6' },
-                  { name: 'Negative', color: 'red.6' },
-              ]}
-              tooltipProps={{
-                  content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
-              }}
+            w='100%'
+            data={filteredUseThis}
+            dataKey='feature'
+            type='stacked'
+            orientation='vertical'
+            yAxisProps={{ width: 100, padding: { top: 5 } }}
+            xAxisProps={{
+              labelProps: { weight: 100, size: 'lg' },
+              unit: '%',
+              domain: [0, 100]
+            }}
+            series={[
+              { name: 'Positive', color: 'teal.6' },
+              { name: 'Neutral', color: 'yellow.6' },
+              { name: 'Negative', color: 'red.6' },
+            ]}
+            tooltipProps={{
+              content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
+            }}
           />
       )}
-      <TopicFilter handleFeaturesChange={handleFeaturesChange} selectedFeatures={selectedFeatures} features_list = {features_list}/>
-    </div> 
+      <TopicFilter handleFeaturesChange={handleFeaturesChange} selectedFeatures={selectedFeatures} features_list={features_list} />
+    </div>
   );
 };
 

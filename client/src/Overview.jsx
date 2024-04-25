@@ -22,24 +22,25 @@ export default function Overview({ selectedDateRange, refreshFlag}) {
         </div> 
 
         <div className='grid-item donut' style={{ display: 'flex', justifyContent: 'center'}}> 
-            <Container >
+            <Container>
                 <DonutChartComponent selectedDateRange={selectedDateRange} refreshFlag ={refreshFlag } />
             </Container>
-            <Container size='100%'>
-                <h2 style = {{ fontSize: '24px', fontWeight: 'bold' , textAlign: 'left', marginBottom: '2px'}}>Average Rating</h2>
-                <h3 style = {{ fontSize: '16px', textAlign: 'left' , marginTop: '2px'}}>(out of 5{starIcon})</h3>
-                <p style = {{ fontSize: '13px', fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
-                    <Badge size='xs' circle color='green.6' ></Badge>
+
+            <Container>
+                <h3 style = {{ fontWeight: 'bold' , textAlign: 'left', marginBottom: '2px'}}>Average Rating</h3>
+                <h4 style = {{ textAlign: 'left' , marginTop: '2px'}}>(out of 5{starIcon})</h4>
+                <h5 style = {{  fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
+                    <Badge size="xs" circle color="green.6" ></Badge>
                     <span style={{ marginLeft: '5px' }}>Positive</span>
-                </p>
-                <p style = {{ fontSize: '13px', fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
-                    <Badge size='xs' circle color='yellow.6' ></Badge>
+                </h5>
+                <h5 style = {{fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
+                    <Badge size="xs" circle color="yellow.6" ></Badge>
                     <span style={{ marginLeft: '5px' }}>Neutral</span>
-                </p>
-                <p style={{ fontSize: '13px', fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
-                    <Badge size='xs' circle color='red.6'></Badge>
+                </h5>
+                <h5 style={{ fontWeight: 'bold', display: 'flex', textAlign: 'left'}}>
+                    <Badge size="xs" circle color="red.6"></Badge>
                     <span style={{ marginLeft: '5px' }}>Negative</span>
-                </p>    
+                </h5>    
             </Container>
         </div>
 

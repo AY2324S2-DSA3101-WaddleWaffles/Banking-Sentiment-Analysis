@@ -3,6 +3,7 @@
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: auto;
   grid-gap: 15px;
+  overflow: auto;
   height: calc(100vh - 100px);
   grid-template-areas: 'number	number	topic	topic	topic	topic'
   'donut	donut	topic	topic	topic	topic'
@@ -27,23 +28,13 @@
 .number {
   grid-area: number;
   align-items: center;
-  font-size: 45px; 
+  font-size: 35px; 
   font-weight: bold;
-
 }
   
 .donut {
   grid-area: donut;
   align-items: center;
-  margin: 0;
-}
-
-.legend {
-  grid-area: legend;
-  margin: 0;
-  justify-self: start;
-  flex-direction: column;
-  display: 'flex';
 }
 
 .insights{
@@ -60,7 +51,6 @@
 .ratings {
   grid-area: ratings;
   flex-direction: column;
-  overflow: hidden;
 }
 
 @media (max-width: 768px) { 
@@ -70,7 +60,6 @@
     grid-template-areas:
       'number'
       'donut'
-      'legend'
       'topic'
       'ratings'
       'insights';
