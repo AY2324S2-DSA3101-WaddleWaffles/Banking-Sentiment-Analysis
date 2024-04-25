@@ -9,12 +9,10 @@
   font-family: 'Tebuchet MS','Arial';
 }
 
-
 .navbarMain {
   flex: 1;
   margin-top: rem(10px);
   color: white;
-  
 }
 
 .link {
@@ -24,9 +22,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* gap: 10px; */
   background-color: '#F8F8FF';
-  
   
   &:hover {
     background-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));
@@ -36,12 +32,5 @@
   &[data-active] {
     background-color: var(--mantine-color-blue-light);
     color: var(--mantine-color-blue-light-color);
-    }
   }
-
-
-/* .linkContent {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-} */
+}

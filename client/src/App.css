@@ -4,6 +4,7 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
@@ -36,10 +37,8 @@
 
 .fullscreen-main {
   background-color: #252734;
-  /* background-color: #0b011f; */
   overflow: auto;
   width: '100%';
   height: '100%';
   font-family: 'Tebuchet MS','Arial';
- 
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Paper, Loader, Table, ScrollArea } from '@mantine/core';
+import { Paper, Loader, Table, ScrollArea, Text } from '@mantine/core';
 import classes from './insightsComparison.module.css';
 
 function InsightsComparison({selectedDateRange, selectedBank, refreshFlag }) {

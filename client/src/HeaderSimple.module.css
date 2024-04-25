@@ -1,12 +1,9 @@
 .header {
-    /* background-color: #2f3036; */
-    /* border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4)); */
     justify-content: space-between;
     align-items: center; /* Align items vertically in the center */
     display:flex;
     color: white;
     font-family: 'Tebuchet MS','Arial';
-    
 }
   
 .inner {
@@ -17,11 +14,9 @@
   font-family: 'Tebuchet MS','Arial';
 }
 
-
-
-/* the container containing heading of the header */
+/* The container containing heading of the header */
 .h2{
-  margin-right: 20px; /* Adjust as needed */
+  margin-right: 20px; 
   margin-left: 5px;
   font-size: 15px;
   font-family: 'Tebuchet MS','Arial';

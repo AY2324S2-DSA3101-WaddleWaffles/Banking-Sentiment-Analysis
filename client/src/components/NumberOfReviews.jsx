@@ -1,8 +1,6 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 export default function GetNumReviews({ selectedDateRange, refreshFlag }) {
-    // State variables
     const [gxsCount, setGxsCount] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -31,11 +29,9 @@ export default function GetNumReviews({ selectedDateRange, refreshFlag }) {
                 setIsLoading(false);
             }
         };
-
         fetchData();
     }, [selectedDateRange, refreshFlag]);
 
-    // Render the component
     return (
         <div>
             {isLoading ? (

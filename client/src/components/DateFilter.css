@@ -2,35 +2,30 @@ body {
     padding: 40px;
   }
   
-  
-  .inputBox {
-    font-size: 20px;
-    padding: 5px 8px 4px 8px;
-    border-radius: 3px;
-    border: 1px solid #f4e0e0;
-    background-color: rgb(250, 252, 252);
-    color: #333;
-    width: 250px; /* Adjust the width as needed */
-  }
-  
-  
-  .calendarWrap {
-    display: inline-block;
-    position: relative;
-  }
-  
-  .calendarElement {
-    position: absolute;
-    left: calc(50% + 200px); /* Adjust the value as needed */
-    transform: translateX(-50%);
-    top: 40px;
-    border: 1px solid #ccc;
-    z-index: 999;
-  }
-  
+.inputBox {
+  font-size: 20px;
+  padding: 5px 8px 4px 8px;
+  border-radius: 3px;
+  border: 1px solid #f4e0e0;
+  background-color: rgb(250, 252, 252);
+  color: #333;
+  width: 250px; 
+}
 
+.calendarWrap {
+  display: inline-block;
+  position: relative;
+}
 
-/* to remove the sidebar from te defeault component design */
-  .rdrDefinedRangesWrapper {
-    display: none;
-  }
+.calendarElement {
+  position: absolute;
+  left: calc(50% + 200px); 
+  transform: translateX(-50%);
+  top: 40px;
+  border: 1px solid #ccc;
+  z-index: 999;
+}
+
+.rdrDefinedRangesWrapper {
+  display: none;
+}
