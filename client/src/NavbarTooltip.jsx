@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Center, Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
-import {  IconLayoutDashboard,IconReport, IconLogout, IconArrowsRightLeft } from '@tabler/icons-react';
+import {  IconLayoutDashboard,IconReport, IconArrowsRightLeft } from '@tabler/icons-react';
 import classes from './navbar.module.css';
 
 function NavbarLink({ icon: Icon, label, active, onClick }) {
@@ -19,9 +19,7 @@ const labels = [
     { icon: IconReport, label: 'Product Reviews' },
 ];
 
-export default function NavbarTooltip({setActiveHeaderTab, activeHeaderTab, onExitClick}) {
-  const [active, setActive] = useState(2);
-
+export default function NavbarTooltip({setActiveHeaderTab, activeHeaderTab}) {
   const links = labels.map((link, index) => (
     <NavbarLink
       icon={link.icon}
@@ -34,16 +32,11 @@ export default function NavbarTooltip({setActiveHeaderTab, activeHeaderTab, onEx
 
   return (
     <div className={classes.navbar}>
-
       <div className={classes.navbarMain}>
         <Stack justify="center" gap={0}>
           {links}
         </Stack>
       </div>
-
-      {/* <Stack justify="center" gap={0}>
-        <NavbarLink icon={IconLogout} label="Logout" />
-      </Stack> */}
     </div>
   );
 }

@@ -1,17 +1,10 @@
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { styled } from '@mui/system';
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useEffect, useRef} from 'react';
 import {Button, Checkbox} from '@mantine/core';
 import { IconFilter } from '@tabler/icons-react';
 
-
-
-
-const SelectTopics = ({handleFeaturesChange, selectedFeatures, features_list}) => {
-    // console.log("Features_list in SelectTopics:", features_list)    
-    // console.log("selectedFeatures in SelectTopics:", selectedFeatures)
-    // console.log("Type of handleFC in SelectTopics:", typeof handleFeaturesChange)
-    
+const SelectTopics = ({handleFeaturesChange, selectedFeatures, features_list}) => {    
     return (
         <div>
             {features_list && features_list.map((feature)  => (
@@ -33,33 +26,27 @@ const SelectTopics = ({handleFeaturesChange, selectedFeatures, features_list}) =
                         fontSize: '10px',
                         color: 'white'
                     }}
-                >
-                   
+                > 
                 </Checkbox>
             ))}
         </div>     
     )
-
 };
 
-
 export default function TopicFilter({handleFeaturesChange, selectedFeatures, features_list}) {
-    console.log("Type of features_list in SimgplePopup: ",typeof features_list)
-    
     // Set state for opening and closing of popup
     const [anchor, setAnchor] = React.useState(null);
+    const open = Boolean(anchor);
+    const id = open ? 'simple-popup' : undefined;
+    const refOne = useRef(null);
+    const icon = <IconFilter size={20} />;
 
     const handleClick = (event) => {
         setAnchor(anchor ? null : event.currentTarget);
     };
 
-    const open = Boolean(anchor);
-    const id = open ? 'simple-popup' : undefined;
-
-    //Handle escape of filter button
-    // hide dropdown on ESC press
+    //Hide dropdown on ESC press
     const hideOnEscape = (e) => {
-        // console.log(e.key)
         if( e.key === "Escape" ) {
             setAnchor(null)
         }
@@ -72,27 +59,20 @@ export default function TopicFilter({handleFeaturesChange, selectedFeatures, fea
         }
     };
     
-
-    // get the target element to toggle 
-    const refOne = useRef(null)
-
     useEffect(() => {
-        // event listeners
+        // Event listeners
         document.addEventListener("keydown", hideOnEscape, true)
         document.addEventListener("click", hideOnClickOutside, true)
-        // event listener for mousedown
+        // Event listener for mousedown
         document.addEventListener("mousedown", hideOnClickOutside);
-        // cleanup
         return () => {
             document.removeEventListener("mousedown", hideOnClickOutside);
-    };
+        };
     }, [])
 
-    const icon = <IconFilter size={20} />;
     return (
         <div >
             <Button aria-describedby={id} type="button" onClick={handleClick} variant="outline" style={{ color:"white", border: 'none'}}>
-                {/* Filter */}
                 {icon}
             </Button>
             <div >
@@ -121,8 +101,6 @@ const grey = {
 
 const PopupBody = styled('div')(
     ({ theme }) => `
-    // width: 500px;
-    // height: 50px;
     padding: 10px 10px;
     margin: 4px;
     border-radius: 8px;
