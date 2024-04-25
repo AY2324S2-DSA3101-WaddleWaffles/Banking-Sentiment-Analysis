@@ -7,7 +7,7 @@ const Suggestions = ({ selectedDateRange, refreshFlag }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Convert date range into the required DD-MM-YYYY formart
+    // Convert date range into the required DD-MM-YYYY format
     const newStartDate = selectedDateRange.startDate;
     const newEndDate = selectedDateRange.endDate;
     const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {
@@ -38,10 +38,6 @@ const Suggestions = ({ selectedDateRange, refreshFlag }) => {
     fetchData();
   }, [selectedDateRange.startDate, selectedDateRange.endDate, refreshFlag]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div>
       <div style={{ display: 'inline-block', verticalAlign: 'middle', marginTop: '20px', marginBottom: '10px' }}>
@@ -54,23 +50,32 @@ const Suggestions = ({ selectedDateRange, refreshFlag }) => {
         </span>
       </div>
 
-      <div className = 'small-accordion'>
-        <Accordion variant='contained' transitionDuration={500} >
-          {Object.entries(data.suggestions).map(([category, content], idx) => (
-            <Accordion.Item key={idx} value={category}>
-              <Accordion.Control style={{ color: 'white', backgroundColor: '#666fc9', borderRadius: '0px' }}>
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </Accordion.Control>
-              <Accordion.Panel style={{ backgroundColor: '#37384a' }}>
-                <p>
-                  {content}
-                </p>
-              </Accordion.Panel>
-            </Accordion.Item>
-          ))}
-        </Accordion>
-      </div>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <div className='small-accordion'>
+          {Object.keys(data.suggestions).length === 0 ? (
+            <p>No suggested solutions recommended for the selected date range.</p>
+          ) : (
+            <Accordion variant='contained' transitionDuration={500} >
+              {Object.entries(data.suggestions).map(([category, content], idx) => (
+                <Accordion.Item key={idx} value={category}>
+                  <Accordion.Control style={{ color: 'white', backgroundColor: '#666fc9', borderRadius: '0px' }}>
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                  </Accordion.Control>
+                  <Accordion.Panel style={{ backgroundColor: '#37384a' }}>
+                    <p>
+                      {content}
+                    </p>
+                  </Accordion.Panel>
+                </Accordion.Item>
+              ))}
+            </Accordion>
+          )}
+        </div>
+      )}
     </div>
   );
 };
+
 export default Suggestions;
