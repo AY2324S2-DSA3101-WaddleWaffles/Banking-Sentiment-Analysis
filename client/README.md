@@ -41,6 +41,10 @@ _For more details of every page and component, please refer to the [technical do
 The frontend architecture embraces a component-based approach, each responsible for a specific piece of functionality or UI element.This design paradigm enables easier management, maintenance, and scalability of the application, fostering a more organised and efficient development process.
 
 
+
+<!-- DIRECTORY STRUCTURE -->
+## Directory Structure
+
 The `client` directory contains various folders and files for frontend development. The folders and files in client are as follows: 
 
 ### src/
@@ -84,8 +88,6 @@ Both components control state changes across all the components, allowing for sy
 - **Suggestions.jsx**
 - **TopicFilterPR.jsx**
 
-<!-- DIRECTORY STRUCTURE -->
-## Directory Structure
 
 Our directory structure tree is as follows:
 
