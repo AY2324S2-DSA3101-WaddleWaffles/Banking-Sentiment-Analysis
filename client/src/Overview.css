@@ -40,8 +40,9 @@
 .insights{
   grid-area: insights;
   height: auto; 
-  overflow: hidden;
+  height: calc(50vh);
 }
+
 
 .topic {
   grid-area: topic;
