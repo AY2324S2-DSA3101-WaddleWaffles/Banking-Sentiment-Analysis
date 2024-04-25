@@ -3,19 +3,15 @@ import { Paper, Loader, Table, ScrollArea } from '@mantine/core';
 import classes from './insightsComparison.module.css';
 
 function InsightsComparison({selectedDateRange, selectedBank, refreshFlag }) {
-  console.log("Selected bank for comparison:", selectedBank);
+  
   const [insightsData, setInsightsData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [tooltipPosition, setTooltipPosition] = useState(null);
-
-
   const newStartDate = selectedDateRange.startDate;
   const newEndDate = selectedDateRange.endDate;
 
   // change format of start and end date to dd-mm-yyyy
   const formattedStartDate = newStartDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
   const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
-
 
   useEffect(() => {
     if (!selectedBank) {
@@ -25,7 +21,6 @@ function InsightsComparison({selectedDateRange, selectedBank, refreshFlag }) {
     }
 
     const api = `http://127.0.0.1:5001/reviews/comparison?compared-bank=${selectedBank}&start-date=${formattedStartDate}&end-date=${formattedEndDate}`;
-    console.log("insights url", api);
     
     const fetchData = async () => {
       try {
@@ -40,7 +35,6 @@ function InsightsComparison({selectedDateRange, selectedBank, refreshFlag }) {
         setIsLoading(false);
       }
     };
-
     fetchData();
   }, [selectedBank, selectedDateRange, refreshFlag ]);
 
@@ -74,7 +68,6 @@ function InsightsComparison({selectedDateRange, selectedBank, refreshFlag }) {
     if (!insightsData || !insightsData['Better Topics']) { 
       return [];
     }
-
     return Object.entries(insightsData['Better Topics']).map(([topic, insight]) => (
       <Table.Tr key={topic}>
         <Table.Td><strong>{capitalizeFirstLetter(topic)}</strong></Table.Td>
@@ -87,7 +80,6 @@ function InsightsComparison({selectedDateRange, selectedBank, refreshFlag }) {
     if (!insightsData || !insightsData['Worse Topics']) {
       return [];
     }
-  
     return Object.entries(insightsData['Worse Topics']).map(([topic, insight]) => (
       <Table.Tr key={topic}>
         <Table.Td><strong>{capitalizeFirstLetter(topic)}</strong></Table.Td>
@@ -98,35 +90,33 @@ function InsightsComparison({selectedDateRange, selectedBank, refreshFlag }) {
   
   return (
     <div>
-      {/*<ScrollArea h={330}>*/}
-        <Paper shadow="lg" withBorder p="md" radius='md' style={{ textAlign: 'left', marginBottom: '20px',backgroundColor:'rgba(32, 37, 92, 0.2)'}}>
-          <h2 style={{fontSize: '15px'}}>What GXS is doing better:</h2>
-          <Table highlightOnHover className = {classes.custom}>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Topic</Table.Th>
-                <Table.Th>Rating Comparison</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{betterTopics(insightsData)}</Table.Tbody>
-          </Table>
-        </Paper>
+      <Paper shadow="lg" withBorder p="md" radius='md' style={{ textAlign: 'left', marginBottom: '20px',backgroundColor:'rgba(32, 37, 92, 0.2)'}}>
+        <h2 style={{fontSize: '18px'}}>What GXS is doing better:</h2>
+        <Table highlightOnHover className = {classes.custom}>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Topic</Table.Th>
+              <Table.Th>Rating Comparison</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>{betterTopics(insightsData)}</Table.Tbody>
+        </Table>
+      </Paper>
 
-        <Paper shadow="lg" withBorder p="md" radius='md' style={{ textAlign: 'left', marginBottom: '20px',  backgroundColor:'rgba(32, 37, 92, 0.2)'}}>
-          <h2 style={{fontSize: '15px'}}>What {selectedBank} is doing better:</h2>
-          <Table highlightOnHover className = {classes.custom}>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Topic</Table.Th>
-                <Table.Th>Rating Comparison</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {worseTopics(insightsData)}
-            </Table.Tbody>
-          </Table>
-        </Paper>
-      {/*</ScrollArea>*/}
+      <Paper shadow="lg" withBorder p="md" radius='md' style={{ textAlign: 'left', marginBottom: '20px',  backgroundColor:'rgba(32, 37, 92, 0.2)'}}>
+        <h2 style={{fontSize: '18px'}}>What {selectedBank} is doing better:</h2>
+        <Table highlightOnHover className = {classes.custom}>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Topic</Table.Th>
+              <Table.Th>Rating Comparison</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {worseTopics(insightsData)}
+          </Table.Tbody>
+        </Table>
+      </Paper>
     </div>
   );
 }

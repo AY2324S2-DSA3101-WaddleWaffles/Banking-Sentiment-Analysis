@@ -14,8 +14,6 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
   const [processedData, setProcessedData] = useState([]);
   const [opened, { close, open }] = useDisclosure(false); //for info popup
 
-      
-  // save updated start and end dates into variable
   const newStartDate = selectedDateRange.startDate;
   const newEndDate = selectedDateRange.endDate;
 
@@ -24,8 +22,6 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
   const formattedEndDate = newEndDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '-');
 
   const api = `http://127.0.0.1:5001/reviews/average-rating?start-date=${formattedStartDate}&end-date=${formattedEndDate}`
-  console.log(api);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,11 +31,9 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
         const response = await fetch(api.toString());
         const jsonData = await response.json();
         setBanksData(jsonData);
-        console.log("retrieved line:", jsonData)
 
         // Process data and set it to processedData state
         const processingData = processDataForLineChart(jsonData);
-        console.log("processed line data:", processingData);
         setProcessedData(processingData);
   
         // Select all banks by default
@@ -48,27 +42,23 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
         // Generate fixed colors for each bank
         const colors = {};
         jsonData.forEach((entry, index) => {
-          colors[entry.bank] = entry.bank === "GXS" ? "#FF0000" : getRandomColor(index); // Set GXS color to red
+          colors[entry.bank] = entry.bank === "GXS" ? "#FF0000" : getRandomColor(index); 
         });
         setLineColors(colors);
-        
-        //setIsLoading(false);
+   
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
         setIsLoading(false);
       }
-    }; // Fetch data with default date range when the component mounts
-
+    }; 
     fetchData();
-  }, [selectedDateRange, refreshFlag]); // Fetch data when start date or end date changes
-
+  }, [selectedDateRange, refreshFlag]);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  
-  //console.log("selected banks:", selectedBanks)
+
   const toggleBankSelection = (bank) => {
     if (selectedBanks.includes(bank)) {
       setSelectedBanks(selectedBanks.filter((selectedBank) => selectedBank !== bank));
@@ -76,17 +66,12 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
       setSelectedBanks([...selectedBanks, bank]);
     }
   };
-
-  console.log("banksData: ",banksData);
-
-  console.log(processedData);
-
   const icon = <IconInfoSquareRounded size={20} />;
   return (
     <div>
       <Grid gutter="md" style={{ width: '100%', height: '100%'}}>
         <Grid.Col span={10}>
-          <div style={{ padding: '0 15px'}}> {/* Add padding to the sides */}
+          <div style={{ padding: '0 15px'}}>
             <LineChart
               h={230}
               data={processedData}
@@ -102,7 +87,7 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
               //yAxisLabel="Rating"
               series={selectedBanks.map((bank) => ({
                 name: bank,
-                color: lineColors[bank], // Use fixed color for each bank
+                color: lineColors[bank],
                 dataKey: bank,
                 strokeWidth: 4,
               }))}
@@ -140,7 +125,7 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
                 color: lineColors[bank],
               }))}
               fontSize="12px"
-              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} // Added flexbox properties
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} 
             />
           </div>
 
@@ -157,8 +142,8 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
               size="xm"
               style={{ marginTop: '0px', marginBottom: '0px', marginRight: '3px', 
                       marginLeft:'10px', padding:'8px', borderWidth: '2px', 
-                      fontSize: '70%',whiteSpace: 'nowrap', // Ensure that the text doesn't wrap
-                      minWidth: 'auto', // Allow the button to dynamically adjust its width
+                      fontSize: '70%',whiteSpace: 'nowrap', 
+                      minWidth: 'auto', 
                     }}
             >
               {bankEntry.bank}
@@ -170,7 +155,6 @@ export default function ComparisonLine({ selectedDateRange, refreshFlag }) {
   );
 }
   
-
 function ChartTooltip({ label, payload }) {
   if (!payload) return null;
 
@@ -190,19 +174,14 @@ function ChartTooltip({ label, payload }) {
 
 const processDataForLineChart = (banksData) => {
   if (!banksData || !Array.isArray(banksData)) return []; // Return empty array if no data or if data is not an array
-
   const processedData = [];
 
-  // Iterate over each bank entry
   banksData.forEach((entry) => {
-    const bankName = entry.bank; // Extract the bank name
-
+    const bankName = entry.bank; 
     const ratingsArray = entry.ratings;
 
-    // Iterate over each rating period
     ratingsArray.forEach((ratingData) => {
       const { period, rating } = ratingData;
-
       let formattedDate;
 
       // Format the date based on the period
@@ -216,19 +195,16 @@ const processDataForLineChart = (banksData) => {
         // If the period is a single month
         const [month, year] = period.split(' ');
         const monthAbbreviated = month.substring(0, 3);
-        formattedDate = `${monthAbbreviated} ${year}`;
+        formattedDate = `${monthAbbreviated} ${year.slice(-2)}`;
       }
 
-      // Find if an entry for the date exists in the processed data array
       const existingEntryIndex = processedData.findIndex((item) => item.date === formattedDate);
 
       if (existingEntryIndex === -1) {
-        // If an entry for the date doesn't exist, create a new one
         const newEntry = { date: formattedDate };
         newEntry[bankName] = rating;
         processedData.push(newEntry);
       } else {
-        // If an entry for the date already exists, update the rating for the current bank
         processedData[existingEntryIndex][bankName] = rating;
       }
     });
@@ -236,10 +212,6 @@ const processDataForLineChart = (banksData) => {
 
   return processedData;
 };
-
-
-
-
 
 const getRandomColor = (index) => {
   const colors = [
