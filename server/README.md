@@ -20,6 +20,7 @@
     <li><a href="#solution-architecture">Solution Architecture</a></li>
     <li><a href="#techniques-utilised">Techniques Utilised</a></li>
     <li><a href="#directory-structure">Directory Structure</a></li>
+    <li><a href="#unit-testing">Unit Testing</a></li>
   </ol>
 </details>
 
@@ -110,6 +111,47 @@ server/
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- UNIT TESTING -->
+## Unit Testing
+
+Follow the steps to run pytest:
+
+1) Assuming you are in the project directory, navigate to the server directory
+    ```sh
+    cd server
+    ```
+
+2) Create a Python virtual environment
+    ```sh
+    python -m venv venv
+    ```
+
+2) Activate the virtual environment based on your OS
+
+    Windows:
+    ```sh
+    venv/Scripts/activate
+    ```
+
+    MacOS/Linux:
+    ```sh
+    source venv/bin/activate
+    ```
+
+2) Install the required dependencies (pytest and pandas)
+    ```sh
+    pip install pytest pandas
+    ```
+
+2) Run pytest on files with the ‘test’ prefix as its filename.
+
+    ```sh
+    python -m pytest -k test -v
+    ```
+
+You should be able to see every test executed in your terminal with the ‘-v’ flag.
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
