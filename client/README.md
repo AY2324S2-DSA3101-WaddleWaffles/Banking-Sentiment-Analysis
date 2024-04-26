@@ -37,15 +37,57 @@ _For more details of every page and component, please refer to the [technical do
 
 <!-- SOLUTION ARCHITECTURE -->
 ## Solution Architecture
-![Solution Architecture][solution-architecture]
+![Solution Architecture][solution-architecture]\
+The frontend architecture embraces a component-based approach, each responsible for a specific piece of functionality or UI element.This design paradigm enables easier management, maintenance, and scalability of the application, fostering a more organised and efficient development process.
 
-In our application's Appshell, we have three main components: the Header, Navigation Bar, and Main. The Main component contains three pages of the dashboard: Overview, Comparison, and Product Reviews. Each of these pages has its own set of components.
-
-The Date Filter and Refresh Button components located in the Header are connected to each of the dashboard pages. They control state changes across the components, allowing for synchronized updates throughout the application upon interacting with this 2 components.
 
 
 <!-- DIRECTORY STRUCTURE -->
 ## Directory Structure
+
+The `client` directory contains various folders and files for frontend development. The folders and files in client are as follows: 
+
+### src/
+- **App.jsx**: The main component of the React application. In our application's Appshell, we have three main components: the Header, Navigation Bar, and Main. Main contains three pages of the dashboard: Overview, Comparison, and Product Reviews. Each of these pages has its own set of components.
+- **Main.jsx**: Attaches Mantine’s theme and Appshell layout for App.jsx.
+- **HeaderSimple.jsx**: Header of the application, containing the title, GXS logo, date filter, and refresh button.
+- **NavbarTooltip.jsx**: Navigation Bar of the application, allowing the user to click on a button to direct them to another page.
+- **Overview.jsx**: Overview page that provides a provides a holistic overview of the sentiment ratings attributed to GXS Bank only. This is also the default page when the user enters the dashboard.
+- **Comparison.jsx**: Comparison page that provides a comparative analysis of GXS Bank against competitors, assessing key performance indicators.
+- **NewProductReviews.jsx**: Product Reviews page to allow the user to look at an in-depth analysis of each GXS Bank’s reviews.
+
+### src/assets/
+Contains GXS logo.
+
+### src/components/
+
+#### Components of the Header:
+- **DateFilter.jsx**: Date Filter component for users to adjust the date range using the Calendar pop-up in the date filter component. 
+- **RefreshButton.jsx**: Refresh Button for user to retrieve the latest reviews from data sources and refresh the database. 
+Both components control state changes across all the components, allowing for synchronized updates throughout the application upon interacting with this 2 components.
+
+#### Components of Overview Page:
+- **AvgRatingsGXS.jsx**
+- **NumberOfReviews.jsx**
+- **DonutChart.jsx**
+- **BarChart.jsx**
+- **InsightsOverview.jsx**
+- **TopicFilter.jsx**
+
+#### Components of Comparison Page:
+- **ComparisonBar.jsx**
+- **TableCount.jsx**
+- **ComparisonLine.jsx**
+- **ChooseBank.jsx**
+- **InsightsComparison.jsx**
+- **Legend.jsx**
+
+#### Components of Product Reviews Page:
+- **OriginalComments.jsx**
+- **TopWords.jsx**
+- **Suggestions.jsx**
+- **TopicFilterPR.jsx**
+
 
 Our directory structure tree is as follows:
 
