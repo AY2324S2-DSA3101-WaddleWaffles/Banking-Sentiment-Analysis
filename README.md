@@ -221,15 +221,6 @@ This project is made possible with the efforts of everyone in the team:
     <td>Frontend</td>
   </tr>
   <tr>
-    <td>Darryl Yeo</td>
-    <td>
-      <a href="https://github.com/darrylyxy" target="_blank">
-        darrylyxy
-      </a>
-    </td>
-    <td>Backend</td>
-  </tr>
-  <tr>
     <td>Jennifer Chue</td>
     <td>
       <a href="https://github.com/jenniferchue16" target="_blank">
@@ -256,6 +247,15 @@ This project is made possible with the efforts of everyone in the team:
     </td>
     <td>Backend</td>
   </td>
+  <tr>
+    <td>Yeo Hiong Wu</td>
+    <td>
+      <a href="https://github.com/darrylyxy" target="_blank">
+        darrylyxy
+      </a>
+    </td>
+    <td>Backend</td>
+  </tr>
 </table>
 
 For any further concerns regarding the project, or request of API keys, please contact Zhan Peng @ leezp@u.nus.edu.
