@@ -11,7 +11,7 @@
     <br />
     <i>Developed for DSA3101 Data Science in Practice @ NUS</i>
     <br />
-    <a href="#" target="_blank"><strong>Explore the technical document »</strong></a>
+    <a href="https://drive.google.com/file/d/1hGMBpKIKP1wSXKwrT1CE1gMuME0qlIZN/view?usp=sharing" target="_blank"><strong>Explore the technical document »</strong></a>
     <br />
     <br />
     <a href="https://drive.google.com/file/d/1YK8oLCGTkMyjDOb5-7S4vYogRJZNr-A-/view" target="_blank">View Video</a>
@@ -212,7 +212,7 @@ This project is made possible with the efforts of everyone in the team:
     <td>Frontend</td>
   </tr>
   <tr>
-    <td>Sarah Tee</td>
+    <td>Tee Yue Ning</td>
     <td>
       <a href="https://github.com/saladeehehe" target="_blank">
         saladeehehe
