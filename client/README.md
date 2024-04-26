@@ -29,7 +29,7 @@
 
 Welcome to the client directory. Here, you will find all the frontend pages and components for our project. 
 
-_For more details of every page and component, please refer to the [technical document](#)._
+_For more details of every page and component, please refer to the [technical document](https://drive.google.com/file/d/1hGMBpKIKP1wSXKwrT1CE1gMuME0qlIZN/view?usp=sharing)._
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

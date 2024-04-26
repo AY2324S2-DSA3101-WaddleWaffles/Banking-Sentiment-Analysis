@@ -31,7 +31,7 @@
 
 Welcome to the server directory. Here, you will find all the backend components for the project, including data processing tools, database management scripts, sentiment analysis models, and scraping utilities. It also includes files for Docker setup and Flask controller for interacting with the database and providing key functionalities.
 
-_For more details of every component, please refer to the [technical document](#)._
+_For more details of every component, please refer to the [technical document](https://drive.google.com/file/d/1hGMBpKIKP1wSXKwrT1CE1gMuME0qlIZN/view?usp=sharing)._
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
