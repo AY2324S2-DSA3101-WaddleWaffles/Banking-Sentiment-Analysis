@@ -97,7 +97,7 @@ To get the project running on your machine, follow these steps:
 
 ### Prerequisites
 
-Ensure you have Docker installed on your machine. You can download and install Docker from [https://www.docker.com/get-started](https://www.docker.com/get-started).
+Ensure you have Docker installed on your machine. You can download and install Docker from [https://www.docker.com/get-started](https://www.docker.com/get-started). Afterwards, make sure your docker daemon is running.
 
 Before proceeding, you will need to obtain the necessary API key for the database and the text generation model. Please <a href="#developers">contact the project developers</a> to request the API keys.
 
