@@ -104,6 +104,7 @@ class Inquirer:
             full_prompt += self.topic_data_prompt("GXS", topic, data)
 
         suggestions = self.model.generate(full_prompt)
+        suggestions = suggestions.replace("\'","\"")
         return self.convert_json(suggestions)
     
     def strip_output(self, output):

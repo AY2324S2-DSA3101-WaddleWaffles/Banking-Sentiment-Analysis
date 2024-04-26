@@ -275,9 +275,9 @@ We also appreciate the feedback given by  guest lecturers and fellow coursemates
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[product-page1]: https://gcdnb.pbrd.co/images/37lQXfk5qQu7.png?o=1
-[product-page2]: https://gcdnb.pbrd.co/images/i7tLBqRgVbNe.png?o=1
-[product-page3]: https://gcdnb.pbrd.co/images/CY62XqRhEgGb.png?o=1
+[product-page1]: https://gcdnb.pbrd.co/images/HmOrWh4GFUN3.png?o=1
+[product-page2]: https://gcdnb.pbrd.co/images/DQCNcQeuj1qc.png?o=1
+[product-page3]: https://gcdnb.pbrd.co/images/rTy9jYNT3MqC.png?o=1
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
 [Flask]: https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white
