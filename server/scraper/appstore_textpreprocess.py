@@ -63,4 +63,5 @@ def preprocess_appstore_data(df):
     df['bank'] = df['bank'].str.upper()
     df['source'] = "appstore"
     df['rating'] = df['rating'].astype(int)
+    df = df[df['review'].str.len() > 0]
     return df
