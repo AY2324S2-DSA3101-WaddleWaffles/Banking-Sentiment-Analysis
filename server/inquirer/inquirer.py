@@ -133,7 +133,7 @@ class Inquirer:
         Returns:
             str: The generated JSON.
         """
-        ouput = self.strip_output(output)
+        output = self.strip_output(output)
         output = output.replace("\n", "").replace('\"', '"')
         output = json.loads(output)
         return output
